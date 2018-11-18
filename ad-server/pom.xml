@@ -7,14 +7,13 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>ad-server</name>
-  <properties>
-    <jetty.version>9.2.11.v20150529</jetty.version>
-    <jdk.version>1.8</jdk.version>
-    <lombok.version>1.18.0</lombok.version>
-    <logback.version>1.1.7</logback.version>
-    <slf4j.version>1.7.21</slf4j.version>
-    <jedis.version>2.9.0</jedis.version>
-  </properties>
+
+  <parent>
+    <groupId>com.ad</groupId>
+    <artifactId>ad-tag</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+
   <dependencies>
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
