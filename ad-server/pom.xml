@@ -15,6 +15,13 @@
   </parent>
 
   <dependencies>
+    <!-- internal -->
+    <dependency>
+      <groupId>com.ad</groupId>
+      <artifactId>util</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+    
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-server</artifactId>
@@ -47,6 +54,20 @@
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-core</artifactId>
       <version>${logback.version}</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.8</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>27.0-jre</version>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
