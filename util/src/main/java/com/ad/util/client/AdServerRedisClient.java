@@ -41,8 +41,15 @@ public class AdServerRedisClient {
 
   }
 
-  public void put(String key, String value) {
+  /**
+   * put the data with required TTL.
+   */
+
+  public void put(String key, String value, int seconds) {
     jedisPool.getResource().set(key, value);
+    if (seconds > 0) {
+      jedisPool.getResource().expire(key, seconds);
+    }
   }
 
   public String get(String key) {
