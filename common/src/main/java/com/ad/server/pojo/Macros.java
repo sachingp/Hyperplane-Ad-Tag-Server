@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -30,16 +31,20 @@ public class Macros implements Serializable {
     @Column (name="macro_value")
     private String macroValue;
 
+    @ManyToOne
     @Column (name="account_id")
-    private Integer accountId;
+    private Account account;
 
+    @ManyToOne
     @Column (name="advertiser_id")
-    private Integer advertiserId;
+    private Advertiser advertiser;
 
+    @ManyToOne
     @Column (name="partner_id")
-    private Integer partnerId;
+    private AdPartner partner;
 
+    @ManyToOne
     @Column (name="status_id")
-    private Integer statusId;
+    private Status status;
 
 }

@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -24,13 +25,17 @@ public class Billing implements Serializable {
     @Column (name="billing_id")
     private Integer billingId;
 
+//    @ManyToOne
     @Column (name="billing_owner_id")
+//    private BillingOwner billingOwner;
     private Integer billingOwnerId;
 
+    @ManyToOne
     @Column (name="billing_payment_id")
-    private Integer billingPaymentId;
+    private BillingPaymentDetails billingPaymentDetails;
 
+    @ManyToOne
     @Column (name="status_id")
-    private Integer statusId;
+    private Status status;
 
 }

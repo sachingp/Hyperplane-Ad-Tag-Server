@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -28,8 +29,9 @@ public class BillingPaymentDetails implements Serializable {
     @Column (name="billing_id")
     private Integer billingId;
 
+    @ManyToOne
     @Column (name="billing_type_id")
-    private Integer billingTypeId;
+    private BillingType billingType;
 
     @Column (name="bank_name")
     private String bankName;
@@ -49,8 +51,9 @@ public class BillingPaymentDetails implements Serializable {
     @Column (name="credit_card_cvv")
     private String creditCardCvv;
 
+    @ManyToOne
     @Column (name="billing_cycle_id")
-    private Integer billingCycleId;
+    private BillingCycle billingCycle;
 
     @Column (name="billing_date")
     private Date billingDate;

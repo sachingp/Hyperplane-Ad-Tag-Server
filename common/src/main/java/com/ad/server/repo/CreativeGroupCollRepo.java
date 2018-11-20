@@ -4,7 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.ad.server.Cache;
-import com.ad.server.pojo.CreativeGroupColl;@SuppressWarnings({ "rawtypes" })
+import com.ad.server.pojo.CreativeGroupColl;
+@SuppressWarnings({ "rawtypes" })
 
 @Repository
 public interface CreativeGroupCollRepo extends JpaRepository<CreativeGroupColl, Integer>, Cache {

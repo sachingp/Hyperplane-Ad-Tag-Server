@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -27,8 +28,9 @@ public class State implements Serializable {
     @Column (name="state_unique_id")
     private Integer stateUniqueId;
 
+    @ManyToOne
     @Column (name="country_id")
-    private Integer countryId;
+    private Country country;
 
     @Column (name="state_long_namw")
     private String stateLongNamw;

@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -27,8 +28,9 @@ public class Account implements Serializable {
     @Column (name="account_guid")
     private String accountGuid;
 
+    @ManyToOne
     @Column (name="account_type_id")
-    private Integer accountTypeId;
+    private AccountType accountType;
 
     @Column (name="account_name")
     private String accountName;
@@ -39,8 +41,9 @@ public class Account implements Serializable {
     @Column (name="account_website")
     private String accountWebsite;
 
+    @ManyToOne
     @Column (name="address_id")
-    private Integer addressId;
+    private Address address;
 
     @Column (name="logo_url")
     private String logoUrl;
@@ -51,7 +54,8 @@ public class Account implements Serializable {
     @Column (name="currency_id")
     private Short currencyId;
 
+    @ManyToOne
     @Column (name="status_id")
-    private Integer statusId;
+    private Status status;
 
 }

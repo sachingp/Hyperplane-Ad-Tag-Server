@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -24,11 +25,13 @@ public class AccountEventTrackers implements Serializable {
     @Column (name="account_event_tracker_id")
     private Integer accountEventTrackerId;
 
+    @ManyToOne
     @Column (name="event_id")
-    private Integer eventId;
+    private Events event;
 
+    @ManyToOne
     @Column (name="account_id")
-    private Integer accountId;
+    private Account account;
 
     @Column (name="tracker_url")
     private String trackerUrl;
@@ -36,7 +39,8 @@ public class AccountEventTrackers implements Serializable {
     @Column (name="append_macros")
     private String appendMacros;
 
+    @ManyToOne
     @Column (name="status_id")
-    private Integer statusId;
+    private Status status;
 
 }

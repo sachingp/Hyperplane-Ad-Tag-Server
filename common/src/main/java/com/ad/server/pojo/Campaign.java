@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -25,20 +26,23 @@ public class Campaign implements Serializable {
     @Column (name="campaign_id")
     private Integer campaignId;
 
+    @ManyToOne
     @Column (name="advertiser_id")
-    private Integer advertiserId;
+    private Advertiser advertiser;
 
     @Column (name="campaign_name")
     private String campaignName;
 
+    @ManyToOne
     @Column (name="objective_type_id")
-    private Integer objectiveTypeId;
+    private ObjectiveType objectiveType;
 
     @Column (name="custom_attrbutes")
     private String customAttrbutes;
 
+    @ManyToOne
     @Column (name="target_id")
-    private Integer targetId;
+    private Target target;
 
     @Column (name="start_date")
     private Date startDate;
@@ -52,7 +56,8 @@ public class Campaign implements Serializable {
     @Column (name="last_updated_date")
     private Date lastUpdatedDate;
 
+    @ManyToOne
     @Column (name="status_id")
-    private Integer statusId;
+    private Status status;
 
 }

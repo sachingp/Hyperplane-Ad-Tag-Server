@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -24,19 +25,23 @@ public class CreativeAssets implements Serializable {
     @Column (name="creative_asset_id")
     private Integer creativeAssetId;
 
+    @ManyToOne
     @Column (name="creative_id")
-    private Integer creativeId;
+    private Creative creative;
 
+    @ManyToOne
     @Column (name="asset_size_id")
-    private Integer assetSizeId;
+    private AssetSize assetSize;
 
+    @ManyToOne
     @Column (name="asset_type")
-    private Integer assetType;
+    private AssetType assetType;
 
     @Column (name="asset_url")
     private String assetUrl;
 
+    @ManyToOne
     @Column (name="status_id")
-    private Integer statusId;
+    private Status status;
 
 }

@@ -4,7 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.ad.server.Cache;
-import com.ad.server.pojo.Status;@SuppressWarnings({ "rawtypes" })
+import com.ad.server.pojo.Status;
+@SuppressWarnings({ "rawtypes" })
 
 @Repository
 public interface StatusRepo extends JpaRepository<Status, Integer>, Cache {

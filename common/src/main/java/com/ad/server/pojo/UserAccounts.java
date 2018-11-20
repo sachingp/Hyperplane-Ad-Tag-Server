@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -27,13 +28,16 @@ public class UserAccounts implements Serializable {
     @Column (name="user_id")
     private Integer userId;
 
+    @ManyToOne
     @Column (name="account_id")
-    private Integer accountId;
+    private Account account;
 
+    @ManyToOne
     @Column (name="user_role_id")
-    private Integer userRoleId;
+    private UserRoles userRole;
 
+    @ManyToOne
     @Column (name="status_id")
-    private Integer statusId;
+    private Status status;
 
 }

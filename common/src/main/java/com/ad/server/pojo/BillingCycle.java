@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table (name = "billing_cyle")
-public class BillingCyle implements Serializable {
+@Table (name = "billing_cycle")
+public class BillingCycle implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -24,22 +25,27 @@ public class Creative implements Serializable {
     @Column (name="creative_id")
     private Integer creativeId;
 
+    @ManyToOne
     @Column (name="campaign_id")
-    private Integer campaignId;
+    private Campaign campaign;
 
     @Column (name="name")
     private String name;
 
+    @ManyToOne
     @Column (name="target_id")
-    private Integer targetId;
+    private Target target;
 
+    @ManyToOne
     @Column (name="creative_size_id")
-    private Integer creativeSizeId;
+    private CreativeSize creativeSize;
 
+    @ManyToOne
     @Column (name="creative_format_id")
-    private Integer creativeFormatId;
+    private CreativeFormat creativeFormat;
 
+    @ManyToOne
     @Column (name="status_id")
-    private Integer statusId;
+    private Status status;
 
 }

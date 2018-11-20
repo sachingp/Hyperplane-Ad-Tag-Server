@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -33,10 +34,12 @@ public class AdPartner implements Serializable {
     @Column (name="email")
     private String email;
 
+    @ManyToOne
     @Column (name="ad_partner_type_id")
-    private Integer adPartnerTypeId;
+    private AdPartnerType adPartnerType;
 
+    @ManyToOne
     @Column (name="status_id")
-    private Integer statusId;
+    private Status status;
 
 }

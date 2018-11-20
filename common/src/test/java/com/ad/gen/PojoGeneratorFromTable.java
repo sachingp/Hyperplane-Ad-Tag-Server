@@ -29,6 +29,7 @@ public class PojoGeneratorFromTable extends BaseGeneratorUtil {
       + "\n\nimport javax.persistence.Column;"
       + "\nimport javax.persistence.Entity;"
       + "\nimport javax.persistence.Id;"
+      + "\nimport javax.persistence.ManyToOne;"
       + "\nimport javax.persistence.Table;"
       + "\n\nimport lombok.AllArgsConstructor;"
       + "\nimport lombok.Data;"
@@ -74,14 +75,20 @@ public class PojoGeneratorFromTable extends BaseGeneratorUtil {
         final String type = results.getString("Type");
         final String key = results.getString("Key");
         String field = "";
+        final String fieldType;
         if ("PRI".equals(key)) {
           field = "    @Id\n";
+          fieldType = getType(type);
+        } else if ("MUL".equals(key)) {
+          field = "    @ManyToOne\n";
+          fieldType = getTypeName(Character.toUpperCase(column.charAt(0)) + (column.endsWith("_id") ? column.substring(1, column.length() - 3) : column.substring(1)));
+        } else {
+        	fieldType = getType(type);
         }
-        final String fieldType = getType(type);
         if (!includeDate && "Date".equals(fieldType)) {
           includeDate = true;
         }
-        field += FIELD_TEMPLATE.replace("{name}", column).replace("{name_cc}", getTypeName(column))
+        field += FIELD_TEMPLATE.replace("{name}", column).replace("{name_cc}", getTypeName("MUL".equals(key) && column.endsWith("_id") ? column.substring(0, column.length() - 3) : column))
             .replace("{type}", fieldType);
         fields.append(field).append("\n");
       }

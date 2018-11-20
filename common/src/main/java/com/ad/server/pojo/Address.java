@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -24,8 +25,9 @@ public class Address implements Serializable {
     @Column (name="address_id")
     private Integer addressId;
 
+    @ManyToOne
     @Column (name="address_type_id")
-    private Integer addressTypeId;
+    private AddressType addressType;
 
     @Column (name="address_line1")
     private String addressLine1;

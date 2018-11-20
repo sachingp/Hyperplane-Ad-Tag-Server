@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+//import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -24,8 +25,9 @@ public class CustomAttributesValues implements Serializable {
     @Column (name="custom_attributes_values_id")
     private Integer customAttributesValuesId;
 
+//    @ManyToOne
     @Column (name="key_id")
-    private Integer keyId;
+    private Integer key;
 
     @Column (name="value")
     private String value;

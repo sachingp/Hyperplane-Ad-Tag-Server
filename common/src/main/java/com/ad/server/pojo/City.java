@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -27,8 +28,9 @@ public class City implements Serializable {
     @Column (name="geoname_id")
     private Integer geonameId;
 
+    @ManyToOne
     @Column (name="state_id")
-    private Integer stateId;
+    private State state;
 
     @Column (name="city_name")
     private String cityName;
