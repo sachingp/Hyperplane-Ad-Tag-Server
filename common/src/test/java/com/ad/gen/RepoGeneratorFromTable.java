@@ -18,12 +18,12 @@ public class RepoGeneratorFromTable extends BaseGeneratorUtil {
       + "\nimport org.springframework.stereotype.Repository;"
       + "\n\nimport com.ad.server.Cache;"
       + "\nimport com.ad.server.pojo.{clazz};"
-      + "@SuppressWarnings({ \"rawtypes\" })"
-      + "\n\n@Repository"
+      + "\n\n@SuppressWarnings({ \"rawtypes\" })"
+      + "\n@Repository"
       + "\npublic interface {clazz}Repo extends JpaRepository<{clazz}, Integer>, Cache {"
       + "\n\n  default Class getType() {"
       + "\n    return {clazz}.class;"
-      + "\n\n  }"
+      + "\n  }"
       + "\n\n}";
 
   @Test

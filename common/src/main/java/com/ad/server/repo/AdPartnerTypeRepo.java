@@ -5,14 +5,13 @@ import org.springframework.stereotype.Repository;
 
 import com.ad.server.Cache;
 import com.ad.server.pojo.AdPartnerType;
-@SuppressWarnings({ "rawtypes" })
 
+@SuppressWarnings({ "rawtypes" })
 @Repository
 public interface AdPartnerTypeRepo extends JpaRepository<AdPartnerType, Integer>, Cache {
 
   default Class getType() {
     return AdPartnerType.class;
-
   }
 
 }

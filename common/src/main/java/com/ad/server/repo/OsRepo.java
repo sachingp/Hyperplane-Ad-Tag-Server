@@ -5,14 +5,13 @@ import org.springframework.stereotype.Repository;
 
 import com.ad.server.Cache;
 import com.ad.server.pojo.Os;
-@SuppressWarnings({ "rawtypes" })
 
+@SuppressWarnings({ "rawtypes" })
 @Repository
 public interface OsRepo extends JpaRepository<Os, Integer>, Cache {
 
   default Class getType() {
     return Os.class;
-
   }
 
 }

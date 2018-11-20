@@ -5,14 +5,13 @@ import org.springframework.stereotype.Repository;
 
 import com.ad.server.Cache;
 import com.ad.server.pojo.BillingType;
-@SuppressWarnings({ "rawtypes" })
 
+@SuppressWarnings({ "rawtypes" })
 @Repository
 public interface BillingTypeRepo extends JpaRepository<BillingType, Integer>, Cache {
 
   default Class getType() {
     return BillingType.class;
-
   }
 
 }
