@@ -37,8 +37,8 @@ public class Campaign implements Serializable {
     @Column (name="objective_type_id")
     private ObjectiveType objectiveType;
 
-    @Column (name="custom_attrbutes")
-    private String customAttrbutes;
+    @Column (name="custom_attributes")
+    private String customAttributes;
 
     @ManyToOne
     @Column (name="target_id")

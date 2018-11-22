@@ -500,7 +500,7 @@ CREATE TABLE IF NOT EXISTS `ad_server`.`campaign` (
   `advertiser_id` INT NOT NULL,
   `campaign_name` VARCHAR(200) NOT NULL,
   `objective_type_id` INT NOT NULL,
-  `custom_attrbutes` VARCHAR(5000) NULL,
+  `custom_attributes` VARCHAR(5000) NULL,
   `target_id` INT NOT NULL,
   `start_date` TIMESTAMP NULL,
   `end_date` TIMESTAMP NULL,
@@ -626,7 +626,7 @@ CREATE TABLE IF NOT EXISTS `ad_server`.`creative_assets` (
   `creative_asset_id` INT NOT NULL,
   `creative_id` INT NOT NULL,
   `asset_size_id` INT NOT NULL,
-  `asset_type` INT NOT NULL,
+  `asset_type_id` INT NOT NULL,
   `asset_url` VARCHAR(250) NOT NULL,
   `status_id` INT NOT NULL,
   PRIMARY KEY (`creative_asset_id`))
@@ -636,7 +636,7 @@ SHOW WARNINGS;
 CREATE INDEX `asset_cr_fk_idx` ON `ad_server`.`creative_assets` (`creative_id` ASC) ;
 
 SHOW WARNINGS;
-CREATE INDEX `asset_type_fk_idx` ON `ad_server`.`creative_assets` (`asset_type` ASC) ;
+CREATE INDEX `asset_type_fk_idx` ON `ad_server`.`creative_assets` (`asset_type_id` ASC) ;
 
 SHOW WARNINGS;
 CREATE INDEX `asset_size_fk_idx` ON `ad_server`.`creative_assets` (`asset_size_id` ASC) ;
