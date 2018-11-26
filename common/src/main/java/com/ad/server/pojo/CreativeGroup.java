@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -25,12 +26,11 @@ public class CreativeGroup implements Serializable {
     @Column (name="creative_group_id")
     private Integer creativeGroupId;
 
-    @Id
     @Column (name="creative_group_name")
     private String creativeGroupName;
 
     @ManyToOne
-    @Column (name="status_id")
+    @JoinColumn (name="status_id")
     private Status status;
 
 }

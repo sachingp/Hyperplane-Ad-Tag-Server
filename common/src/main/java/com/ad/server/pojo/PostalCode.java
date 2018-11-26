@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -26,7 +27,7 @@ public class PostalCode implements Serializable {
     private Integer postalCodeId;
 
     @ManyToOne
-    @Column (name="city_id")
+    @JoinColumn (name="city_id")
     private City city;
 
     @Column (name="postal_code")

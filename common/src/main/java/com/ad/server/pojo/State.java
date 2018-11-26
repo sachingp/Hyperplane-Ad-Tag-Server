@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -29,7 +30,7 @@ public class State implements Serializable {
     private Integer stateUniqueId;
 
     @ManyToOne
-    @Column (name="country_id")
+    @JoinColumn (name="country_id")
     private Country country;
 
     @Column (name="state_long_namw")

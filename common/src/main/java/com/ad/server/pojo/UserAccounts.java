@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -29,15 +30,15 @@ public class UserAccounts implements Serializable {
     private Integer userId;
 
     @ManyToOne
-    @Column (name="account_id")
+    @JoinColumn (name="account_id")
     private Account account;
 
     @ManyToOne
-    @Column (name="user_role_id")
+    @JoinColumn (name="user_role_id")
     private UserRoles userRole;
 
     @ManyToOne
-    @Column (name="status_id")
+    @JoinColumn (name="status_id")
     private Status status;
 
 }

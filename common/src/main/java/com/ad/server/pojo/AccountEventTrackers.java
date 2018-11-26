@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -26,11 +27,11 @@ public class AccountEventTrackers implements Serializable {
     private Integer accountEventTrackerId;
 
     @ManyToOne
-    @Column (name="event_id")
+    @JoinColumn (name="event_id")
     private Events event;
 
     @ManyToOne
-    @Column (name="account_id")
+    @JoinColumn (name="account_id")
     private Account account;
 
     @Column (name="tracker_url")
@@ -40,7 +41,7 @@ public class AccountEventTrackers implements Serializable {
     private String appendMacros;
 
     @ManyToOne
-    @Column (name="status_id")
+    @JoinColumn (name="status_id")
     private Status status;
 
 }

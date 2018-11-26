@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -27,21 +28,21 @@ public class Campaign implements Serializable {
     private Integer campaignId;
 
     @ManyToOne
-    @Column (name="advertiser_id")
+    @JoinColumn (name="advertiser_id")
     private Advertiser advertiser;
 
     @Column (name="campaign_name")
     private String campaignName;
 
     @ManyToOne
-    @Column (name="objective_type_id")
+    @JoinColumn (name="objective_type_id")
     private ObjectiveType objectiveType;
 
     @Column (name="custom_attributes")
     private String customAttributes;
 
     @ManyToOne
-    @Column (name="target_id")
+    @JoinColumn (name="target_id")
     private Target target;
 
     @Column (name="start_date")
@@ -57,7 +58,7 @@ public class Campaign implements Serializable {
     private Date lastUpdatedDate;
 
     @ManyToOne
-    @Column (name="status_id")
+    @JoinColumn (name="status_id")
     private Status status;
 
 }

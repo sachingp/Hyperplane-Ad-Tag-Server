@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -32,19 +33,19 @@ public class Macros implements Serializable {
     private String macroValue;
 
     @ManyToOne
-    @Column (name="account_id")
+    @JoinColumn (name="account_id")
     private Account account;
 
     @ManyToOne
-    @Column (name="advertiser_id")
+    @JoinColumn (name="advertiser_id")
     private Advertiser advertiser;
 
     @ManyToOne
-    @Column (name="partner_id")
+    @JoinColumn (name="partner_id")
     private AdPartner partner;
 
     @ManyToOne
-    @Column (name="status_id")
+    @JoinColumn (name="status_id")
     private Status status;
 
 }
