@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -35,11 +36,11 @@ public class AdPartner implements Serializable {
     private String email;
 
     @ManyToOne
-    @Column (name="ad_partner_type_id")
+    @JoinColumn (name="ad_partner_type_id")
     private AdPartnerType adPartnerType;
 
     @ManyToOne
-    @Column (name="status_id")
+    @JoinColumn (name="status_id")
     private Status status;
 
 }

@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -26,7 +27,7 @@ public class Address implements Serializable {
     private Integer addressId;
 
     @ManyToOne
-    @Column (name="address_type_id")
+    @JoinColumn (name="address_type_id")
     private AddressType addressType;
 
     @Column (name="address_line1")

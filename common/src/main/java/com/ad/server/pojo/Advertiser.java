@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -26,7 +27,7 @@ public class Advertiser implements Serializable {
     private Integer advertiserId;
 
     @ManyToOne
-    @Column (name="account_id")
+    @JoinColumn (name="account_id")
     private Account account;
 
     @Column (name="advertiser_name")
@@ -39,7 +40,7 @@ public class Advertiser implements Serializable {
     private String advertiserWebsite;
 
     @ManyToOne
-    @Column (name="address_id")
+    @JoinColumn (name="address_id")
     private Address address;
 
     @Column (name="logo_url")
@@ -52,7 +53,7 @@ public class Advertiser implements Serializable {
     private Short currencyId;
 
     @ManyToOne
-    @Column (name="status_id")
+    @JoinColumn (name="status_id")
     private Status status;
 
 }

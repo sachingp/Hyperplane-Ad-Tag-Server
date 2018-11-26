@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -26,26 +27,26 @@ public class Creative implements Serializable {
     private Integer creativeId;
 
     @ManyToOne
-    @Column (name="campaign_id")
+    @JoinColumn (name="campaign_id")
     private Campaign campaign;
 
     @Column (name="name")
     private String name;
 
     @ManyToOne
-    @Column (name="target_id")
+    @JoinColumn (name="target_id")
     private Target target;
 
     @ManyToOne
-    @Column (name="creative_size_id")
+    @JoinColumn (name="creative_size_id")
     private CreativeSize creativeSize;
 
     @ManyToOne
-    @Column (name="creative_format_id")
+    @JoinColumn (name="creative_format_id")
     private CreativeFormat creativeFormat;
 
     @ManyToOne
-    @Column (name="status_id")
+    @JoinColumn (name="status_id")
     private Status status;
 
 }

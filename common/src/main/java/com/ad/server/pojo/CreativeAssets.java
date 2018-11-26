@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -26,22 +27,22 @@ public class CreativeAssets implements Serializable {
     private Integer creativeAssetId;
 
     @ManyToOne
-    @Column (name="creative_id")
+    @JoinColumn (name="creative_id")
     private Creative creative;
 
     @ManyToOne
-    @Column (name="asset_size_id")
+    @JoinColumn (name="asset_size_id")
     private AssetSize assetSize;
 
     @ManyToOne
-    @Column (name="asset_type")
+    @JoinColumn (name="asset_type")
     private AssetType assetType;
 
     @Column (name="asset_url")
     private String assetUrl;
 
     @ManyToOne
-    @Column (name="status_id")
+    @JoinColumn (name="status_id")
     private Status status;
 
 }

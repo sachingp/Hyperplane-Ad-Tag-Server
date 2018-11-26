@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -30,7 +31,7 @@ public class BillingPaymentDetails implements Serializable {
     private Integer billingId;
 
     @ManyToOne
-    @Column (name="billing_type_id")
+    @JoinColumn (name="billing_type_id")
     private BillingType billingType;
 
     @Column (name="bank_name")
@@ -52,7 +53,7 @@ public class BillingPaymentDetails implements Serializable {
     private String creditCardCvv;
 
     @ManyToOne
-    @Column (name="billing_cycle_id")
+    @JoinColumn (name="billing_cycle_id")
     private BillingCycle billingCycle;
 
     @Column (name="billing_date")

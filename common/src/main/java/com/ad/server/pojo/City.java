@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -29,7 +30,7 @@ public class City implements Serializable {
     private Integer geonameId;
 
     @ManyToOne
-    @Column (name="state_id")
+    @JoinColumn (name="state_id")
     private State state;
 
     @Column (name="city_name")
