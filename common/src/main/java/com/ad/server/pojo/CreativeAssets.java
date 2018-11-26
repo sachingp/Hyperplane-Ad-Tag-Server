@@ -35,8 +35,8 @@ public class CreativeAssets implements Serializable {
     private AssetSize assetSize;
 
     @ManyToOne
-    @JoinColumn (name="asset_type")
-    private AssetType assetType;
+	@JoinColumn (name="asset_type_id")
+    private AssetType assetTypeId;
 
     @Column (name="asset_url")
     private String assetUrl;
