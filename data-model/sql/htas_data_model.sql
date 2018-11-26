@@ -283,12 +283,12 @@ CREATE INDEX `csattr_values_fk_idx` ON `ad_server`.`custom_attributes_values` (`
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `ad_server`.`billing_cyle`
+-- Table `ad_server`.`billing_cycle`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `ad_server`.`billing_cyle` ;
+DROP TABLE IF EXISTS `ad_server`.`billing_cycle` ;
 
 SHOW WARNINGS;
-CREATE TABLE IF NOT EXISTS `ad_server`.`billing_cyle` (
+CREATE TABLE IF NOT EXISTS `ad_server`.`billing_cycle` (
   `billing_cycle_id` INT NOT NULL,
   `billing_cycle_desc` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`billing_cycle_id`))
