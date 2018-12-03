@@ -13,14 +13,15 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <dependencies>
-    <!-- internal -->
-    <dependency>
-      <groupId>com.ad</groupId>
-      <artifactId>util</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
-    </dependency>
+  <properties>
+    <lombok.version>1.18.0</lombok.version>
+    <logback.version>1.1.7</logback.version>
+    <slf4j.version>1.7.21</slf4j.version>
+    <jedis.version>2.9.0</jedis.version>
+    <aws>1.11.375</aws>
+  </properties>
 
+  <dependencies>
     <!-- lombok dependency -->
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -62,7 +63,7 @@
     <dependency>
       <groupId>com.amazonaws</groupId>
       <artifactId>aws-java-sdk-s3</artifactId>
-      <version>${aws.version}</version>
+      <version>${aws}</version>
       <exclusions>
         <exclusion>
           <groupId>com.fasterxml.jackson.dataformat</groupId>
@@ -76,6 +77,10 @@
       <artifactId>geoip2</artifactId>
       <version>${maxmind.version}</version>
     </dependency>
-
+    <!-- Test -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
   </dependencies>
 </project>
