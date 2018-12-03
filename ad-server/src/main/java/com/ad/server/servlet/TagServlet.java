@@ -4,7 +4,7 @@ import com.ad.server.servlet.util.DeviceData;
 import com.ad.server.servlet.util.GeoData;
 import com.ad.server.servlet.util.ServletUtil;
 import com.ad.util.client.AdServerRedisClient;
-import com.ad.util.constants.AdServerConstants;
+import com.ad.util.constants.AdServerConstants.General;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jetty.http.HttpStatus;
@@ -40,7 +40,7 @@ public class TagServlet extends HttpServlet {
   @Override
   protected void service(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-    if (req.getMethod().equalsIgnoreCase(AdServerConstants.Genral.SUPPORTED_HTTP_REQUEST)) {
+    if (req.getMethod().equalsIgnoreCase(General.SUPPORTED_HTTP_REQUEST)) {
       doGet(req, resp);
     } else {
       log.warn("Invalid request protocol : request : {}, response : {}", req, resp);

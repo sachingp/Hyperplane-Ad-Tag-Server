@@ -27,6 +27,7 @@
     <spring.boot.version>2.0.3.RELEASE</spring.boot.version>
     <mysql.version>8.0.11</mysql.version>
     <junit.version>4.12</junit.version>
+    <maxmind.version>2.12.0</maxmind.version>
   </properties>
 
   <dependencyManagement>
@@ -95,7 +96,12 @@
         <artifactId>spring-boot-starter-test</artifactId>
         <version>${spring.boot.version}</version>
       </dependency>
-
+      <!-- https://mvnrepository.com/artifact/com.maxmind.geoip2/geoip2 -->
+      <dependency>
+        <groupId>com.maxmind.geoip2</groupId>
+        <artifactId>geoip2</artifactId>
+        <version>${maxmind.version}</version>
+      </dependency>
       <!-- Test -->
       <dependency>
         <groupId>junit</groupId>
