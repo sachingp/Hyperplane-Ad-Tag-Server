@@ -26,6 +26,7 @@
     <spring.jpa.version>2.0.8.RELEASE</spring.jpa.version>
     <spring.boot.version>2.0.3.RELEASE</spring.boot.version>
     <mysql.version>8.0.11</mysql.version>
+    <junit.version>4.12</junit.version>
   </properties>
 
   <dependencyManagement>
@@ -93,6 +94,14 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-test</artifactId>
         <version>${spring.boot.version}</version>
+      </dependency>
+
+      <!-- Test -->
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
       </dependency>
 
     </dependencies>
