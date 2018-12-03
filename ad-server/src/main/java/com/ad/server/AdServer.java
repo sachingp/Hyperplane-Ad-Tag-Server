@@ -3,6 +3,8 @@ package com.ad.server;
 import com.ad.server.servlet.EventTrackServlet;
 import com.ad.server.servlet.SyncServlet;
 import com.ad.server.servlet.TagServlet;
+import com.ad.util.PropertiesUtil;
+import com.ad.util.geo.GeoLocationService;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -22,6 +24,7 @@ public class AdServer {
     handler.addServlet(SyncServlet.class, "syncTrack");
     handler.addServlet(TagServlet.class, "adTag");
     handler.addServlet(EventTrackServlet.class, "eventTrack");
+    GeoLocationService.init(PropertiesUtil.getProperty("maxmind.geo.file"));
     server.start();
   }
 }
