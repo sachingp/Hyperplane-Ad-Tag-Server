@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author sagupta
  */
 
-@Slf4j
+@Slf4j(topic = "HOUR_LOGGER")
 public class LoggingService {
 
   public LoggingService() {
@@ -15,7 +15,7 @@ public class LoggingService {
   }
 
   public void logEvent(String eventJson) {
-
+    log.info(eventJson);
   }
 
 }
