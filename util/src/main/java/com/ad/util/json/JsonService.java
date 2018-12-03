@@ -1,11 +1,17 @@
 package com.ad.util.json;
 
+import lombok.extern.slf4j.Slf4j;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
  * @author sagupta
  */
-
+@Slf4j
 public class JsonService {
 
+  private static final ObjectMapper mapper = new ObjectMapper();
 
   public JsonService() {
 
@@ -18,7 +24,12 @@ public class JsonService {
    */
 
   public static String createJson(Object obj) {
-    return null;
+    try {
+      return mapper.writeValueAsString(obj);
+    } catch (JsonProcessingException e) {
+      log.error(e.getMessage(), e);
+      return null;
+    }
   }
 
 }
