@@ -5,7 +5,6 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +15,10 @@ import com.ad.server.beans.ResourceNotFoundException;
 import com.ad.server.pojo.User;
 import com.ad.server.repo.UserRepo;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
+@Slf4j
 public class UserResource {
 
 	@Autowired
@@ -24,6 +26,7 @@ public class UserResource {
 	
 	@PostMapping("/users")
 	public User create(@Valid @RequestBody User user) {
+		log.debug("Trying to save the user object :: {}", user);
 	    return userRepo.save(user);
 	}
 	
