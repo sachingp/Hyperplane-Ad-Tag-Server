@@ -4,10 +4,15 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,11 +23,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table (name = "account")
+@RepositoryRestResource(collectionResourceRel = "account", path = "accounts")
 public class Account implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column (name="account_id")
     private Integer accountId;
 
@@ -31,6 +38,7 @@ public class Account implements Serializable {
 
     @ManyToOne
     @JoinColumn (name="account_type_id")
+    @RestResource(path = "accountType", rel="accountType") 
     private AccountType accountType;
 
     @Column (name="account_name")
@@ -44,6 +52,7 @@ public class Account implements Serializable {
 
     @ManyToOne
     @JoinColumn (name="address_id")
+    @RestResource(path = "accountAddress", rel="address")
     private Address address;
 
     @Column (name="logo_url")
