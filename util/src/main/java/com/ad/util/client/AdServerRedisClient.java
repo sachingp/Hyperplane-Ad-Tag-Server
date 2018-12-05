@@ -27,8 +27,7 @@ public class AdServerRedisClient {
 
   }
 
-  public static AdServerRedisClient init() {
-
+  public static AdServerRedisClient getInstance() {
     if (adServerRedisClient == null) {
       synchronized (AdServerRedisClient.class) {
         if (adServerRedisClient == null) {

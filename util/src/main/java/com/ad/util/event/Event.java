@@ -10,6 +10,7 @@ import lombok.Data;
 public class Event {
 
   int eventId;
+  String session_id;
   String ip_address;
   String user_agent;
   String country;

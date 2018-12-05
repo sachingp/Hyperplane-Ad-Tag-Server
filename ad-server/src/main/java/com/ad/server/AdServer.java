@@ -4,6 +4,8 @@ import com.ad.server.servlet.EventTrackServlet;
 import com.ad.server.servlet.SyncServlet;
 import com.ad.server.servlet.TagServlet;
 import com.ad.util.PropertiesUtil;
+import com.ad.util.client.AdServerRedisClient;
+import com.ad.util.constants.AdServerConstants.GENERAL;
 import com.ad.util.geo.GeoLocationService;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jetty.server.Server;
@@ -21,10 +23,12 @@ public class AdServer {
 
     Server server = new Server(80);
     ServletContextHandler handler = new ServletContextHandler(server, "/");
-    handler.addServlet(SyncServlet.class, "syncTrack");
-    handler.addServlet(TagServlet.class, "adTag");
-    handler.addServlet(EventTrackServlet.class, "eventTrack");
-    GeoLocationService.init(PropertiesUtil.getProperty("maxmind.geo.file"));
+    handler.addServlet(SyncServlet.class, "sync?");
+    handler.addServlet(TagServlet.class, "ads?");
+    handler.addServlet(EventTrackServlet.class, "events?");
+    GeoLocationService
+        .init(PropertiesUtil.getProperty(GENERAL.MAXMIND_GEO_DATABASE_LOCATION_PROPERTY_NAME));
+    AdServerRedisClient.getInstance();
     server.start();
   }
 }
