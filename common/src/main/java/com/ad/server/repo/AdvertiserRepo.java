@@ -7,7 +7,7 @@ import com.ad.server.Cache;
 import com.ad.server.pojo.Advertiser;
 
 @SuppressWarnings({ "rawtypes" })
-@RepositoryRestResource(collectionResourceRel = "advertiser", path = "advertiser")
+@RepositoryRestResource(collectionResourceRel = "advertisers", path = "advertisers")
 public interface AdvertiserRepo extends JpaRepository<Advertiser, Integer>, Cache {
 
   default Class getType() {
