@@ -1,7 +1,9 @@
 package com.ad.server;
 
+import com.ad.server.cache.TagCache;
 import com.ad.server.handlers.AdHandler;
 import com.ad.server.handlers.RequestHandler;
+import com.ad.server.handlers.EventHandler;
 import com.ad.util.PropertiesUtil;
 import com.ad.util.client.AdServerRedisClient;
 import com.ad.util.constants.AdServerConstants.GENERAL;
@@ -32,6 +34,7 @@ public class AdServerVertx extends AbstractVerticle {
       System.exit(0);
     }
     AdServerRedisClient.getInstance();
+    TagCache.getInstance();
 
     Router router = Router.router(vertx);
     router.route().handler(BodyHandler.create());
@@ -49,6 +52,9 @@ public class AdServerVertx extends AbstractVerticle {
   }
 
   private void handleEventRequest(final RoutingContext routingContext) {
+
+    RequestHandler handler = new EventHandler(routingContext);
+    handler.handleRequest();
 
   }
 

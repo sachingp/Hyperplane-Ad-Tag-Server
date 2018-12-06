@@ -20,14 +20,16 @@ public class Event {
   String deviceId;
   String site;
   String appBundle;
+  String appId;
   String appName;
   String latitude;
   String longitude;
-  int campaignId;
+  String campaignId;
   String cookie;
   String externalCampaignId;
   String externalPlacementId;
   String externalCreativeId;
+  String externalAdServer;
   int cacheBuster = 1;
 
 }
