@@ -17,7 +17,7 @@ public class CacheService {
   /**
    * @return list of countries targeted to tag.
    */
-  public static Set<String> getCountryCacheData(String country) {
+  public static Set<String> getCountryCacheData(final String country) {
 
     Set<String> data = TagCache.getInstance().countryCache.get(country);
 
@@ -37,7 +37,7 @@ public class CacheService {
    * @return if the tag guid is active or disabled.
    */
 
-  public static boolean isTagActive(String tagGuid) {
+  public static boolean isTagActive(final String tagGuid) {
 
     return TagCache.getInstance().allActiveTagGuidCache != null && !TagCache
         .getInstance().allActiveTagGuidCache.isEmpty()

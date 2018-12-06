@@ -27,12 +27,14 @@ public class TagCache {
 
   public final ConcurrentHashMap<String, Set<String>> countryCache;
   public final ConcurrentHashMap<String, Set<String>> allActiveTagGuidCache;
+  public final ConcurrentHashMap<String, Integer> tagCreativeCache;
 
 
   private TagCache() {
 
     countryCache = new ConcurrentHashMap<>();
     allActiveTagGuidCache = new ConcurrentHashMap<>();
+    tagCreativeCache = new ConcurrentHashMap<>();
 
     executorService = Executors.newSingleThreadScheduledExecutor();
     executorService.scheduleAtFixedRate(new CacheScheduler(this),
@@ -71,12 +73,21 @@ public class TagCache {
 
   }
 
+
+  private void buildGuidCreativeCache() {
+
+    String guidCreativeCache = AdServerRedisClient.getInstance()
+        .get(CACHE.TAG_GUID_CREATIVE_CACHE_KEY);
+
+  }
+
   // loading the file to cache
   private void update() {
     log.info("Cache Update Started : " + new Date());
     try {
       buildAllActiveTagGuidCache();
       buildTagCountryCache();
+      buildGuidCreativeCache();
 
     } catch (Exception e) {
       log.error("Error in updating cache :: {} ", e);

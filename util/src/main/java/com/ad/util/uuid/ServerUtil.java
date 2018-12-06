@@ -1,6 +1,8 @@
 package com.ad.util.uuid;
 
+import com.ad.util.constants.AdServerConstants.GENERAL;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -119,5 +121,16 @@ public class ServerUtil {
     return strRetVal.toString().toUpperCase();
   }
 
+  /**
+   * @return cookie id genertor.
+   */
 
+  public static String generateAudienceId(String id) {
+    String _key = (id != null) ? id
+        : GENERAL.COOKIE_PREFIX
+            + RandomStringUtils
+            .randomAlphanumeric(15);
+    return _key;
+
+  }
 }
