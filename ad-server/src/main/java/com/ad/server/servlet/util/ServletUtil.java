@@ -121,10 +121,10 @@ public class ServletUtil {
 
   public static String getTagId(final HttpServletRequest request) {
 
-    String userAgent = Optional.ofNullable(request.getParameter("tagId"))
+    String tagGuid = Optional.ofNullable(request.getParameter("guid"))
         .orElse(null);
 
-    return userAgent;
+    return tagGuid;
   }
 
   public static Map<String, String[]> getRequestParams(final HttpServletRequest request) {
