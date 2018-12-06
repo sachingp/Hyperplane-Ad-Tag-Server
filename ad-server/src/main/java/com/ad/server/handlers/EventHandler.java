@@ -2,7 +2,6 @@ package com.ad.server.handlers;
 
 import com.ad.server.akka.AkkaSystem;
 import com.ad.server.context.AdContext;
-import com.ad.util.event.EventEnum;
 import com.ad.util.event.EventUtil;
 import com.ad.util.geo.GeoLocationService;
 import com.google.common.base.Strings;
@@ -58,7 +57,7 @@ public class EventHandler extends AbstractRequestHandler {
           Cookie cookie = getCookie(deviceId);
           log.info("Cookie Value ::{}", cookie.getValue());
           AdContext adContext = createAdContext(sessionId, ip, tagGuid, country, params, deviceId,
-              userAgent, EventEnum.AdRequest.getType(), cookie.getValue());
+              userAgent, eventId, cookie.getValue());
 
           AkkaSystem.getInstance().publishEventRecord(adContext);
           // set Cookie
