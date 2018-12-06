@@ -43,16 +43,16 @@ public class AdServerVertx extends AbstractVerticle {
 
   }
 
-  private void handleAdRequest(RoutingContext routingContext) {
+  private void handleAdRequest(final RoutingContext routingContext) {
     RequestHandler handler = new AdHandler(routingContext);
     handler.handleRequest();
   }
 
-  private void handleEventRequest(RoutingContext routingContext) {
+  private void handleEventRequest(final RoutingContext routingContext) {
 
   }
 
-  private void handlePixelRequest(RoutingContext routingContext) {
+  private void handlePixelRequest(final RoutingContext routingContext) {
 
   }
 

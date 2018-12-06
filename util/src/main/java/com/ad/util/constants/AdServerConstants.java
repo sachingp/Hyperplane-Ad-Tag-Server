@@ -32,6 +32,10 @@ public class AdServerConstants {
 
     final String TAG_GUID_CREATIVE_CACHE_KEY = "TAG_GUID_CREATIVE_CACHE_KEY";
 
+    final String TAG_PARTNER_CACHE_KEY = "TAG_PARTNER_CACHE_KEY";
+
+    final String PARTNER_MACROS_CACHE_KEY = "PARTNER_MACROS_CACHE_KEY";
+
   }
 
   public interface DEVICE_ID_TYPE {

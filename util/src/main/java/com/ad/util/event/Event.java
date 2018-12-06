@@ -14,7 +14,7 @@ public class Event {
   String ip_address;
   String user_agent;
   String country;
-  String tagGuid;
+  String tag;
   String creativeId;
   String os;
   String userId;
@@ -22,7 +22,7 @@ public class Event {
   String site;
   String app_bundle;
   double latitude;
-  double logitude;
+  double longitude;
   int campaignId;
 
 }

@@ -1,5 +1,10 @@
 package com.ad.server.handlers;
 
+import com.ad.server.akka.AkkaSystem;
+import com.ad.server.cache.CacheService;
+import com.ad.server.context.AdContext;
+import com.ad.server.macros.ScriptMacros;
+import com.ad.server.targeting.TagTargeting;
 import com.ad.util.geo.GeoLocationService;
 import com.ad.util.uuid.ServerUtil;
 import com.google.common.base.Strings;
@@ -47,13 +52,50 @@ public class AdHandler extends AbstractRequestHandler {
       log.info("Request Params : {}", params);
       String deviceId = getDeviceId(params);
       log.info("Device Id :: {} ", deviceId);
-      Cookie cookie = getCookie(deviceId);
-      setCookie(cookie);
-      logData(null);
 
-      this.routingContext.response().end();
+      AdContext adContext = createAdContext(sessionId, tagGuid, country, params, deviceId,
+          userAgent);
+
+      TagTargeting tagTargeting = new TagTargeting(adContext);
+      boolean result = tagTargeting.selection();
+      if (result) {
+
+        String scriptData = CacheService.getTagScriptData(tagGuid);
+        if (Strings.isNullOrEmpty(scriptData)) {
+          ScriptMacros scriptMacros = new ScriptMacros(scriptData, adContext);
+          Cookie cookie = getCookie(deviceId);
+          // Check id
+          setCookie(cookie);
+          // record event
+          AkkaSystem.getInstance().publishEventRecord(adContext);
+          this.routingContext.response().setStatusCode(200).end(scriptMacros.addMacros());
+        } else {
+          sendError(204, this.routingContext.response());
+        }
+      } else {
+        sendError(204, this.routingContext.response());
+      }
     } else {
       sendError(204, this.routingContext.response());
     }
   }
+
+  /**
+   * @return create ad context.
+   */
+
+  private AdContext createAdContext(String sessionId, String tagGuid, String country,
+      Map<String, String> params, String deviceId, String userAgent) {
+    AdContext adContext = new AdContext();
+    adContext.setSessionId(sessionId);
+    adContext.setTag(tagGuid);
+    adContext.setCountry(country);
+    adContext.setParams(params);
+    adContext.setDeviceId(deviceId);
+    adContext.setUserAgent(userAgent);
+
+    return adContext;
+
+  }
+
 }

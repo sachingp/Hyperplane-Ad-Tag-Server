@@ -21,7 +21,6 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 
 @Slf4j
-
 public abstract class AbstractRequestHandler implements RequestHandler {
 
   final RoutingContext routingContext;
@@ -61,7 +60,7 @@ public abstract class AbstractRequestHandler implements RequestHandler {
 
       String value = routingContext.request().getParam(e.getName());
 
-      log.info("Param Name : {}  :: Value", e.getName(), value);
+      log.info("Param Name : {}  :: Value : {}", e.getName(), value);
 
       if (value != null && !value.equals(e.getMacro())) {
         params.put(e.getName(), value);
@@ -84,7 +83,7 @@ public abstract class AbstractRequestHandler implements RequestHandler {
   }
 
   @Override
-  public void sendError(int statusCode, HttpServerResponse response) {
+  public void sendError(final int statusCode, final HttpServerResponse response) {
     response.setStatusCode(statusCode).end();
   }
 
