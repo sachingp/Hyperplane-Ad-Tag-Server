@@ -20,6 +20,7 @@ public class AdServerConstants {
     final String COOKIE_NAME = "hu-uid";
     final String COOKIE_PREFIX = "huiDAds";
     final String EMPTY_STRING = "";
+    final long COOKIE_MAX_AGE = 7776000; // 90 days
 
 
   }

@@ -1,5 +1,6 @@
 package com.ad.server.handlers;
 
+import com.ad.server.context.AdContext;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.Cookie;
 
@@ -13,20 +14,26 @@ public interface RequestHandler {
 
   public void handleRequest();
 
-  public void logData(String logEvent);
+  public void logData(final String logEvent);
 
-  public Cookie getCookie(String id);
+  public Cookie getCookie(final String id);
 
-  public void setCookie(Cookie cookie);
+  public void setCookie(final Cookie cookie);
 
   public Map<String, String> getRequestParams();
 
   public String getRequestIp();
 
-  public void sendError(int statusCode, HttpServerResponse response);
+  public void sendError(final int statusCode, final HttpServerResponse response);
 
   public String getUserAgent();
 
-  public String getDeviceId(Map<String, String> params);
+  public String getDeviceId(final Map<String, String> params);
+
+  public AdContext createAdContext(final String sessionId, final String ipAddress,
+      final String tagGuid,
+      final String country,
+      final Map<String, String> params, final String deviceId, final String userAgent,
+      final int eventType, final String cookieId);
 
 }

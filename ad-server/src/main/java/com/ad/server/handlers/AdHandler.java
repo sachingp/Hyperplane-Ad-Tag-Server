@@ -5,6 +5,8 @@ import com.ad.server.cache.CacheService;
 import com.ad.server.context.AdContext;
 import com.ad.server.macros.ScriptMacros;
 import com.ad.server.targeting.TagTargeting;
+import com.ad.util.constants.AdServerConstants.PARAMS;
+import com.ad.util.event.EventEnum;
 import com.ad.util.geo.GeoLocationService;
 import com.ad.util.uuid.ServerUtil;
 import com.google.common.base.Strings;
@@ -52,22 +54,29 @@ public class AdHandler extends AbstractRequestHandler {
       log.info("Request Params : {}", params);
       String deviceId = getDeviceId(params);
       log.info("Device Id :: {} ", deviceId);
-
-      AdContext adContext = createAdContext(sessionId, tagGuid, country, params, deviceId,
-          userAgent);
-
+      Cookie cookie = getCookie(deviceId);
+      log.info("Cookie Value ::{}", cookie.getValue());
+      AdContext adContext = createAdContext(sessionId, ip, tagGuid, country, params, deviceId,
+          userAgent, EventEnum.AdRequest.getType(), cookie.getValue());
+      // check the cache buster, if not replaced set the context
+      if (params != null && !params.isEmpty()) {
+        log.info("Check Cache Buster ::");
+        if (!params.containsKey(PARAMS.ORD.getName())) {
+          adContext.setCacheBuster(0);
+        }
+      } else {
+        log.info("Params empty");
+      }
       TagTargeting tagTargeting = new TagTargeting(adContext);
-      boolean result = tagTargeting.selection();
-      if (result) {
-
+      boolean targetingResult = tagTargeting.selection();
+      if (targetingResult) {
         String scriptData = CacheService.getTagScriptData(tagGuid);
         if (Strings.isNullOrEmpty(scriptData)) {
           ScriptMacros scriptMacros = new ScriptMacros(scriptData, adContext);
-          Cookie cookie = getCookie(deviceId);
-          // Check id
-          setCookie(cookie);
           // record event
           AkkaSystem.getInstance().publishEventRecord(adContext);
+          // set Cookie
+          setCookie(cookie);
           this.routingContext.response().setStatusCode(200).end(scriptMacros.addMacros());
         } else {
           sendError(204, this.routingContext.response());
@@ -79,23 +88,4 @@ public class AdHandler extends AbstractRequestHandler {
       sendError(204, this.routingContext.response());
     }
   }
-
-  /**
-   * @return create ad context.
-   */
-
-  private AdContext createAdContext(String sessionId, String tagGuid, String country,
-      Map<String, String> params, String deviceId, String userAgent) {
-    AdContext adContext = new AdContext();
-    adContext.setSessionId(sessionId);
-    adContext.setTag(tagGuid);
-    adContext.setCountry(country);
-    adContext.setParams(params);
-    adContext.setDeviceId(deviceId);
-    adContext.setUserAgent(userAgent);
-
-    return adContext;
-
-  }
-
 }

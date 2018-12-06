@@ -1,5 +1,6 @@
 package com.ad.server.handlers;
 
+import com.ad.server.context.AdContext;
 import com.ad.util.constants.AdServerConstants;
 import com.ad.util.constants.AdServerConstants.DEVICE_MACROS_GROUP;
 import com.ad.util.constants.AdServerConstants.GENERAL;
@@ -42,6 +43,7 @@ public abstract class AbstractRequestHandler implements RequestHandler {
     Cookie cookie = this.routingContext.getCookie(GENERAL.COOKIE_NAME);
     if (cookie == null) {
       cookie = Cookie.cookie(GENERAL.COOKIE_NAME, ServerUtil.generateAudienceId(id));
+      cookie.setMaxAge(GENERAL.COOKIE_MAX_AGE);
     }
     return cookie;
   }
@@ -106,5 +108,29 @@ public abstract class AbstractRequestHandler implements RequestHandler {
       }
     }
     return deviceId;
+  }
+
+  @Override
+  /**
+   * @return create ad context.
+   */
+
+  public AdContext createAdContext(final String sessionId, final String ipAddress,
+      final String tagGuid,
+      final String country,
+      final Map<String, String> params, final String deviceId, final String userAgent,
+      final int eventType, final String cookieId) {
+    AdContext adContext = new AdContext();
+    adContext.setSessionId(sessionId);
+    adContext.setTag(tagGuid);
+    adContext.setCountry(country);
+    adContext.setParams(params);
+    adContext.setDeviceId(deviceId);
+    adContext.setUserAgent(userAgent);
+    adContext.setEventId(eventType);
+    adContext.setCookieId(cookieId);
+
+    return adContext;
+
   }
 }

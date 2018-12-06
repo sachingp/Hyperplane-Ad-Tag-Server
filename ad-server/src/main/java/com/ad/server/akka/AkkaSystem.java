@@ -76,7 +76,7 @@ public class AkkaSystem {
    * @return position of actor to fetch
    */
 
-  private int randomActorId(int min, int max) {
+  private int randomActorId(final int min, final int max) {
     int partition = min + (int) (Math.random() * ((max - min)));
     return partition;
   }
@@ -91,7 +91,7 @@ public class AkkaSystem {
    * @param adContext
    */
 
-  public void publishEventRecord(AdContext adContext) {
+  public void publishEventRecord(final AdContext adContext) {
     getEventRecordActor().tell(adContext, ActorRef.noSender());
 
   }

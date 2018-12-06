@@ -29,8 +29,23 @@ public class EventRecordActor extends AbstractActor {
 
   @Override
   public Receive createReceive() {
-    return receiveBuilder().match(AdContext.class, record -> {
+    return receiveBuilder().match(AdContext.class, adContext -> {
       Event event = new Event();
+      event.setSessionId(adContext.getSessionId());
+      event.setEventId(adContext.getEventId());
+      event.setDeviceId(adContext.getDeviceId());
+      event.setIpAddress(adContext.getIpAddress());
+      event.setCountry(adContext.getCountry());
+      event.setUserAgent(adContext.getUserAgent());
+      event.setCookie(adContext.getCookieId());
+      event.setTag(adContext.getTag());
+      event.setCreativeId(adContext.getCreativeId());
+      event.setCacheBuster(adContext.getCacheBuster());
+      if (adContext.getParams() != null && !adContext.getParams().isEmpty()) {
+        adContext.getParams().forEach((k, v) -> {
+
+        });
+      }
       // get data from AdContext
       LoggingService.logEvent(JsonService.createJson(event));
     }).build();
