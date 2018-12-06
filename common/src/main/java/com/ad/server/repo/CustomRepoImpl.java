@@ -22,10 +22,10 @@ public class CustomRepoImpl implements CustomRepo {
 			"	a.account_id = ad.account_id \n" + 
 			"	AND a.status_id = 1 \n" + 
 			"	AND ad.advertiser_id = c.advertiser_id \n" + 
-			"	AND ad.status = 1 \n" + 
+			"	AND ad.status_id = 1 \n" + 
 			"	AND c.campaign_id = ct.campaign_id \n" + 
-			"	AND c.status = 1 \n" + 
-			"	AND ct.status = 1";
+			"	AND c.status_id = 1 \n" + 
+			"	AND ct.status_id = 1";
 	 
 	@Override
 	public List<Object[]> finaAllEligibleCreatives() {

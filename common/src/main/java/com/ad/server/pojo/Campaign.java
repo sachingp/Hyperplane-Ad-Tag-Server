@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,6 +27,7 @@ public class Campaign implements Serializable {
 
     @Id
     @Column (name="campaign_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)    
     private Integer campaignId;
 
     @ManyToOne
@@ -42,7 +45,7 @@ public class Campaign implements Serializable {
     private String customAttributes;
 
     @ManyToOne
-    @JoinColumn (name="target_id")
+    @JoinColumn (nullable = true, name="target_id")
     private Target target;
 
     @Column (name="start_date")
