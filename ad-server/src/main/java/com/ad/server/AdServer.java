@@ -29,6 +29,7 @@ public class AdServer {
     GeoLocationService
         .init(PropertiesUtil.getProperty(GENERAL.MAXMIND_GEO_DATABASE_LOCATION_PROPERTY_NAME));
     AdServerRedisClient.getInstance();
+
     server.start();
   }
 }

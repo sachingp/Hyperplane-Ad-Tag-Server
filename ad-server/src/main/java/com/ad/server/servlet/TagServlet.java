@@ -71,6 +71,7 @@ public class TagServlet extends HttpServlet {
       // Create event object
       // Targeting
       // CAll Redis
+      // replace macros
       // return response and set cookie
       // log event
       resp.setStatus(HttpStatus.OK_200);

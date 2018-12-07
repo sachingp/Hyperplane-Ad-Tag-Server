@@ -14,7 +14,7 @@ public class LoggingService {
     throw new AssertionError("Error while initializing the class");
   }
 
-  public void logEvent(String eventJson) {
+  public static void logEvent(String eventJson) {
     log.info(eventJson);
   }
 

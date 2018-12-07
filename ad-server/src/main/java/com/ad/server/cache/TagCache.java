@@ -5,6 +5,7 @@ import com.ad.util.constants.AdServerConstants.CACHE;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -25,14 +26,20 @@ public class TagCache {
   // TODO - This can me moved to Offheap Cache - MapDB
 
 
-  public final ConcurrentHashMap<String, Set<String>> countryCache;
-  public final ConcurrentHashMap<String, Set<String>> allActiveTagGuidCache;
+  public final ConcurrentHashMap<Integer, Set<String>> creativeCountryCache;
+  public final ConcurrentHashMap<String, Set<String>> allActiveTagCache;
+  public final ConcurrentHashMap<String, Integer> tagCreativeMapCache;
+  public final ConcurrentHashMap<String, Integer> tagPartnerMapCache;
+  public final ConcurrentHashMap<Integer, Map<String, String>> partnerMacrosCache;
 
 
   private TagCache() {
 
-    countryCache = new ConcurrentHashMap<>();
-    allActiveTagGuidCache = new ConcurrentHashMap<>();
+    creativeCountryCache = new ConcurrentHashMap<>();
+    allActiveTagCache = new ConcurrentHashMap<>();
+    tagCreativeMapCache = new ConcurrentHashMap<>();
+    tagPartnerMapCache = new ConcurrentHashMap<>();
+    partnerMacrosCache = new ConcurrentHashMap<>();
 
     executorService = Executors.newSingleThreadScheduledExecutor();
     executorService.scheduleAtFixedRate(new CacheScheduler(this),
@@ -71,12 +78,37 @@ public class TagCache {
 
   }
 
+
+  private void buildGuidCreativeCache() {
+
+    String guidCreativeCache = AdServerRedisClient.getInstance()
+        .get(CACHE.TAG_GUID_CREATIVE_CACHE_KEY);
+
+  }
+
+  private void buildTagPartnerCache() {
+
+    String guidCreativeCache = AdServerRedisClient.getInstance()
+        .get(CACHE.TAG_PARTNER_CACHE_KEY);
+
+  }
+
+  private void buildPartnerMacrosCache() {
+
+    String guidCreativeCache = AdServerRedisClient.getInstance()
+        .get(CACHE.PARTNER_MACROS_CACHE_KEY);
+
+  }
+
   // loading the file to cache
   private void update() {
     log.info("Cache Update Started : " + new Date());
     try {
       buildAllActiveTagGuidCache();
       buildTagCountryCache();
+      buildGuidCreativeCache();
+      buildTagPartnerCache();
+      buildPartnerMacrosCache();
 
     } catch (Exception e) {
       log.error("Error in updating cache :: {} ", e);

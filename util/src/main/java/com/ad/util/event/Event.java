@@ -10,19 +10,26 @@ import lombok.Data;
 public class Event {
 
   int eventId;
-  String session_id;
-  String ip_address;
-  String user_agent;
+  String sessionId;
+  String ipAddress;
+  String userAgent;
   String country;
-  String tagGuid;
-  String creativeId;
+  String tag;
+  Integer creativeId;
   String os;
-  String userId;
-  String userIdType;
+  String deviceId;
   String site;
-  String app_bundle;
-  double latitude;
-  double logitude;
-  int campaignId;
+  String appBundle;
+  String appId;
+  String appName;
+  String latitude;
+  String longitude;
+  String campaignId;
+  String cookie;
+  String externalCampaignId;
+  String externalPlacementId;
+  String externalCreativeId;
+  String externalAdServer;
+  int cacheBuster = 1;
 
 }

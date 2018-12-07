@@ -1,7 +1,9 @@
 package com.ad.util.client;
 
 import com.ad.util.PropertiesUtil;
+import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.JedisPool;
+
 
 /**
  * @author sagupta
@@ -9,7 +11,7 @@ import redis.clients.jedis.JedisPool;
  * Redis Client for Ad Server.
  */
 
-
+@Slf4j
 public class AdServerRedisClient {
 
   public static AdServerRedisClient adServerRedisClient = null;
@@ -22,6 +24,9 @@ public class AdServerRedisClient {
 
   private AdServerRedisClient() {
 
+    log.info("Redis Pool Init() :: {}   : Port :: {}",
+        PropertiesUtil.getProperty(REDIS_HOST_PROPERTY),
+        PropertiesUtil.getProperty(REDIS_PORT_PROPERTY));
     jedisPool = new JedisPool(PropertiesUtil.getProperty(REDIS_HOST_PROPERTY),
         Integer.parseInt(PropertiesUtil.getProperty(REDIS_PORT_PROPERTY)));
 
