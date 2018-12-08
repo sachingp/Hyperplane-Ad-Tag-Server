@@ -16,7 +16,6 @@
   </modules>
 
   <properties>
-    <jetty.version>9.2.11.v20150529</jetty.version>
     <jdk.version>1.8</jdk.version>
     <lombok.version>1.18.0</lombok.version>
     <logback.version>1.1.7</logback.version>
@@ -33,16 +32,7 @@
 
   <dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>org.eclipse.jetty</groupId>
-        <artifactId>jetty-server</artifactId>
-        <version>${jetty.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.jetty</groupId>
-        <artifactId>jetty-servlet</artifactId>
-        <version>${jetty.version}</version>
-      </dependency>
+
       <!-- lombok dependency -->
       <dependency>
         <groupId>org.projectlombok</groupId>
