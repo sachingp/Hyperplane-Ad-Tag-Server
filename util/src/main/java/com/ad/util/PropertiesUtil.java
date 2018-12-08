@@ -12,7 +12,7 @@ public class PropertiesUtil {
 
   private static final String APPLICATION_PROPERTY_FILE_NAME = "server.properties";
 
-  private static final String DEFAULT_PROPERTY_FILE_NAME = "application.properties";
+  private static final String DEFAULT_PROPERTY_FILE_NAME = "application-dev.properties";
 
 
   static Properties props = null;
