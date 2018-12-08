@@ -73,30 +73,37 @@ public class TagCache {
 
   private void buildAllActiveTagGuidCache() {
 
-    String tagCountryCache = AdServerRedisClient.getInstance()
+    String allActiveTagCache = AdServerRedisClient.getInstance()
         .get(CACHE.ALL_ACTIVE_TAG_GUID_CACHE_KEY);
+    log.info("All Active Tag Cache :: {}", allActiveTagCache);
 
   }
 
 
-  private void buildGuidCreativeCache() {
+  private void buildTagCreativeCache() {
 
-    String guidCreativeCache = AdServerRedisClient.getInstance()
+    String tagCreativeCache = AdServerRedisClient.getInstance()
         .get(CACHE.TAG_GUID_CREATIVE_CACHE_KEY);
+
+    log.info("Tag Creative Cache :: {}", tagCreativeCache);
 
   }
 
   private void buildTagPartnerCache() {
 
-    String guidCreativeCache = AdServerRedisClient.getInstance()
+    String tagPartnerCache = AdServerRedisClient.getInstance()
         .get(CACHE.TAG_PARTNER_CACHE_KEY);
+
+    log.info("Tag Partner Cache :: {}", tagPartnerCache);
 
   }
 
   private void buildPartnerMacrosCache() {
 
-    String guidCreativeCache = AdServerRedisClient.getInstance()
+    String partnerMacrosCache = AdServerRedisClient.getInstance()
         .get(CACHE.PARTNER_MACROS_CACHE_KEY);
+
+    log.info("Partner Macros Cache :: {}", partnerMacrosCache);
 
   }
 
@@ -106,7 +113,7 @@ public class TagCache {
     try {
       buildAllActiveTagGuidCache();
       buildTagCountryCache();
-      buildGuidCreativeCache();
+      buildTagCreativeCache();
       buildTagPartnerCache();
       buildPartnerMacrosCache();
 
