@@ -61,4 +61,16 @@ public class AdServerRedisClient {
     return jedisPool.getResource().get(key);
   }
 
+  public void put(byte[] key, byte[] value, int seconds) {
+    jedisPool.getResource().set(key, value);
+    if (seconds > 0) {
+      jedisPool.getResource().expire(key, seconds);
+    }
+  }
+
+  public byte[] get(byte[] key) {
+
+    return jedisPool.getResource().get(key);
+  }
+
 }

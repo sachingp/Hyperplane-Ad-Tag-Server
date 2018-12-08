@@ -94,7 +94,6 @@
   </dependencies>
 
   <build>
-    <finalName>common</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -114,7 +113,7 @@
           <target>${jdk.version}</target>
         </configuration>
       </plugin>
-
+<!--
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
@@ -127,6 +126,7 @@
           </execution>
         </executions>
       </plugin>
+-->
     </plugins>
   </build>
 </project>

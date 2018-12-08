@@ -22,11 +22,12 @@ public class PojoGeneratorFromTable extends BaseGeneratorUtil {
   private static final String DB_URL = "jdbc:mysql://localhost/ad_server";
   private static final String USER = "root";
   private static final String PASS = "root";
-  private static final String FIELD_TEMPLATE = "    @Column (name=\"{name}\")\n    private {type} {name_cc};\n";
+  private static final String FIELD_TEMPLATE = " (name=\"{name}\")\n    private {type} {name_cc};\n";
   private static final String POJO_TEMPLATE = "package com.ad.server.pojo;"
       + "\n\nimport java.io.Serializable;"
       + "{date_import}"
       + "\n\nimport javax.persistence.Column;"
+      + "\nimport javax.persistence.JoinColumn;"
       + "\nimport javax.persistence.Entity;"
       + "\nimport javax.persistence.Id;"
       + "\nimport javax.persistence.ManyToOne;"
@@ -78,12 +79,15 @@ public class PojoGeneratorFromTable extends BaseGeneratorUtil {
         final String fieldType;
         if ("PRI".equals(key)) {
           field = "    @Id\n";
+          field += "    @Column";
           fieldType = getType(type);
         } else if ("MUL".equals(key)) {
           field = "    @ManyToOne\n";
+          field += "    @JoinColumn";
           fieldType = getTypeName(Character.toUpperCase(column.charAt(0)) + (column.endsWith("_id") ? column.substring(1, column.length() - 3) : column.substring(1)));
         } else {
-        	fieldType = getType(type);
+          fieldType = getType(type);
+          field += "    @Column";
         }
         if (!includeDate && "Date".equals(fieldType)) {
           includeDate = true;
