@@ -11,10 +11,10 @@
   </appender>
 
   <appender name="HOURLY_ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <file>/Users/sagupta/logs/hourly_rolling.log</file>
+    <file>logs/hourly_rolling.log</file>
    	<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
       <!-- hourly rollover -->
-      <fileNamePattern>/Users/sagupta/logs/hourly_rolling.log.%d{yyyy-MM-dd-HH-mm}.log</fileNamePattern>
+      <fileNamePattern>logs/hourly_rolling.log.%d{yyyy-MM-dd-HH-mm}.log</fileNamePattern>
       <maxHistory>30</maxHistory>
    	</rollingPolicy>
    	<encoder>
