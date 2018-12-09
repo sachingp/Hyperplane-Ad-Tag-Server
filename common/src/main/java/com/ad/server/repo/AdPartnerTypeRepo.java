@@ -1,13 +1,13 @@
 package com.ad.server.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.ad.server.Cache;
 import com.ad.server.pojo.AdPartnerType;
 
 @SuppressWarnings({ "rawtypes" })
-@Repository
+@RepositoryRestResource(collectionResourceRel = "adPartnerTypes", path = "adPartnerTypes")
 public interface AdPartnerTypeRepo extends JpaRepository<AdPartnerType, Integer>, Cache {
 
   default Class getType() {
