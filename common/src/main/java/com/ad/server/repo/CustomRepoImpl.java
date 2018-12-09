@@ -16,18 +16,19 @@ public class CustomRepoImpl implements CustomRepo {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	private static final String ALL_ELIGIBLE_CREATIVES_NATIVE = "\n" + 
-			"SELECT ct.* \n" + 
+	private static final String ALL_ACTIVE_CREATIVE_TAGS_OF_ADV = "\n" + 
+			"SELECT cta.creative_tag_id \n" + 
 			"FROM \n" + 
-			"	account a, advertiser ad, campaign c, creative ct \n" + 
-			"WHERE\n" + 
-			"	a.account_id = ad.account_id \n" + 
-			"	AND a.status_id = 1 \n" + 
-			"	AND ad.advertiser_id = c.advertiser_id \n" + 
-			"	AND ad.status_id = 1 \n" + 
-			"	AND c.campaign_id = ct.campaign_id \n" + 
-			"	AND c.status_id = 1 \n" + 
-			"	AND ct.status_id = 1";
+			"	creative_tag cta,  advertiser ad, campaign c, creative ct \n" + 
+			"WHERE \n" + 
+			"	 cta.creative_id = ct.creative_id \n" + 
+			"	AND ct.campaign_id = c.campaign_id \n" +
+			"	AND c.advertiser_id = ad.advertiser_id \n" + 
+			"	AND ct.status_id = 1 \n" + 
+			"	AND c.status_id = 1 \n " +
+			"	AND ad.status_id = 1 \n"+ 
+			"   AND ad.advertiser_id = advId \n" +
+			" ORDER BY cta.creative_tag_id";
 	
 	private static final String  ALL_ELIGIBLE_CREATIVES_JPA =  
 			"SELECT \n" + 
@@ -51,7 +52,15 @@ public class CustomRepoImpl implements CustomRepo {
 	
 	@Override
 	public List<Object[]> findAllEligibleCreatives() {
-		Query nativeQuery = entityManager.createNativeQuery(ALL_ELIGIBLE_CREATIVES_NATIVE);
+		Query nativeQuery = entityManager.createNativeQuery(ALL_ACTIVE_CREATIVE_TAGS_OF_ADV);
+		return nativeQuery.getResultList();
+	}
+
+	@Override
+	public List<Integer> findActiveCreativeTagsByAdv(Integer advId) {
+		if (advId == null || advId == 0) return null;
+		
+		Query nativeQuery = entityManager.createNativeQuery(ALL_ACTIVE_CREATIVE_TAGS_OF_ADV.replace("advId", String.valueOf(advId)));
 		return nativeQuery.getResultList();
 	}
 

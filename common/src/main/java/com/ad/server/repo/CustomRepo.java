@@ -11,4 +11,6 @@ public interface CustomRepo {
 	public List<Object[]> findAllEligibleCreatives();
 	
 	public List<Creative> findAllEligibleCreativeEntities();
+	
+	public List<Integer> findActiveCreativeTagsByAdv(Integer advId);
 }
