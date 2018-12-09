@@ -884,3 +884,21 @@ SHOW WARNINGS;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+ALTER TABLE `ad_server`.`campaign` 
+DROP COLUMN `custom_attributes`;
+
+insert into creative_size values (6,'480x320');
+	
+insert into asset_size values (6,'480x320');
+
+
+ALTER TABLE `ad_server`.`creative_assets` 
+DROP FOREIGN KEY `FKbcmk2ikitbg4ly9kppa3dthib`;
+ALTER TABLE `ad_server`.`creative_assets` 
+DROP COLUMN `asset_type_id`,
+DROP INDEX `FKbcmk2ikitbg4ly9kppa3dthib` ;
+
+ALTER TABLE `ad_server`.`creative_assets` 
+CHANGE COLUMN `asset_type` `asset_type_id` INT(11) NOT NULL ;

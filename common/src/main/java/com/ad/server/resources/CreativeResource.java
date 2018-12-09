@@ -36,7 +36,7 @@ public class CreativeResource {
 	public List<Account> getActiveAccounts(@RequestParam("status") Integer statusId) {
 		Status statusObj = new Status();
 		statusObj.setStatusId(statusId);
-	    return accountRepo.findActiveAccounts(statusObj);
+	    return accountRepo.findAccountsByStatus(statusObj);
 	}
 	
 	@GetMapping("/advertisers")
