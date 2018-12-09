@@ -54,7 +54,16 @@ public class CacheRegistry<C extends Cache> {
         log.info("Loaded class of type: {}", clazz);
         if (Cache.class.isAssignableFrom(clazz)) {
           log.info("Accessing bean for type: {}", clazz);
-          final String beanName = ((Repository) clazz.getAnnotation(Repository.class)).value();
+          final Repository repository = (Repository) clazz.getAnnotation(Repository.class);
+          if (repository == null) {
+            log.warn("No bean name configured for: {}", clazz);
+            continue;
+          }
+          final String beanName = repository.value();
+          if (beanName == null || beanName.trim().isEmpty()) {
+            log.warn("No bean name configured for: {}", clazz);
+            continue;
+          }
           caches.add((C) context.getBean(beanName));
         }
       }

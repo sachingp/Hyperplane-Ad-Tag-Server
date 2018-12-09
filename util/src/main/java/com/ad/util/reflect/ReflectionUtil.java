@@ -130,6 +130,10 @@ public class ReflectionUtil {
       final Method method = methods.get(getterName);
       if (method == null) {
         final Field field = fields.get(fieldName);
+        if (field == null) {
+          log.warn("No field with name: {}", fieldName);
+          return null;
+        }
         log.info("Field Name: {} and field: {} in class: {}", fieldName, field, clazz);
         try {
           field.setAccessible(true);

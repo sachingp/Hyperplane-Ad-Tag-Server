@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.stereotype.Repository;
 
 import com.ad.server.Cache;
 import com.ad.server.Cacheable;
@@ -15,12 +16,13 @@ import com.ad.server.pojo.Creative;
 
 @SuppressWarnings({ "rawtypes" })
 @RepositoryRestResource(collectionResourceRel = "creatives", path = "creatives")
+@Repository("creativeRepo")
 public interface CreativeRepo extends JpaRepository<Creative, Integer>, Cache {
 
   String CAMPAIGN_CREATIVE = "campaign-creative";
 
   default Class getType() {
-    return Creative.class;
+    return CreativeRepo.class;
   }
 
  @Query( "SELECT \n" + 
@@ -44,7 +46,7 @@ public interface CreativeRepo extends JpaRepository<Creative, Integer>, Cache {
  @Query( "SELECT cr FROM Creative cr INNER JOIN cr.campaign c WHERE cr.status = 1")
  public List<Creative> findActiveCreatives();
 
- default Map<Integer, List<Creative>> prepareByAccount(final List<Creative> creatives) {
+ default Map<Integer, List<Creative>> prepareByCampaign(final List<Creative> creatives) {
    if (creatives == null || creatives.isEmpty()) {
      return null;
    }

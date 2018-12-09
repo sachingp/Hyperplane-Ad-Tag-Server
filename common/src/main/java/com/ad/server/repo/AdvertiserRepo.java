@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.stereotype.Repository;
 
 import com.ad.server.Cache;
 import com.ad.server.Cacheable;
@@ -15,12 +16,13 @@ import com.ad.server.pojo.Advertiser;
 
 @SuppressWarnings({ "rawtypes" })
 @RepositoryRestResource(collectionResourceRel = "advertisers", path = "advertisers")
+@Repository("advertiserRepo")
 public interface AdvertiserRepo extends JpaRepository<Advertiser, Integer>, Cache {
 
   String ACCOUNT_ADVERTISER = "account-advertiser";
 
   default Class getType() {
-    return Advertiser.class;
+    return AdvertiserRepo.class;
   }
 
   @Query( "SELECT ad FROM Advertiser ad INNER JOIN ad.account a WHERE ad.status = 1 AND a.id = ?1")

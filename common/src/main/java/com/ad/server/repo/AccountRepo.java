@@ -12,13 +12,13 @@ import com.ad.server.pojo.Account;
 import com.ad.server.pojo.Status;
 
 @SuppressWarnings({ "rawtypes" })
-@Repository
+@Repository("accountRepo")
 public interface AccountRepo extends JpaRepository<Account, Integer>, Cache {
 
   String ACTIVE_ACCOUNTS = "active-account";
 
   default Class getType() {
-    return Account.class;
+    return AccountRepo.class;
   }
 
   @Cacheable(name = ACTIVE_ACCOUNTS, whole = true, key={"account_id"}, keyType = Integer.class, valueType = Account.class)

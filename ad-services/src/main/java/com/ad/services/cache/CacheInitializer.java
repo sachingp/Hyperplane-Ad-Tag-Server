@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import com.ad.server.Cache;
@@ -29,7 +28,6 @@ public class CacheInitializer {
   @Autowired
   private CacheRegistry registry;
 
-  @DependsOn({"biddingToLowbidFrequencyRepo",})
   @PostConstruct
   public void init() throws AdServicesException {
     log.info("Initializing cache packages: {}", cachePackages);

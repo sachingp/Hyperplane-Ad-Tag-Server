@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.stereotype.Repository;
 
 import com.ad.server.Cache;
 import com.ad.server.Cacheable;
@@ -15,12 +16,13 @@ import com.ad.server.pojo.Campaign;
 
 @SuppressWarnings({ "rawtypes" })
 @RepositoryRestResource(collectionResourceRel = "campaigns", path = "campaigns")
+@Repository("campaignRepo")
 public interface CampaignRepo extends JpaRepository<Campaign, Integer>, Cache {
 
   String ADVERTISER_CAMPAIGN = "advertiser-campaign";
 
   default Class getType() {
-    return Campaign.class;
+    return CampaignRepo.class;
   }
 
   @Query( "SELECT c FROM Campaign c INNER JOIN c.advertiser ad WHERE c.status = 1 AND ad.id = ?1")
@@ -30,7 +32,7 @@ public interface CampaignRepo extends JpaRepository<Campaign, Integer>, Cache {
   @Query( "SELECT c FROM Campaign c INNER JOIN c.advertiser ad WHERE c.status = 1")
   public List<Campaign> findActiveCampaigns();
 
-  default Map<Integer, List<Campaign>> prepareByAccount(final List<Campaign> campaigns) {
+  default Map<Integer, List<Campaign>> prepareByAdvertiser(final List<Campaign> campaigns) {
     if (campaigns == null || campaigns.isEmpty()) {
       return null;
     }

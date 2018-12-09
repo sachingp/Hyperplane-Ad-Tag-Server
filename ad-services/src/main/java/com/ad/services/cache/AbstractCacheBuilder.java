@@ -28,7 +28,6 @@ import com.ad.util.reflect.ReflectionUtil;
 @Component
 public abstract class AbstractCacheBuilder<T> implements CacheBuilder<Key, Value> {
 
-  //  private static final Integer DEFAULT_STATUS = 1;
   private static final Map<String, CacheStats> statistics = new HashMap<>();
   @org.springframework.beans.factory.annotation.Value("#{'${cache.names}'.split(',')}")
   private Set<String> cacheNames;
