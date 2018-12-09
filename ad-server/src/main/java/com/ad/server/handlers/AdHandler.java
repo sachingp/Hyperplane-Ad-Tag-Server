@@ -44,7 +44,7 @@ public class AdHandler extends AbstractRequestHandler {
           country = GeoLocationService.getLocationForIp(ip).getCountry().getIsoCode();
         } catch (Exception e) {
           log.error("Error while determining the geo location from ip :: {} , exception", ip,
-              e);
+              e.toString());
         }
         log.debug("Country for the ip :: {}, country :: {}", ip, country);
       }

@@ -2,9 +2,6 @@ package com.ad.server.cache;
 
 
 import com.ad.util.client.AdServerRedisClient;
-import com.ad.util.constants.AdServerConstants.CACHE;
-
-import java.util.Set;
 
 /**
  * @author sagupta
@@ -18,20 +15,17 @@ public class CacheService {
   /**
    * @return list of countries targeted to creative.
    */
-  public static Set<String> getCountryCacheData(final Integer creative) {
+  public static CreativeCountryCache getCountryCacheData() {
 
-    Set<String> data = TagCache.getInstance().creativeCountryCache.get(creative);
-
-    return data;
-
+    return AdServerCache.getInstance().creativeCountryCache;
   }
 
   /**
    * @return all active tags.
    */
 
-  public static Set<String> getAllActiveTags() {
-    return TagCache.getInstance().allActiveTagCache.get(CACHE.ALL_ACTIVE_TAG_GUID_CACHE_KEY);
+  public static Cache getAllActiveTags() {
+    return AdServerCache.getInstance().allActiveTagCache;
   }
 
   /**
@@ -40,9 +34,10 @@ public class CacheService {
 
   public static boolean isTagActive(final String tagGuid) {
 
-    return TagCache.getInstance().allActiveTagCache != null && !TagCache
-        .getInstance().allActiveTagCache.isEmpty()
-        && TagCache.getInstance().allActiveTagCache.get(tagGuid) != null ? true : false;
+    return AdServerCache.getInstance().allActiveTagCache != null && !AdServerCache
+        .getInstance().allActiveTagCache.getAllActiveTagCache().isEmpty()
+        && AdServerCache.getInstance().allActiveTagCache.allActiveTagCache.get(tagGuid) != null
+        ? true : false;
 
   }
 
@@ -59,7 +54,7 @@ public class CacheService {
    */
 
   public static Integer getCreative(String tag) {
-    return TagCache.getInstance().tagCreativeMapCache.get(tag);
+    return AdServerCache.getInstance().tagCreativeMapCache.getTagCreativeMapCache().get(tag);
   }
 
 }

@@ -1,6 +1,7 @@
 package com.ad.server.targeting;
 
 import com.ad.server.cache.CacheService;
+import com.ad.server.cache.CreativeCountryCache;
 import com.ad.server.context.AdContext;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
@@ -45,16 +46,29 @@ public class TagTargeting {
    */
 
   private boolean countrySelection(Integer creative) {
-    Set<String> creativeCountries = CacheService.getCountryCacheData(creative);
+    CreativeCountryCache cache = CacheService.getCountryCacheData();
 
-    log.info("Countries :: {}", creativeCountries);
+    Set<String> countryInclusions = cache.getCreativeInclusionsCountryCache().get(creative);
 
-    if (creativeCountries == null || creativeCountries.isEmpty()) {
-      return true;
+    Set<String> countryExclusions = cache.getCreativeExclusionsCountryCache().get(creative);
+
+    log.info("Countries Cache :: country inclucions :: {}  , country exclusions :: {} ",
+        countryInclusions, countryExclusions);
+
+    if (countryInclusions == null || countryInclusions.isEmpty()) {
+      if (countryExclusions == null || countryExclusions.isEmpty()) {
+        return true;
+      } else if (countryExclusions.contains(!Strings
+          .isNullOrEmpty(this.adContext.getCountry()))) {
+        return false;
+      } else {
+        return true;
+      }
     }
 
-    if (!creativeCountries.isEmpty() && !Strings.isNullOrEmpty(this.adContext.getCountry())) {
-      if (creativeCountries.contains(this.adContext.getCountry())) {
+    if (!countryInclusions.isEmpty() && !Strings
+        .isNullOrEmpty(this.adContext.getCountry())) {
+      if (countryInclusions.contains(this.adContext.getCountry())) {
         return true;
       }
     }
