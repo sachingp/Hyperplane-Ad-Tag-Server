@@ -13,5 +13,4 @@ public interface CreativeTagRepo extends JpaRepository<CreativeTag, Integer>, Ca
   default Class getType() {
     return CreativeTag.class;
   }
-
 }

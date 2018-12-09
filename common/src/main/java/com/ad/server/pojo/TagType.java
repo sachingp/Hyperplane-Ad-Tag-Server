@@ -21,7 +21,7 @@ public class TagType implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column (name="tag_type_id")
+    @Column (name="tag_type_id")  
     private Integer tagTypeId;
 
     @Column (name="tag_type")

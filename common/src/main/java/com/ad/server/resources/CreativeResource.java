@@ -16,6 +16,7 @@ import com.ad.server.repo.AccountRepo;
 import com.ad.server.repo.AdvertiserRepo;
 import com.ad.server.repo.CampaignRepo;
 import com.ad.server.repo.CreativeRepo;
+import com.ad.server.repo.CustomRepo;
 
 @RestController
 public class CreativeResource {
@@ -31,6 +32,9 @@ public class CreativeResource {
 
 	@Autowired
 	private CreativeRepo creativeRepo;
+
+	@Autowired
+	private CustomRepo customRepo;
 	
 	@GetMapping("/accounts")
 	public List<Account> getActiveAccounts(@RequestParam("status") Integer statusId) {
@@ -53,8 +57,14 @@ public class CreativeResource {
 	public List<Creative> getActiveCreatives(@RequestParam("campaignId") Integer campaignId) {
 	    return creativeRepo.findActiveCreativesForCampaigns(campaignId);
 	}
+	
 	@GetMapping("/eligibleCreatives")
 	public List<Creative> getAll() {
 	    return creativeRepo.findAllMatchingCreativesList();
 	}
+	
+	@GetMapping("/creativeTags")
+	public List<Integer> getAllActiveCreativeTags(@RequestParam("advId") Integer advId) {
+	    return customRepo.findActiveCreativeTagsByAdv(advId);
+	}	
 }
