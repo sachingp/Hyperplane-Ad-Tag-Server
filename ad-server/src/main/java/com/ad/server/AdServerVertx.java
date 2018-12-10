@@ -2,6 +2,7 @@ package com.ad.server;
 
 import com.ad.server.cache.AdServerCache;
 import com.ad.server.handlers.AdHandler;
+import com.ad.server.handlers.ClickHandler;
 import com.ad.server.handlers.EventHandler;
 import com.ad.server.handlers.RequestHandler;
 import com.ad.util.PropertiesUtil;
@@ -49,7 +50,7 @@ public class AdServerVertx extends AbstractVerticle {
     router.route().handler(BodyHandler.create());
     router.get("/ads").handler(this::handleAdRequest);
     router.put("/events").handler(this::handleEventRequest);
-    router.get("/pixels").handler(this::handlePixelRequest);
+    router.get("/clk").handler(this::handleClickRequest);
 
     vertx.createHttpServer().requestHandler(router).listen(8080);
 
@@ -67,7 +68,9 @@ public class AdServerVertx extends AbstractVerticle {
 
   }
 
-  private void handlePixelRequest(final RoutingContext routingContext) {
+  private void handleClickRequest(final RoutingContext routingContext) {
+    RequestHandler handler = new ClickHandler(routingContext);
+    handler.handleRequest();
 
   }
 
