@@ -1,7 +1,5 @@
 package com.ad.services;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
@@ -11,8 +9,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
+import javax.sql.DataSource;
+
 @Configuration
-@EnableJpaRepositories(entityManagerFactoryRef = "adserverEntityManager", transactionManagerRef = "adserverTransactionManager", basePackages = { "com.ad.server" })
+@EnableJpaRepositories(entityManagerFactoryRef = "adserverEntityManager", transactionManagerRef = "adserverTransactionManager", basePackages = {
+    "com.ad.server"})
 public class AdServerConfiguration {
 
   @Value("${spring.datasource.adserver.username}")
@@ -40,7 +41,9 @@ public class AdServerConfiguration {
 
   @Primary
   @Bean(name = "adserverEntityManager")
-  public LocalContainerEntityManagerFactoryBean adserverEntityManagerFactory(final EntityManagerFactoryBuilder builder) {
-    return builder.dataSource(adserverDataSource()).packages("com.ad.server").persistenceUnit("adserver").build();
+  public LocalContainerEntityManagerFactoryBean adserverEntityManagerFactory(
+      final EntityManagerFactoryBuilder builder) {
+    return builder.dataSource(adserverDataSource()).packages("com.ad.server")
+        .persistenceUnit("adserver").build();
   }
 }

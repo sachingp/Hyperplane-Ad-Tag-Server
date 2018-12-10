@@ -84,7 +84,9 @@ public class PojoGeneratorFromTable extends BaseGeneratorUtil {
         } else if ("MUL".equals(key)) {
           field = "    @ManyToOne\n";
           field += "    @JoinColumn";
-          fieldType = getTypeName(Character.toUpperCase(column.charAt(0)) + (column.endsWith("_id") ? column.substring(1, column.length() - 3) : column.substring(1)));
+          fieldType = getTypeName(
+              Character.toUpperCase(column.charAt(0)) + (column.endsWith("_id") ? column
+                  .substring(1, column.length() - 3) : column.substring(1)));
         } else {
           fieldType = getType(type);
           field += "    @Column";
@@ -92,7 +94,9 @@ public class PojoGeneratorFromTable extends BaseGeneratorUtil {
         if (!includeDate && "Date".equals(fieldType)) {
           includeDate = true;
         }
-        field += FIELD_TEMPLATE.replace("{name}", column).replace("{name_cc}", getTypeName("MUL".equals(key) && column.endsWith("_id") ? column.substring(0, column.length() - 3) : column))
+        field += FIELD_TEMPLATE.replace("{name}", column).replace("{name_cc}", getTypeName(
+            "MUL".equals(key) && column.endsWith("_id") ? column.substring(0, column.length() - 3)
+                : column))
             .replace("{type}", fieldType);
         fields.append(field).append("\n");
       }

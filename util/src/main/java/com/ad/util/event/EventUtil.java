@@ -18,6 +18,10 @@ public class EventUtil {
 
   }
 
+  public EventUtil() {
+    throw new AssertionError("Error while initializing the class");
+  }
+
   private static void eventLoader() {
 
     events = new ArrayList<>();
@@ -26,10 +30,6 @@ public class EventUtil {
       events.add(e.getType());
     });
 
-  }
-
-  public EventUtil() {
-    throw new AssertionError("Error while initializing the class");
   }
 
   public static List<Integer> getEvents() {

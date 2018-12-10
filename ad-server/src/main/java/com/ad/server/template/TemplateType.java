@@ -11,13 +11,13 @@ public enum TemplateType {
   VAST("vast.vm"),
   VPAID("vpaid.vm");
 
-  private final Template template;
-
   private static VelocityEngine engine;
+  private final Template template;
 
   private TemplateType(final String template) {
     initEngine();
-    this.template = Velocity.getTemplate(template);;
+    this.template = Velocity.getTemplate(template);
+    ;
   }
 
   public Template getTemplate() {
@@ -27,7 +27,8 @@ public enum TemplateType {
   private void initEngine() {
     if (engine == null) {
       engine = new VelocityEngine();
-      engine.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS, "org.apache.velocity.runtime.log.Log4JLogSystem");
+      engine.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
+          "org.apache.velocity.runtime.log.Log4JLogSystem");
       engine.setProperty("runtime.log.logsystem.log4j.category", "com.ydsp.cache.engine.Velocity");
       engine.init();
     }

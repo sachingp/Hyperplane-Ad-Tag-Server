@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.ad.server.Cache;
-import com.ad.services.cache.buider.RedisCacheBuilder;
+import com.ad.services.cache.builder.RedisCacheBuilder;
 import com.ad.services.exception.AdServicesException;
 
 @Slf4j

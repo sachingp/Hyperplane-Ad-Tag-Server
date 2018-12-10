@@ -14,12 +14,9 @@ import redis.clients.jedis.JedisPool;
 @Slf4j
 public class AdServerRedisClient {
 
-  public static AdServerRedisClient adServerRedisClient = null;
-
   private static final String REDIS_HOST_PROPERTY = "jedis.connection.host";
-
   private static final String REDIS_PORT_PROPERTY = "jedis.connection.port";
-
+  public static AdServerRedisClient adServerRedisClient = null;
   private static JedisPool jedisPool = null;
 
   private AdServerRedisClient() {

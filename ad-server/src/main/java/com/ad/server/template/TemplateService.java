@@ -11,9 +11,12 @@ public class TemplateService {
   public String eval(final Map<String, Object> context, final TemplateType type) {
     final Template template = type.getTemplate();
     final VelocityContext velocity = new VelocityContext();
-    context.forEach((k, v) -> {velocity.put(k, v);});
+    context.forEach((k, v) -> {
+      velocity.put(k, v);
+    });
     final StringWriter writer = new StringWriter();
-    template.merge(velocity, writer);;
+    template.merge(velocity, writer);
+    ;
     final String expanded = writer.toString();
     return expanded;
   }

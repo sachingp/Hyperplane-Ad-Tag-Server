@@ -21,50 +21,50 @@ import com.ad.server.repo.CustomRepo;
 @RestController
 public class CreativeResource {
 
-	@Autowired
-	private AccountRepo accountRepo;
-	
-	@Autowired
-	private AdvertiserRepo advRepo;	
-	
-	@Autowired
-	private CampaignRepo campaignRepo;	
+  @Autowired
+  private AccountRepo accountRepo;
 
-	@Autowired
-	private CreativeRepo creativeRepo;
+  @Autowired
+  private AdvertiserRepo advRepo;
 
-	@Autowired
-	private CustomRepo customRepo;
-	
-	@GetMapping("/accounts")
-	public List<Account> getActiveAccounts(@RequestParam("status") Integer statusId) {
-		Status statusObj = new Status();
-		statusObj.setStatusId(statusId);
-	    return accountRepo.findAccountsByStatus(statusObj);
-	}
-	
-	@GetMapping("/advertisers")
-	public List<Advertiser> getActiveAdvertisers(@RequestParam("accountId") Integer accountId) {
-	    return advRepo.findActiveAdvertiserForAccount(accountId);
-	}
-	
-	@GetMapping("/campaigns")
-	public List<Campaign> getActiveCampaigns(@RequestParam("advertiserId") Integer advertiserId) {
-	    return campaignRepo.findActiveCampaignsForAdvertiser(advertiserId);
-	}
-	
-	@GetMapping("/creatives")
-	public List<Creative> getActiveCreatives(@RequestParam("campaignId") Integer campaignId) {
-	    return creativeRepo.findActiveCreativesForCampaigns(campaignId);
-	}
-	
-	@GetMapping("/eligibleCreatives")
-	public List<Creative> getAll() {
-	    return creativeRepo.findAllMatchingCreativesList();
-	}
-	
-	@GetMapping("/creativeTags")
-	public List<Integer> getAllActiveCreativeTags(@RequestParam("advId") Integer advId) {
-	    return customRepo.findActiveCreativeTagsByAdv(advId);
-	}	
+  @Autowired
+  private CampaignRepo campaignRepo;
+
+  @Autowired
+  private CreativeRepo creativeRepo;
+
+  @Autowired
+  private CustomRepo customRepo;
+
+  @GetMapping("/accounts")
+  public List<Account> getActiveAccounts(@RequestParam("status") Integer statusId) {
+    Status statusObj = new Status();
+    statusObj.setStatusId(statusId);
+    return accountRepo.findAccountsByStatus(statusObj);
+  }
+
+  @GetMapping("/advertisers")
+  public List<Advertiser> getActiveAdvertisers(@RequestParam("accountId") Integer accountId) {
+    return advRepo.findActiveAdvertiserForAccount(accountId);
+  }
+
+  @GetMapping("/campaigns")
+  public List<Campaign> getActiveCampaigns(@RequestParam("advertiserId") Integer advertiserId) {
+    return campaignRepo.findActiveCampaignsForAdvertiser(advertiserId);
+  }
+
+  @GetMapping("/creatives")
+  public List<Creative> getActiveCreatives(@RequestParam("campaignId") Integer campaignId) {
+    return creativeRepo.findActiveCreativesForCampaigns(campaignId);
+  }
+
+  @GetMapping("/eligibleCreatives")
+  public List<Creative> getAll() {
+    return creativeRepo.findAllMatchingCreativesList();
+  }
+
+  @GetMapping("/creativeTags")
+  public List<Integer> getAllActiveCreativeTags(@RequestParam("advId") Integer advId) {
+    return customRepo.findActiveCreativeTagsByAdv(advId);
+  }
 }

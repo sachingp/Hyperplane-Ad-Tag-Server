@@ -1,12 +1,11 @@
 package com.ad.util;
 
-import java.io.File;
-
 import lombok.extern.slf4j.Slf4j;
-
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import java.io.File;
 
 @Ignore
 public class AsyncLoggerTest {
@@ -35,6 +34,7 @@ public class AsyncLoggerTest {
 
   @Slf4j(topic = "MINUTE_LOGGER")
   private static class AsyncLogTestUtil {
+
     private void log() {
       log.error("LOGGING ASYNC");
     }
@@ -42,6 +42,7 @@ public class AsyncLoggerTest {
 
   @Slf4j
   private static class DefaultLogTestUtil {
+
     private void log() {
       log.error("LOGGING Default");
     }

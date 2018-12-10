@@ -2,8 +2,8 @@ package com.ad.server;
 
 import com.ad.server.cache.AdServerCache;
 import com.ad.server.handlers.AdHandler;
-import com.ad.server.handlers.RequestHandler;
 import com.ad.server.handlers.EventHandler;
+import com.ad.server.handlers.RequestHandler;
 import com.ad.util.PropertiesUtil;
 import com.ad.util.client.AdServerRedisClient;
 import com.ad.util.constants.AdServerConstants.GENERAL;
@@ -23,6 +23,15 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class AdServerVertx extends AbstractVerticle {
+
+  /**
+   * Start the Vertx server.
+   */
+
+  public static void main(String[] args) {
+    Vertx vertx = Vertx.vertx();
+    vertx.deployVerticle(new AdServerVertx());
+  }
 
   @Override
   public void start() {
@@ -60,15 +69,6 @@ public class AdServerVertx extends AbstractVerticle {
 
   private void handlePixelRequest(final RoutingContext routingContext) {
 
-  }
-
-  /**
-   * Start the Vertx server.
-   */
-
-  public static void main(String[] args) {
-    Vertx vertx = Vertx.vertx();
-    vertx.deployVerticle(new AdServerVertx());
   }
 
 }

@@ -1,20 +1,19 @@
 package com.ad.server.repo;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.ad.server.Cache;
+import com.ad.server.Cacheable;
+import com.ad.server.pojo.Campaign;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
 
-import com.ad.server.Cache;
-import com.ad.server.Cacheable;
-import com.ad.server.pojo.Campaign;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-@SuppressWarnings({ "rawtypes" })
+@SuppressWarnings({"rawtypes"})
 @RepositoryRestResource(collectionResourceRel = "campaigns", path = "campaigns")
 @Repository("campaignRepo")
 public interface CampaignRepo extends JpaRepository<Campaign, Integer>, Cache {
@@ -25,11 +24,12 @@ public interface CampaignRepo extends JpaRepository<Campaign, Integer>, Cache {
     return CampaignRepo.class;
   }
 
-  @Query( "SELECT c FROM Campaign c INNER JOIN c.advertiser ad WHERE c.status = 1 AND ad.id = ?1")
+  @Query("SELECT c FROM Campaign c INNER JOIN c.advertiser ad WHERE c.status = 1 AND ad.id = ?1")
   public List<Campaign> findActiveCampaignsForAdvertiser(Integer advertiserId);
 
-  @Cacheable(name = ADVERTISER_CAMPAIGN, whole = true, key={"advertiserId"}, keyType = Integer.class, custom = "prepareByAdvertiser")
-  @Query( "SELECT c FROM Campaign c INNER JOIN c.advertiser ad WHERE c.status = 1")
+  @Cacheable(name = ADVERTISER_CAMPAIGN, whole = true, key = {
+      "advertiserId"}, keyType = Integer.class, custom = "prepareByAdvertiser")
+  @Query("SELECT c FROM Campaign c INNER JOIN c.advertiser ad WHERE c.status = 1")
   public List<Campaign> findActiveCampaigns();
 
   default Map<Integer, List<Campaign>> prepareByAdvertiser(final List<Campaign> campaigns) {

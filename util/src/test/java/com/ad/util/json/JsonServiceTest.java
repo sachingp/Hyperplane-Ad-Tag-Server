@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
 import org.junit.Test;
 
 public class JsonServiceTest {
@@ -20,6 +19,7 @@ public class JsonServiceTest {
   @AllArgsConstructor
   @Data
   private static class Sample4Json {
+
     private String id;
     private String name;
   }

@@ -20,7 +20,7 @@ import com.ad.util.client.AdServerRedisClient;
 /**
  * @author sagupta
  */
-@SuppressWarnings({ "unchecked", "rawtypes" })
+@SuppressWarnings({"unchecked", "rawtypes"})
 @Slf4j
 public class CacheService {
 
@@ -80,28 +80,24 @@ public class CacheService {
   public static enum CacheType {
 
     ACTIVE_ACCOUNT("active-account") {
-
       public void load() throws CacheException {
         final Map<String, Account> accounts = read(ACTIVE_ACCOUNT, Map.class);
       }
 
     },
     ACCOUNT_ADVERTISER("account-advertiser") {
-
       public void load() throws CacheException {
         final Map<Integer, List<Advertiser>> advertisers = read(ACCOUNT_ADVERTISER, Map.class);
       }
 
     },
     ADVERTISER_CAMPAIGN("advertiser-campaign") {
-
       public void load() throws CacheException {
         final Map<Integer, List<Campaign>> campaigns = read(ADVERTISER_CAMPAIGN, Map.class);
       }
 
     },
     CAMPAIGN_CREATIVE("campaign-creative") {
-
       public void load() throws CacheException {
         final Map<Integer, List<Creative>> creatives = read(CAMPAIGN_CREATIVE, Map.class);
       }
@@ -113,8 +109,6 @@ public class CacheService {
     private CacheType(final String name) {
       this.name = name;
     }
-
-    abstract void load() throws CacheException;
 
     private static <T> T read(final CacheType cache, final Class<T> type) throws CacheException {
       final String name = cache.name;
@@ -135,7 +129,8 @@ public class CacheService {
         int i = 0;
         byte[] wholeBytes = new byte[0];
         while (i < parts) {
-          final byte[] record = client.get(combine(getBytes(key), partIndexKeyBytes, new byte[]{(byte) i}));
+          final byte[] record = client
+              .get(combine(getBytes(key), partIndexKeyBytes, new byte[]{(byte) i}));
           log.debug("Fetching part data for: {}", key + new String(partIndexKeyBytes) + i);
           wholeBytes = combine(wholeBytes, record);
           i++;
@@ -146,6 +141,8 @@ public class CacheService {
         throw new CacheException(e.getMessage(), e);
       }
     }
+
+    abstract void load() throws CacheException;
 
   }
 

@@ -1,4 +1,4 @@
-package com.ad.services.cache.buider;
+package com.ad.services.cache.builder;
 
 import static com.ad.util.ObjectUtil.getBytes;
 import static com.ad.util.ObjectUtil.readObject;

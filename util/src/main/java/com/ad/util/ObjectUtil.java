@@ -1,5 +1,8 @@
 package com.ad.util;
 
+import com.ad.util.exception.AdServicesSerializationException;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -7,11 +10,7 @@ import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import lombok.extern.slf4j.Slf4j;
-
-import com.ad.util.exception.AdServicesSerializationException;
-
-@SuppressWarnings({ "unchecked" })
+@SuppressWarnings({"unchecked"})
 @Slf4j
 public class ObjectUtil {
 

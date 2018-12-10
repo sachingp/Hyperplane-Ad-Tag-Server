@@ -21,22 +21,23 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserResource {
 
-	@Autowired
-	private UserRepo userRepo;
-	
-	@PostMapping("/users")
-	public User create(@Valid @RequestBody User user) {
-		log.debug("Trying to save the user object :: {}", user);
-	    return userRepo.save(user);
-	}
-	
-	@GetMapping("/users")
-	public List<User> getAll() {
-	    return userRepo.findAll();
-	}
-	
-	@GetMapping("/users/{id}")
-	public User getById(@PathVariable(value = "id") Integer userId) {
-	    return userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("Note", "id", userId));
-	}
+  @Autowired
+  private UserRepo userRepo;
+
+  @PostMapping("/users")
+  public User create(@Valid @RequestBody User user) {
+    log.debug("Trying to save the user object :: {}", user);
+    return userRepo.save(user);
+  }
+
+  @GetMapping("/users")
+  public List<User> getAll() {
+    return userRepo.findAll();
+  }
+
+  @GetMapping("/users/{id}")
+  public User getById(@PathVariable(value = "id") Integer userId) {
+    return userRepo.findById(userId)
+        .orElseThrow(() -> new ResourceNotFoundException("Note", "id", userId));
+  }
 }

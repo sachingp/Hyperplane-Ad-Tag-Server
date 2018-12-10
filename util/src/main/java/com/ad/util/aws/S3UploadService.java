@@ -1,12 +1,11 @@
 package com.ad.util.aws;
 
-import java.io.File;
-
-import lombok.extern.slf4j.Slf4j;
-
 import com.ad.util.aws.exception.S3UploadException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectResult;
+import lombok.extern.slf4j.Slf4j;
+
+import java.io.File;
 
 @Slf4j
 public class S3UploadService {
@@ -17,7 +16,8 @@ public class S3UploadService {
     this.client = client;
   }
 
-  public String uploadFile(final String filePath, final String name, final String bucket, final String uploadPath)
+  public String uploadFile(final String filePath, final String name, final String bucket,
+      final String uploadPath)
       throws S3UploadException {
     if ((filePath == null || filePath.trim().isEmpty())
         || (name == null || name.trim().isEmpty())

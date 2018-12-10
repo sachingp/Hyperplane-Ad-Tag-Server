@@ -1,32 +1,29 @@
 package com.ad.server.pojo;
 
-import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table (name = "account_type")
+@Table(name = "account_type")
 public class AccountType implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column (name="account_type_id")
-    private Integer accountTypeId;
+  @Id
+  @Column(name = "account_type_id")
+  private Integer accountTypeId;
 
-    @Column (name="account_type_label")
-    private String accountTypeLabel;
+  @Column(name = "account_type_label")
+  private String accountTypeLabel;
 
 }

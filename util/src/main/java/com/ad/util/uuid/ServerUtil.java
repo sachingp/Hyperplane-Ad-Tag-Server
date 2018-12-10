@@ -54,16 +54,6 @@ public class ServerUtil {
     }
   }
 
-
-  /**
-   * @return generate UUID.
-   */
-  public String generateGuid() {
-    UUID uuid = UUID.randomUUID();
-    return uuid.toString();
-
-  }
-
   /**
    * @return 32 bit unique key
    */
@@ -131,6 +121,15 @@ public class ServerUtil {
             + RandomStringUtils
             .randomAlphanumeric(15);
     return _key;
+
+  }
+
+  /**
+   * @return generate UUID.
+   */
+  public String generateGuid() {
+    UUID uuid = UUID.randomUUID();
+    return uuid.toString();
 
   }
 }

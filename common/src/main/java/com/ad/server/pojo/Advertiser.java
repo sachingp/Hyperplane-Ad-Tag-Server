@@ -1,7 +1,10 @@
 package com.ad.server.pojo;
 
-import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,52 +14,48 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table (name = "advertiser")
+@Table(name = "advertiser")
 public class Advertiser implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)     
-    @Column (name="advertiser_id")
-    private Integer advertiserId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "advertiser_id")
+  private Integer advertiserId;
 
-    @ManyToOne
-    @JoinColumn (name="account_id")
-    private Account account;
+  @ManyToOne
+  @JoinColumn(name = "account_id")
+  private Account account;
 
-    @Column (name="advertiser_name")
-    private String advertiserName;
+  @Column(name = "advertiser_name")
+  private String advertiserName;
 
-    @Column (name="advertiser_email")
-    private String advertiserEmail;
+  @Column(name = "advertiser_email")
+  private String advertiserEmail;
 
-    @Column (name="advertiser_website")
-    private String advertiserWebsite;
+  @Column(name = "advertiser_website")
+  private String advertiserWebsite;
 
-    @ManyToOne
-    @JoinColumn (name="address_id")
-    private Address address;
+  @ManyToOne
+  @JoinColumn(name = "address_id")
+  private Address address;
 
-    @Column (name="logo_url")
-    private String logoUrl;
+  @Column(name = "logo_url")
+  private String logoUrl;
 
-    @Column (name="time_zone_id")
-    private Short timeZoneId;
+  @Column(name = "time_zone_id")
+  private Short timeZoneId;
 
-    @Column (name="currency_id")
-    private Short currencyId;
+  @Column(name = "currency_id")
+  private Short currencyId;
 
-    @ManyToOne
-    @JoinColumn (name="status_id")
-    private Status status;
+  @ManyToOne
+  @JoinColumn(name = "status_id")
+  private Status status;
 
 }

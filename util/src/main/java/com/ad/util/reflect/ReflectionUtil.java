@@ -1,5 +1,7 @@
 package com.ad.util.reflect;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -7,8 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SuppressWarnings({"rawtypes", "unchecked"})

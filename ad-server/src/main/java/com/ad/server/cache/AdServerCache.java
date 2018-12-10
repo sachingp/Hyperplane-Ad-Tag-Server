@@ -16,18 +16,16 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class AdServerCache {
 
-  private final ScheduledExecutorService executorService;
-  private final int INITIAL_DELAY = 0;
-  private final int SCHEDULE_TIME_PERIOD = 120; // 2 Min
   private static volatile AdServerCache adServerCache = null;
-  // TODO - This can me moved to Offheap Cache - MapDB
-
-
   public final CreativeCountryCache creativeCountryCache;
   public final ActiveTagsCache allActiveTagCache;
   public final TagCreativeCache tagCreativeMapCache;
+  // TODO - This can me moved to Offheap Cache - MapDB
   public final TagPartnerCache tagPartnerMapCache;
   public final PartnerMacrosCache partnerMacrosCache;
+  private final ScheduledExecutorService executorService;
+  private final int INITIAL_DELAY = 0;
+  private final int SCHEDULE_TIME_PERIOD = 120; // 2 Min
 
 
   private AdServerCache() {
@@ -80,7 +78,7 @@ public class AdServerCache {
       partnerMacrosCache.build();
 
     } catch (Exception e) {
-      log.error("Error in updating cache :: {} ", e);
+      log.error("Error in updating cache ::", e);
     }
   }
 
