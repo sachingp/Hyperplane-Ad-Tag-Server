@@ -22,8 +22,6 @@ public class RedisCacheBuilder<T> extends AbstractCacheBuilder<T> {
 
   private final byte[] partKeyBytes = "-parts".getBytes();
   private final byte[] partIndexKeyBytes = "-part-".getBytes();
-  @org.springframework.beans.factory.annotation.Value("${cache.namespace}")
-  private String namespace;
   @org.springframework.beans.factory.annotation.Value("${cache.packet.size.in.bytes}")
   private int packetSize;
   private final AdServerRedisClient client;
@@ -71,8 +69,9 @@ public class RedisCacheBuilder<T> extends AbstractCacheBuilder<T> {
       } else {
         log.info("Cache size within packet size for: {} with size: {}", name, length);
         client.put(getBytes(keyValue), bytes, 15 * 60);
+        log.info("Write completed for cache: {}", name);
       }
-    } catch (Exception e) {
+    } catch (final Exception e) {
       log.error(e.getMessage(), e);
       throw new AdServicesException(e.getMessage(), e);
     }
@@ -86,7 +85,9 @@ public class RedisCacheBuilder<T> extends AbstractCacheBuilder<T> {
         log.error("Key is null for {}", name);
         return null;
       }
+      log.debug("Fetching data from Redis client for: {}", name);
       final byte[] partRecord = client.get(combine(getBytes(keyValue), partKeyBytes));
+      log.debug("Fetched data from Redis client for: {} of size: {}", name, partRecord == null ? -1 : partRecord.length);
       if (partRecord == null) {
         log.debug("Parting record not available. Fetching full data for: {}", keyValue);
         final byte[] record = client.get(getBytes(keyValue));

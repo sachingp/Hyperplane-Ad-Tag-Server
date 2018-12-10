@@ -21,7 +21,7 @@ public interface AccountRepo extends JpaRepository<Account, Integer>, Cache {
     return AccountRepo.class;
   }
 
-  @Cacheable(name = ACTIVE_ACCOUNTS, whole = true, key={"account_id"}, keyType = Integer.class, valueType = Account.class)
+  @Cacheable(name = ACTIVE_ACCOUNTS, whole = true, key={"accountGuid"}, keyType = String.class, valueType = Account.class)
   @Query( "SELECT a FROM Account a WHERE a.status = 1 ")
   public List<Account> findActiveAccounts();
 
