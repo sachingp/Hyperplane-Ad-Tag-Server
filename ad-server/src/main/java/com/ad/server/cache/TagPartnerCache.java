@@ -1,12 +1,13 @@
 package com.ad.server.cache;
 
 import com.ad.server.context.AdContext;
+import com.ad.server.mapdb.MapDbSystem;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -21,10 +22,10 @@ public class TagPartnerCache extends AbstractCache {
 
   public static final String CACHE_KEY = "TAG_PARTNER_CACHE_KEY";
 
-  public final Map<String, Map<String, Integer>> tagPartnerCache;
+  public final ConcurrentMap tagPartnerCache;
 
   public TagPartnerCache() {
-    tagPartnerCache = new ConcurrentHashMap<>();
+    tagPartnerCache = MapDbSystem.getInstance().getDb().hashMap("map").createOrOpen();
     version = new AtomicInteger(101015);
   }
 

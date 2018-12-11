@@ -5,6 +5,7 @@ import com.ad.server.handlers.AdHandler;
 import com.ad.server.handlers.ClickHandler;
 import com.ad.server.handlers.EventHandler;
 import com.ad.server.handlers.RequestHandler;
+import com.ad.server.mapdb.MapDbSystem;
 import com.ad.util.PropertiesUtil;
 import com.ad.util.client.AdServerRedisClient;
 import com.ad.util.constants.AdServerConstants.GENERAL;
@@ -45,6 +46,7 @@ public class AdServerVertx extends AbstractVerticle {
     }
     AdServerRedisClient.getInstance();
     AdServerCache.getInstance();
+    MapDbSystem.getInstance();
 
     Router router = Router.router(vertx);
     router.route().handler(BodyHandler.create());
