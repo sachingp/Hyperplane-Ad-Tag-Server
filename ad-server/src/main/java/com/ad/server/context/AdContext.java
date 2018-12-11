@@ -16,7 +16,7 @@ public class AdContext {
   List<String> segments;
   Map<String, String> params;
   String sessionId;
-  int creativeId;
+  int creativeId = 0;
   int partnerId;
   int eventId;
   String cookieId;

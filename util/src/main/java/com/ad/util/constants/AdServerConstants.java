@@ -65,6 +65,10 @@ public class AdServerConstants {
 
     final String PARTNER_MACROS_CACHE_KEY = "PARTNER_MACROS_CACHE_KEY";
 
+    final String EXCLUSION = "Exclusion";
+
+    final String INCLUSION = "Inclusion";
+
   }
 
   public interface DEVICE_ID_TYPE {

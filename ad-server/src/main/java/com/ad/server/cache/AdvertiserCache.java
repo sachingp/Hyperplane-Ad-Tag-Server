@@ -1,7 +1,7 @@
 package com.ad.server.cache;
 
 import com.ad.server.context.AdContext;
-import lombok.Data;
+import com.ad.server.pojo.Advertiser;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -14,29 +14,28 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 
 @Slf4j
-@Data
-public class TagPartnerCache extends AbstractCache {
+public class AdvertiserCache extends AbstractCache {
 
   public final AtomicInteger version;
 
-  public static final String CACHE_KEY = "TAG_PARTNER_CACHE_KEY";
+  public static final String CACHE_KEY = "ADVERTISER_CACHE_KEY";
 
-  public final Map<String, Map<String, Integer>> tagPartnerCache;
+  public final Map<String, Map<Integer, List<Advertiser>>> advertiserCache;
 
-  public TagPartnerCache() {
-    tagPartnerCache = new ConcurrentHashMap<>();
-    version = new AtomicInteger(101015);
+  public AdvertiserCache() {
+    advertiserCache = new ConcurrentHashMap<>();
+    version = new AtomicInteger(10102);
   }
 
   @Override
   public <T> void build(final T cache) {
 
     List<String> keys = getKeys(CACHE_KEY, version);
-    Map<String, Integer> data = getCache(cache, Map.class);
+    Map<Integer, List<Advertiser>> data = getCache(cache, Map.class);
     if (data != null && !data.isEmpty()) {
-      tagPartnerCache.put(keys.get(1), data);
+      advertiserCache.put(keys.get(1), data);
       version.incrementAndGet();
-      tagPartnerCache.remove(keys.get(0));
+      advertiserCache.remove(keys.get(0));
 
     }
   }
@@ -48,7 +47,6 @@ public class TagPartnerCache extends AbstractCache {
 
   @Override
   public <T> T getCache(Class<T> type) {
-    return (T) this.tagPartnerCache.get(getKey(CACHE_KEY, version));
+    return (T) this.advertiserCache.get(getKey(CACHE_KEY, version));
   }
-
 }
