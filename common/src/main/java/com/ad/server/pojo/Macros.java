@@ -21,6 +21,12 @@ public class Macros implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  public Macros(final Integer partnerId, final String macroName, final String macroValue) {
+    this.partnerId = partnerId;
+    this.macroName = macroName;
+    this.macroValue = macroValue;
+  }
+
   @Id
   @Column(name = "macros_id")
   private Integer macrosId;
@@ -46,5 +52,7 @@ public class Macros implements Serializable {
   @ManyToOne
   @JoinColumn(name = "status_id")
   private Status status;
+
+  public Integer partnerId;
 
 }
