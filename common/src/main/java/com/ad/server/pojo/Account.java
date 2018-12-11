@@ -26,6 +26,11 @@ public class Account implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  public Account(final String guid, final Integer id) {
+    accountGuid = guid;
+    accountId = id;
+  }
+
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "account_id")

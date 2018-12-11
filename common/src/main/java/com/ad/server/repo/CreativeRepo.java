@@ -1,17 +1,19 @@
 package com.ad.server.repo;
 
-import com.ad.server.Cache;
-import com.ad.server.Cacheable;
-import com.ad.server.pojo.Creative;
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.ad.server.Cache;
+import com.ad.server.Cacheable;
+import com.ad.server.pojo.Creative;
 
 @SuppressWarnings({"rawtypes"})
 @RepositoryRestResource(collectionResourceRel = "creatives", path = "creatives")
@@ -19,6 +21,7 @@ import java.util.Map;
 public interface CreativeRepo extends JpaRepository<Creative, Integer>, Cache {
 
   String CAMPAIGN_CREATIVE = "campaign-creative";
+  String ACCOUNT_CREATIVE = "guid-creative";
 
   default Class getType() {
     return CreativeRepo.class;
@@ -46,6 +49,13 @@ public interface CreativeRepo extends JpaRepository<Creative, Integer>, Cache {
   @Query("SELECT cr FROM Creative cr INNER JOIN cr.campaign c WHERE cr.status = 1")
   public List<Creative> findActiveCreatives();
 
+  @Cacheable(name = ACCOUNT_CREATIVE, whole = true, key = {
+      "accountGuid"}, value={"creativeId"}, keyType = String.class, custom = "prepareByAccount")
+  @Query("SELECT new Creative(ac.accountGuid, cr.creativeId) FROM Creative cr"
+      + " INNER JOIN cr.campaign c INNER JOIN c.advertiser ad INNER JOIN ad.account ac"
+      + " WHERE cr.status = 1 AND c.status = 1 AND ad.status = 1 AND ac.status = 1")
+  public List<Creative> findActiveAccountCreatives();
+
   default Map<Integer, List<Creative>> prepareByCampaign(final List<Creative> creatives) {
     if (creatives == null || creatives.isEmpty()) {
       return null;
@@ -61,6 +71,25 @@ public interface CreativeRepo extends JpaRepository<Creative, Integer>, Cache {
         map.put(campaignId, byCampaign);
       }
       byCampaign.add(creative);
+    });
+    return map;
+  }
+
+  default Map<String, BitSet> prepareByAccount(final List<Creative> creatives) {
+    if (creatives == null || creatives.isEmpty()) {
+      return null;
+    }
+    final Map<String, BitSet> map = new HashMap<>();
+    creatives.forEach(creative -> {
+      final BitSet byAccount;
+      final String accountGuid = creative.getAccountGuid();
+      if (map.containsKey(accountGuid)) {
+        byAccount = map.get(accountGuid);
+      } else {
+        byAccount = new BitSet();
+        map.put(accountGuid, byAccount);
+      }
+      byAccount.set(creative.getCreativeId());
     });
     return map;
   }

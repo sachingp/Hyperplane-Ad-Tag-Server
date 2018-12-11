@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,6 +24,11 @@ public class AdPartner implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  public AdPartner(final String guid, final Integer partnerId) {
+    this.accountGuid = guid;
+    this.adPartnerId = partnerId;
+  }
+
   @Id
   @Column(name = "ad_partner_id")
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,8 +37,9 @@ public class AdPartner implements Serializable {
   @Column(name = "name")
   private String name;
 
-  @Column(name = "address_id")
-  private Integer addressId;
+  @ManyToOne
+  @JoinColumn(name = "address_id")
+  private Address address;
 
   @Column(name = "email")
   private String email;
@@ -44,5 +51,7 @@ public class AdPartner implements Serializable {
   @ManyToOne
   @JoinColumn(name = "status_id")
   private Status status;
+
+  private String accountGuid;
 
 }

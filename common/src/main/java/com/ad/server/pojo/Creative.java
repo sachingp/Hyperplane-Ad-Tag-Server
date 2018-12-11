@@ -23,6 +23,11 @@ public class Creative implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  public Creative(final String guid, final Integer id) {
+    this.accountGuid = guid;
+    this.creativeId = id;
+  }
+
   @Id
   @Column(name = "creative_id")
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -51,4 +56,5 @@ public class Creative implements Serializable {
   @JoinColumn(name = "status_id")
   private Status status;
 
+  private String accountGuid;
 }
