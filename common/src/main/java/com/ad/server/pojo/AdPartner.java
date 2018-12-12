@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Data
 @AllArgsConstructor
@@ -52,6 +53,7 @@ public class AdPartner implements Serializable {
   @JoinColumn(name = "status_id")
   private Status status;
 
+  @Transient
   private String accountGuid;
 
 }

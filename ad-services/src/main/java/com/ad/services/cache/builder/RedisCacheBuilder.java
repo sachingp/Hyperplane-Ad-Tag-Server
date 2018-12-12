@@ -54,7 +54,7 @@ public class RedisCacheBuilder<T> extends AbstractCacheBuilder<T> {
           end += packetSize;
           log.debug("Writing to part cache: {} with key: {}", name,
               String.valueOf(keyValue) + new String(partIndexKeyBytes) + i);
-          client.put(combine(getBytes(keyValue), partIndexKeyBytes, new byte[]{(byte) i}), partBytes, 15 * 60);
+          client.put(combine(getBytes(keyValue), partIndexKeyBytes, new byte[]{(byte) i}), partBytes, 24 * 60 * 60);
           i++;
         }
         final byte[] remainderBytes = new byte[length - start];
@@ -62,13 +62,13 @@ public class RedisCacheBuilder<T> extends AbstractCacheBuilder<T> {
         System.arraycopy(bytes, start, remainderBytes, 0, length - start);
         log.debug("Writing to part cache: {} with key: {}", name,
             String.valueOf(keyValue) + new String(partIndexKeyBytes) + i);
-        client.put(combine(getBytes(keyValue), partIndexKeyBytes, new byte[]{(byte) i}), remainderBytes, 15 * 60);
+        client.put(combine(getBytes(keyValue), partIndexKeyBytes, new byte[]{(byte) i}), remainderBytes, 24 * 60 * 60);
         log.debug("Writing to part cache-key: {} with key: {}", name,
             String.valueOf(keyValue) + new String(partKeyBytes));
-        client.put(combine(getBytes(keyValue), partKeyBytes), getBytes(parts + 1), 15 * 60);
+        client.put(combine(getBytes(keyValue), partKeyBytes), getBytes(parts + 1), 24 * 60 * 60);
       } else {
         log.info("Cache size within packet size for: {} with size: {}", name, length);
-        client.put(getBytes(keyValue), bytes, 15 * 60);
+        client.put(getBytes(keyValue), bytes, 24 * 60 * 60);
         log.info("Write completed for cache: {}", name);
       }
     } catch (final Exception e) {
