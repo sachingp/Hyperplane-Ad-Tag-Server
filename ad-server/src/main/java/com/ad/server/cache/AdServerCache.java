@@ -61,7 +61,7 @@ public class AdServerCache {
     executorService.scheduleAtFixedRate(new CacheScheduler(this),
         INITIAL_DELAY, SCHEDULE_TIME_PERIOD, TimeUnit.SECONDS);
     log.info("Ad Server Cache Initialized :: {} ", client);
-
+    update();
   }
 
   public static AdServerCache getInstance() {
