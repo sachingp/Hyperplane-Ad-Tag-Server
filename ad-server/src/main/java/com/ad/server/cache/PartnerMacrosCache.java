@@ -1,12 +1,13 @@
 package com.ad.server.cache;
 
 import com.ad.server.context.AdContext;
+import com.ad.server.mapdb.MapDbSystem;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -22,10 +23,10 @@ public class PartnerMacrosCache extends AbstractCache {
 
   public static final String CACHE_KEY = "CREATIVE_CACHE_KEY";
 
-  public final Map<String, Map<Integer, Map<String, String>>> partnerMacrosCache;
+  public final ConcurrentMap partnerMacrosCache;
 
   public PartnerMacrosCache() {
-    partnerMacrosCache = new ConcurrentHashMap<>();
+    partnerMacrosCache = MapDbSystem.getInstance().getDb().hashMap("map").createOrOpen();
     version = new AtomicInteger(101021);
   }
 

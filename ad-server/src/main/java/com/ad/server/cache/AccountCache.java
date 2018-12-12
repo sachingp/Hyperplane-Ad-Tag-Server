@@ -1,13 +1,14 @@
 package com.ad.server.cache;
 
 import com.ad.server.context.AdContext;
+import com.ad.server.mapdb.MapDbSystem;
 import com.ad.server.pojo.Account;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -23,10 +24,10 @@ public class AccountCache extends AbstractCache {
   public static final String CACHE_KEY = "ACCOUNT_CACHE_KEY";
 
 
-  public final Map<String, Map<String, Account>> accountCache;
+  public final ConcurrentMap accountCache;
 
   public AccountCache() {
-    accountCache = new ConcurrentHashMap<>();
+    accountCache = MapDbSystem.getInstance().getDb().hashMap("map").createOrOpen();
     version = new AtomicInteger(10101);
   }
 

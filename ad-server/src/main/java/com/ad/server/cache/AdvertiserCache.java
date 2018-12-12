@@ -1,12 +1,13 @@
 package com.ad.server.cache;
 
 import com.ad.server.context.AdContext;
+import com.ad.server.mapdb.MapDbSystem;
 import com.ad.server.pojo.Advertiser;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -20,10 +21,10 @@ public class AdvertiserCache extends AbstractCache {
 
   public static final String CACHE_KEY = "ADVERTISER_CACHE_KEY";
 
-  public final Map<String, Map<Integer, List<Advertiser>>> advertiserCache;
+  public final ConcurrentMap advertiserCache;
 
   public AdvertiserCache() {
-    advertiserCache = new ConcurrentHashMap<>();
+    advertiserCache = MapDbSystem.getInstance().getDb().hashMap("map").createOrOpen();
     version = new AtomicInteger(10102);
   }
 

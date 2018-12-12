@@ -2,6 +2,7 @@ package com.ad.server.cache;
 
 
 import com.ad.server.context.AdContext;
+import com.ad.server.mapdb.MapDbSystem;
 import com.ad.util.constants.AdServerConstants.CACHE;
 import com.google.common.base.Strings;
 import lombok.Data;
@@ -9,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -25,10 +26,10 @@ public class CreativeCountryCache extends AbstractCache {
 
   private static final String CACHE_KEY = "CREATIVE_COUNTRY_CACHE_KEY";
 
-  public final Map<String, Map<Integer, Map<String, List<String>>>> creativeCountryCache;
+  public final ConcurrentMap creativeCountryCache;
 
   public CreativeCountryCache() {
-    creativeCountryCache = new ConcurrentHashMap<>();
+    creativeCountryCache = MapDbSystem.getInstance().getDb().hashMap("map").createOrOpen();
     version = new AtomicInteger(10106);
   }
 
@@ -50,31 +51,34 @@ public class CreativeCountryCache extends AbstractCache {
 
     if (adContext.getCreativeId() > 0) {
 
-      Map<String, List<String>> cache = this.creativeCountryCache.get(getKey(CACHE_KEY, version))
-          .get(adContext.getCreativeId());
-      if (cache != null) {
-        List<String> countryInclusions = cache.get(CACHE.INCLUSION);
+      Map<Integer, Map<String, List<String>>> cacheData = (Map<Integer, Map<String, List<String>>>) this.creativeCountryCache
+          .get(getKey(CACHE_KEY, version));
+      if (cacheData != null && !cacheData.isEmpty()) {
+        Map<String, List<String>> cache = cacheData.get(adContext.getCreativeId());
+        if (cache != null) {
+          List<String> countryInclusions = cache.get(CACHE.INCLUSION);
 
-        List<String> countryExclusions = cache.get(CACHE.EXCLUSION);
+          List<String> countryExclusions = cache.get(CACHE.EXCLUSION);
 
-        log.info("Countries Cache :: country inclucions :: {}  , country exclusions :: {} ",
-            countryInclusions, countryExclusions);
+          log.info("Countries Cache :: country inclucions :: {}  , country exclusions :: {} ",
+              countryInclusions, countryExclusions);
 
-        if (countryInclusions == null || countryInclusions.isEmpty()) {
-          if (countryExclusions == null || countryExclusions.isEmpty()) {
-            return true;
-          } else if (countryExclusions.contains(!Strings
-              .isNullOrEmpty(adContext.getCountry()))) {
-            return false;
-          } else {
-            return true;
+          if (countryInclusions == null || countryInclusions.isEmpty()) {
+            if (countryExclusions == null || countryExclusions.isEmpty()) {
+              return true;
+            } else if (countryExclusions.contains(!Strings
+                .isNullOrEmpty(adContext.getCountry()))) {
+              return false;
+            } else {
+              return true;
+            }
           }
-        }
 
-        if (!countryInclusions.isEmpty() && !Strings
-            .isNullOrEmpty(adContext.getCountry())) {
-          if (countryInclusions.contains(adContext.getCountry())) {
-            return true;
+          if (!countryInclusions.isEmpty() && !Strings
+              .isNullOrEmpty(adContext.getCountry())) {
+            if (countryInclusions.contains(adContext.getCountry())) {
+              return true;
+            }
           }
         }
       }
