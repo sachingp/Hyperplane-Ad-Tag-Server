@@ -24,7 +24,7 @@ public interface MacrosRepo extends JpaRepository<Macros, Integer>, Cache {
 
   @Cacheable(name = PARTNER_MACRO, whole = true, key = {
       "adPartnerId"}, keyType = Integer.class, custom = "prepareByPartner")
-  @Query("SELECT new Macros(m.partnerId, m.macroName, m.macroValue) FROM Macros m INNER JOIN m.partner p"
+  @Query("SELECT new Macros(p.adPartnerId, m.macroName, m.macroValue) FROM Macros m INNER JOIN m.partner p"
       + " WHERE p.status = 1 AND m.status = 1")
   public List<Macros> findActiveMacros();
 
