@@ -30,6 +30,11 @@ public class Creative implements Serializable {
     this.creativeId = id;
   }
 
+  public Creative(final Integer id, final String byGeo) {
+    this.creativeId = id;
+    this.byGeo = byGeo;
+  }
+
   @Id
   @Column(name = "creative_id")
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -60,4 +65,8 @@ public class Creative implements Serializable {
 
   @Transient
   private String accountGuid;
+
+  @Transient
+  private String byGeo;
+
 }
