@@ -64,18 +64,20 @@ public class EventHandler extends AbstractRequestHandler {
           setCookie(cookie);
           this.routingContext.response().setStatusCode(200).end();
 
-
         } else {
           log.error("Unknown Event::");
+          sendError(204, routingContext.response());
         }
 
       } catch (Exception e) {
         log.error("Error while converting the event id to integer");
+        sendError(204, routingContext.response());
       }
 
 
     } else {
       log.error("No tag guid or event Id or session Id passed ::");
+      sendError(204, routingContext.response());
     }
   }
 }
