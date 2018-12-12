@@ -19,7 +19,7 @@ import com.ad.server.pojo.AdPartner;
 @Repository("adPartnerRepo")
 public interface AdPartnerRepo extends JpaRepository<AdPartner, Integer>, Cache {
 
-  String ACCOUNT_PARTNER = "guid-partner";
+  String ACCOUNT_PARTNER = "tag-partner";
 
   default Class getType() {
     return AdPartner.class;

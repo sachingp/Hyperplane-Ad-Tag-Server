@@ -5,12 +5,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Data
 @AllArgsConstructor
@@ -20,6 +24,11 @@ import javax.persistence.Table;
 public class CreativeTag implements Serializable {
 
   private static final long serialVersionUID = 1L;
+
+  public CreativeTag(final String guid, final Integer creativeId) {
+    this.tagGuid = guid;
+    this.creativeId = creativeId;
+  }
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,13 +41,17 @@ public class CreativeTag implements Serializable {
   @Column(name = "tag_type_id")
   private Integer tagTypeId;
 
-  @Column(name = "creative_id")
-  private Integer creativeId;
+  @ManyToOne
+  @JoinColumn(name = "creative_id")
+  private Creative creative;
 
   @Column(name = "tag_guid")
   private String tagGuid;
 
   @Column(name = "creative_markup_url")
   private String creativeMarkupUrl;
+
+  @Transient
+  private Integer creativeId;
 
 }

@@ -16,7 +16,7 @@ import com.ad.server.pojo.Macros;
 @Repository("macroRepo")
 public interface MacrosRepo extends JpaRepository<Macros, Integer>, Cache {
 
-  String PARTNER_MACRO = "partner-macro";
+  String PARTNER_MACRO = "partner-macros";
 
   default Class getType() {
     return Macros.class;
