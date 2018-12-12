@@ -32,9 +32,11 @@ public class TagCreativeCache extends AbstractCache {
 
   @Override
   public <T> void build(final T cache) {
-
+    log.info("Tag Creative Cache Load Process ::");
     List<String> keys = getKeys(CACHE_KEY, version);
+    log.info("Tag Creative Cache Load Keys  :: {}", keys);
     Map<String, Integer> data = getCache(cache, Map.class);
+    log.info("Tag Creative Cache Load Process :: data {}", data);
     if (data != null && !data.isEmpty()) {
       tagCreativeCache.put(keys.get(1), data);
       version.incrementAndGet();
@@ -45,8 +47,10 @@ public class TagCreativeCache extends AbstractCache {
 
   @Override
   public boolean evaluate(final AdContext adContext) {
+    log.info("Tag Creative cache version :: {}", getKey(CACHE_KEY, version));
     Map<String, Integer> cache = (Map<String, Integer>) this.tagCreativeCache
         .get(getKey(CACHE_KEY, version));
+    log.info("Tag Creative cache:: {}", cache);
     if (adContext != null && cache != null && cache.containsKey(adContext.getTag())) {
       return true;
     }

@@ -26,6 +26,7 @@ public class TagTargeting {
 
   public boolean selection() {
     String tag = this.adContext.getTag();
+    log.info("Tag Request Targeting :: {}", tag);
     if (tag != null && CacheService.isTagActive(this.adContext)) {
       Integer creative = CacheService.getCreative(adContext);
       log.info("Creative Id :: {}", creative);

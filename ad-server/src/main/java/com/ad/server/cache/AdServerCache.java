@@ -40,7 +40,7 @@ public class AdServerCache {
   public static Cache partnerMacrosCache;
   private final ScheduledExecutorService executorService;
   private final int INITIAL_DELAY = 0;
-  private final int SCHEDULE_TIME_PERIOD = 120; // 2 Min
+  private final int SCHEDULE_TIME_PERIOD = 1800; // 2 Min
 
   private static final byte[] partKeyBytes = "-parts".getBytes();
   private static final byte[] partIndexKeyBytes = "-part-".getBytes();
@@ -136,7 +136,9 @@ public class AdServerCache {
     ACTIVE_TAGS("active-tag-guids") {
       public void load() throws CacheException {
         final Map<String, Integer> activeTagGuids = read(ACTIVE_TAGS, Map.class);
-        tagCreativeCache.build(activeTagGuids);
+        if (activeTagGuids != null) {
+          tagCreativeCache.build(activeTagGuids);
+        }
       }
     },
     TAG_PARTNER("tag-partner") {

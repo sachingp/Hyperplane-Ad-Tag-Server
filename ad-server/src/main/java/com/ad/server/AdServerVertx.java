@@ -12,6 +12,7 @@ import com.ad.util.constants.AdServerConstants.GENERAL;
 import com.ad.util.geo.GeoLocationService;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
+import io.vertx.core.VertxOptions;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
@@ -31,7 +32,9 @@ public class AdServerVertx extends AbstractVerticle {
    */
 
   public static void main(String[] args) {
-    Vertx vertx = Vertx.vertx();
+    VertxOptions options = new VertxOptions();
+    options.setBlockedThreadCheckInterval(1000*60*60);
+    Vertx vertx = Vertx.vertx(options);
     vertx.deployVerticle(new AdServerVertx());
   }
 
