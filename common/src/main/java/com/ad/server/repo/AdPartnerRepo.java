@@ -22,7 +22,7 @@ public interface AdPartnerRepo extends JpaRepository<AdPartner, Integer>, Cache 
   String ACCOUNT_PARTNER = "tag-partner";
 
   default Class getType() {
-    return AdPartner.class;
+    return AdPartnerRepo.class;
   }
 
   @Cacheable(name = ACCOUNT_PARTNER, whole = true, key = {

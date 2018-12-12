@@ -19,7 +19,7 @@ public interface CreativeTagRepo extends JpaRepository<CreativeTag, Integer>, Ca
   String TAG_GUID_CREATIVE = "active-tag-guids";
 
   default Class getType() {
-    return CreativeTag.class;
+    return CreativeTagRepo.class;
   }
 
   @Cacheable(name = TAG_GUID_CREATIVE, whole = true, key = {

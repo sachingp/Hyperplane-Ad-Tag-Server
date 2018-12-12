@@ -19,7 +19,7 @@ public interface MacrosRepo extends JpaRepository<Macros, Integer>, Cache {
   String PARTNER_MACRO = "partner-macros";
 
   default Class getType() {
-    return Macros.class;
+    return MacrosRepo.class;
   }
 
   @Cacheable(name = PARTNER_MACRO, whole = true, key = {
