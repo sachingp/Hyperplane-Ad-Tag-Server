@@ -95,7 +95,7 @@ public class AdServerVertx extends AbstractVerticle {
   public void stop() throws Exception {
 
     AdServerRedisClient.getInstance().closePool();
+    MapDbSystem.getInstance().getDb().close();
     log.info("Server Stopped !!!");
   }
-
 }
