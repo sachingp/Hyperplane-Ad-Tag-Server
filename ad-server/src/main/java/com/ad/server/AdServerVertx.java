@@ -33,7 +33,7 @@ public class AdServerVertx extends AbstractVerticle {
 
   public static void main(String[] args) {
     VertxOptions options = new VertxOptions();
-    options.setBlockedThreadCheckInterval(1000*60*60);
+    options.setBlockedThreadCheckInterval(1000 * 60 * 60);
     Vertx vertx = Vertx.vertx(options);
     vertx.deployVerticle(new AdServerVertx());
   }
@@ -61,10 +61,18 @@ public class AdServerVertx extends AbstractVerticle {
 
   }
 
+  /**
+   * handle ad requests.
+   */
+
   private void handleAdRequest(final RoutingContext routingContext) {
     RequestHandler handler = new AdHandler(routingContext);
     handler.handleRequest();
   }
+
+  /**
+   * handle event requests.
+   */
 
   private void handleEventRequest(final RoutingContext routingContext) {
 
@@ -73,10 +81,21 @@ public class AdServerVertx extends AbstractVerticle {
 
   }
 
+  /**
+   * handle click events.
+   */
+
   private void handleClickRequest(final RoutingContext routingContext) {
     RequestHandler handler = new ClickHandler(routingContext);
     handler.handleRequest();
 
+  }
+
+  @Override
+  public void stop() throws Exception {
+
+    AdServerRedisClient.getInstance().closePool();
+    log.info("Server Stopped !!!");
   }
 
 }

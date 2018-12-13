@@ -105,4 +105,8 @@ public class AdServerRedisClient {
 
   }
 
+  public void closePool() {
+    jedisPool.close();
+  }
+
 }
