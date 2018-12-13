@@ -4,21 +4,29 @@ import static com.ad.util.ObjectUtil.combine;
 import static com.ad.util.ObjectUtil.getBytes;
 import static com.ad.util.ObjectUtil.readObject;
 
-import com.ad.server.cache.exception.CacheException;
-import com.ad.server.pojo.Account;
-import com.ad.server.pojo.Advertiser;
-import com.ad.server.pojo.Campaign;
-import com.ad.server.pojo.Creative;
-import com.ad.util.client.AdServerRedisClient;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+
+import com.ad.server.cache.exception.CacheException;
+import com.ad.server.pojo.Account;
+import com.ad.server.pojo.Advertiser;
+import com.ad.server.pojo.Campaign;
+import com.ad.server.pojo.Creative;
+import com.ad.server.repo.AccountRepo;
+import com.ad.server.repo.AdPartnerRepo;
+import com.ad.server.repo.AdvertiserRepo;
+import com.ad.server.repo.CampaignRepo;
+import com.ad.server.repo.CreativeRepo;
+import com.ad.server.repo.CreativeTagRepo;
+import com.ad.server.repo.MacrosRepo;
+import com.ad.util.client.AdServerRedisClient;
 
 /**
  * @author sagupta
@@ -109,31 +117,31 @@ public class AdServerCache {
 
   public enum CacheType {
 
-    ACTIVE_ACCOUNT("active-account") {
+    ACTIVE_ACCOUNT(AccountRepo.ACTIVE_ACCOUNTS) {
       public void load() throws CacheException {
         final Map<String, Account> accounts = read(ACTIVE_ACCOUNT, Map.class);
         accountCache.build(accounts);
       }
     },
-    ACCOUNT_ADVERTISER("account-advertiser") {
+    ACCOUNT_ADVERTISER(AdvertiserRepo.ACCOUNT_ADVERTISER) {
       public void load() throws CacheException {
         final Map<Integer, List<Advertiser>> advertisers = read(ACCOUNT_ADVERTISER, Map.class);
         advertiserCache.build(advertisers);
       }
     },
-    ADVERTISER_CAMPAIGN("advertiser-campaign") {
+    ADVERTISER_CAMPAIGN(CampaignRepo.ADVERTISER_CAMPAIGN) {
       public void load() throws CacheException {
         final Map<Integer, List<Campaign>> campaigns = read(ADVERTISER_CAMPAIGN, Map.class);
         campaignCache.build(campaigns);
       }
     },
-    CAMPAIGN_CREATIVE("campaign-creative") {
+    CAMPAIGN_CREATIVE(CreativeRepo.CAMPAIGN_CREATIVE) {
       public void load() throws CacheException {
         final Map<Integer, List<Creative>> creatives = read(CAMPAIGN_CREATIVE, Map.class);
         creativeCache.build(creatives);
       }
     },
-    ACTIVE_TAGS("active-tag-guids") {
+    ACTIVE_TAGS(CreativeTagRepo.TAG_GUID_CREATIVE) {
       public void load() throws CacheException {
         final Map<String, Integer> activeTagGuids = read(ACTIVE_TAGS, Map.class);
         if (activeTagGuids != null) {
@@ -141,19 +149,19 @@ public class AdServerCache {
         }
       }
     },
-    TAG_PARTNER("tag-partner") {
+    TAG_PARTNER(AdPartnerRepo.ACCOUNT_PARTNER) {
       public void load() throws CacheException {
         final Map<String, Integer> tagPartner = read(TAG_PARTNER, Map.class);
         tagPartnerCache.build(tagPartner);
       }
     },
-    PARTNER_MACROS("partner-macros") {
+    PARTNER_MACROS(MacrosRepo.PARTNER_MACRO) {
       public void load() throws CacheException {
         final Map<Integer, Map<String, String>> tagPartner = read(PARTNER_MACROS, Map.class);
         partnerMacrosCache.build(tagPartner);
       }
     },
-    CREATIVE_COUNTRY("creative-country") {
+    CREATIVE_COUNTRY(CreativeRepo.CREATIVE_COUNTRY) {
       public void load() throws CacheException {
         final Map<Integer, Map<String, List<String>>> creativeCountry = read(CREATIVE_COUNTRY,
             Map.class);
