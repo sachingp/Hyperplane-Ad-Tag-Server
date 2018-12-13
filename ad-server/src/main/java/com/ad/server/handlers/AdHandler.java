@@ -7,6 +7,7 @@ import com.ad.server.macros.ScriptMacros;
 import com.ad.server.targeting.TagTargeting;
 import com.ad.util.constants.AdServerConstants.PARAMS;
 import com.ad.util.event.EventEnum;
+import com.ad.util.geo.CountryCode;
 import com.ad.util.geo.GeoLocationService;
 import com.ad.util.uuid.ServerUtil;
 import com.google.common.base.Strings;
@@ -31,17 +32,22 @@ public class AdHandler extends AbstractRequestHandler {
   @Override
   public void handleRequest() {
     String tagGuid = this.routingContext.request().getParam("guid");
-    log.info("Tag Guid :: {}", tagGuid);
+    log.debug("Tag Guid :: {}", tagGuid);
     if (!Strings.isNullOrEmpty(tagGuid)) {
-      log.info("Tag Guid : {}", tagGuid);
+      log.debug("Tag Guid : {}", tagGuid);
       String ip = getRequestIp();
-      log.info("Request Ip Address : {},", ip);
+      log.debug("Request Ip Address : {},", ip);
       String userAgent = getUserAgent();
-      log.info("Request User Agent : {},", userAgent);
+      log.debug("Request User Agent : {},", userAgent);
       String country = null;
       if (ip != null) {
         try {
-          country = GeoLocationService.getLocationForIp(ip).getCountry().getIsoCode();
+          String cn = GeoLocationService.getLocationForIp(ip).getCountry().getIsoCode();
+          if (!Strings.isNullOrEmpty(cn)) {
+            country = CountryCode.getISO3CountryCode(cn);
+            log.debug("Country Code : {}", country);
+
+          }
         } catch (Exception e) {
           log.error("Error while determining the geo location from ip :: {} , exception : {}", ip,
               e.toString());
@@ -51,24 +57,25 @@ public class AdHandler extends AbstractRequestHandler {
 
       String sessionId = ServerUtil.getUID();
       Map<String, String> params = getRequestParams();
-      log.info("Request Params : {}", params);
+      log.debug("Request Params : {}", params);
       String deviceId = getDeviceId(params);
-      log.info("Device Id :: {} ", deviceId);
+      log.debug("Device Id :: {} ", deviceId);
       Cookie cookie = getCookie(deviceId);
-      log.info("Cookie Value ::{}", cookie.getValue());
+      log.debug("Cookie Value ::{}", cookie.getValue());
       AdContext adContext = createAdContext(sessionId, ip, tagGuid, country, params, deviceId,
           userAgent, EventEnum.AdRequest.getType(), cookie.getValue());
       // check the cache buster, if not replaced set the context
       if (params != null && !params.isEmpty()) {
-        log.info("Check Cache Buster ::");
+        log.debug("Check Cache Buster ::");
         if (!params.containsKey(PARAMS.ORD.getName())) {
           adContext.setCacheBuster(0);
         }
       } else {
-        log.info("Params empty");
+        log.debug("Params empty");
       }
       TagTargeting tagTargeting = new TagTargeting(adContext);
       boolean targetingResult = tagTargeting.selection();
+      log.debug("Targeting Result :: {}", targetingResult);
       if (targetingResult) {
         String scriptData = CacheService.getTagScriptData(tagGuid);
         if (Strings.isNullOrEmpty(scriptData)) {

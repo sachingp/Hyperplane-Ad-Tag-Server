@@ -26,7 +26,9 @@ public class AdServerConstants {
     BUYER_ID("buyId", "{BUYER_ID}"),
     IOS_ID("iosId", "{IOS_ID}"),
     ANDROID_ID("androidId", "{ANDROID_ID}"),
-    EXTERNAL_AD_SERVER("extAdServer", "{EXTERNAL_AD_SERVER}");
+    EXTERNAL_AD_SERVER("extAdServer", "{EXTERNAL_AD_SERVER}"),
+    CLICK_THROUGH("clickUrl", "{CLICK_URL}"),
+    BID_ID("bidId", "{AUCTION_ID}");
 
     private final String name;
     private final String macro;

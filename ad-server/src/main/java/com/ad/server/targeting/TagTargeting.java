@@ -26,10 +26,10 @@ public class TagTargeting {
 
   public boolean selection() {
     String tag = this.adContext.getTag();
-    log.info("Tag Request Targeting :: {}", tag);
+    log.debug("Tag Request Targeting :: {}", tag);
     if (tag != null && CacheService.isTagActive(this.adContext)) {
       Integer creative = CacheService.getCreative(adContext);
-      log.info("Creative Id :: {}", creative);
+      log.debug("Creative Id :: {}", creative);
       if (creative != null) {
         adContext.setCreativeId(creative);
         return CacheService.countrySelection(adContext);

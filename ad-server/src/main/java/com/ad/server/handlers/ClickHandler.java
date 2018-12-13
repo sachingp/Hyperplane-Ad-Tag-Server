@@ -22,17 +22,17 @@ public class ClickHandler extends AbstractRequestHandler {
   public void handleRequest() {
     String sessionId = this.routingContext.request().getParam("sessionId");
     String tagGuid = this.routingContext.request().getParam("guid");
-    String clickURL = this.routingContext.request().getParam("clickURL");
+    String clickURL = this.routingContext.request().getParam("clickUrl");
     if (!Strings.isNullOrEmpty(clickURL) && !Strings.isNullOrEmpty(sessionId) && !Strings
         .isNullOrEmpty(tagGuid)) {
       Integer eventId = 0;
       try {
         eventId = EventEnum.Click.getType();
-        log.info("Event Id :: {}", eventId);
+        log.debug("Event Id :: {}", eventId);
         String ip = getRequestIp();
-        log.info("Request Ip Address : {},", ip);
+        log.debug("Request Ip Address : {},", ip);
         String userAgent = getUserAgent();
-        log.info("Request User Agent : {},", userAgent);
+        log.debug("Request User Agent : {},", userAgent);
         String country = null;
         if (ip != null) {
           try {
@@ -45,11 +45,11 @@ public class ClickHandler extends AbstractRequestHandler {
         }
 
         Map<String, String> params = getRequestParams();
-        log.info("Request Params : {}", params);
+        log.debug("Request Params : {}", params);
         String deviceId = getDeviceId(params);
-        log.info("Device Id :: {} ", deviceId);
+        log.debug("Device Id :: {} ", deviceId);
         Cookie cookie = getCookie(deviceId);
-        log.info("Cookie Value ::{}", cookie.getValue());
+        log.debug("Cookie Value ::{}", cookie.getValue());
         AdContext adContext = createAdContext(sessionId, ip, tagGuid, country, params, deviceId,
             userAgent, eventId, cookie.getValue());
 

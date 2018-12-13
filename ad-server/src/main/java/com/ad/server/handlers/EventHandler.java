@@ -32,13 +32,13 @@ public class EventHandler extends AbstractRequestHandler {
       Integer eventId = 0;
       try {
         eventId = Integer.parseInt(event);
-        log.info("Event Id :: {}", eventId);
+        log.debug("Event Id :: {}", eventId);
         if (EventUtil.getEvents().contains(eventId)) {
 
           String ip = getRequestIp();
-          log.info("Request Ip Address : {},", ip);
+          log.debug("Request Ip Address : {},", ip);
           String userAgent = getUserAgent();
-          log.info("Request User Agent : {},", userAgent);
+          log.debug("Request User Agent : {},", userAgent);
           String country = null;
           if (ip != null) {
             try {
@@ -51,11 +51,11 @@ public class EventHandler extends AbstractRequestHandler {
           }
 
           Map<String, String> params = getRequestParams();
-          log.info("Request Params : {}", params);
+          log.debug("Request Params : {}", params);
           String deviceId = getDeviceId(params);
-          log.info("Device Id :: {} ", deviceId);
+          log.debug("Device Id :: {} ", deviceId);
           Cookie cookie = getCookie(deviceId);
-          log.info("Cookie Value ::{}", cookie.getValue());
+          log.debug("Cookie Value ::{}", cookie.getValue());
           AdContext adContext = createAdContext(sessionId, ip, tagGuid, country, params, deviceId,
               userAgent, eventId, cookie.getValue());
 
