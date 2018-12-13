@@ -31,7 +31,6 @@ public class EventRecordActor extends AbstractActor {
   @Override
   public Receive createReceive() {
     return receiveBuilder().match(AdContext.class, adContext -> {
-      log.info("Logging Event::");
       Event event = new Event();
       event.setSessionId(adContext.getSessionId());
       event.setEventId(adContext.getEventId());

@@ -38,6 +38,7 @@ public class CreativeCountryCache extends AbstractCache {
 
     List<String> keys = getKeys(CACHE_KEY, version);
     Map<Integer, Map<String, List<String>>> data = getCache(cache, Map.class);
+    log.debug("Country Cache :: {}", data);
     if (data != null && !data.isEmpty()) {
       creativeCountryCache.put(keys.get(1), data);
       version.incrementAndGet();
@@ -53,14 +54,20 @@ public class CreativeCountryCache extends AbstractCache {
 
       Map<Integer, Map<String, List<String>>> cacheData = (Map<Integer, Map<String, List<String>>>) this.creativeCountryCache
           .get(getKey(CACHE_KEY, version));
+      log.debug("Country Cache :: {}", cacheData);
       if (cacheData != null && !cacheData.isEmpty()) {
         Map<String, List<String>> cache = cacheData.get(adContext.getCreativeId());
+        log.debug("cache :: {}", cache);
         if (cache != null) {
           List<String> countryInclusions = cache.get(CACHE.INCLUSION);
 
+          log.debug("Inclusion :: {} ", countryInclusions);
+
           List<String> countryExclusions = cache.get(CACHE.EXCLUSION);
 
-          log.info("Countries Cache :: country inclucions :: {}  , country exclusions :: {} ",
+          log.debug("Exclusion :: {} ", countryExclusions);
+
+          log.debug("Countries Cache :: country inclucions :: {}  , country exclusions :: {} ",
               countryInclusions, countryExclusions);
 
           if (countryInclusions == null || countryInclusions.isEmpty()) {

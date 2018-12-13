@@ -32,7 +32,7 @@ public class GeoLocationService {
 
   private GeoLocationService(String geoDataFile) throws Exception {
 
-    log.debug("Initializing Geo look up service with geo: {} ", geoDataFile);
+    log.info("Initializing Geo look up service with geo: {} ", geoDataFile);
 
     try {
 

@@ -2,6 +2,7 @@ package com.ad.util.client;
 
 import com.ad.util.PropertiesUtil;
 import lombok.extern.slf4j.Slf4j;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
@@ -66,28 +67,42 @@ public class AdServerRedisClient {
    */
 
   public void put(String key, String value, int seconds) {
-    jedisPool.getResource().set(key, value);
+    Jedis rs = jedisPool.getResource();
+    rs.set(key, value);
     if (seconds > 0) {
-      jedisPool.getResource().expire(key, seconds);
+      rs.expire(key, seconds);
     }
+    closeConnection(rs);
   }
 
   public String get(String key) {
-
-    return jedisPool.getResource().get(key);
+    Jedis rs = jedisPool.getResource();
+    String data = rs.get(key);
+    closeConnection(rs);
+    return data;
   }
 
   public void put(byte[] key, byte[] value, int seconds) {
-    String result = jedisPool.getResource().set(key, value);
+    Jedis rs = jedisPool.getResource();
+    String result = rs.set(key, value);
     log.info("redis byte inserts :: {}", result);
     if (seconds > 0) {
-      jedisPool.getResource().expire(key, seconds);
+      rs.expire(key, seconds);
     }
+    closeConnection(rs);
   }
 
   public byte[] get(byte[] key) {
 
-    return jedisPool.getResource().get(key);
+    Jedis rs = jedisPool.getResource();
+    byte[] data = rs.get(key);
+    closeConnection(rs);
+    return data;
+  }
+
+  private void closeConnection(Jedis jedis) {
+    jedis.close();
+
   }
 
 }
