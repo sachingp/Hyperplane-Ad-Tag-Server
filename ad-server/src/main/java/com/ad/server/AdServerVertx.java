@@ -1,5 +1,6 @@
 package com.ad.server;
 
+import com.ad.server.akka.AkkaSystem;
 import com.ad.server.cache.AdServerCache;
 import com.ad.server.handlers.AdHandler;
 import com.ad.server.handlers.ClickHandler;
@@ -50,7 +51,7 @@ public class AdServerVertx extends AbstractVerticle {
     AdServerRedisClient.getInstance();
     AdServerCache.getInstance();
     MapDbSystem.getInstance();
-
+    AkkaSystem.getInstance();
     Router router = Router.router(vertx);
     router.route().handler(BodyHandler.create());
     router.get("/ads").handler(this::handleAdRequest);

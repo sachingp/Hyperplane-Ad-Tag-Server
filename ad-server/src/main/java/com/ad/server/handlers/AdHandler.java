@@ -78,12 +78,12 @@ public class AdHandler extends AbstractRequestHandler {
       log.debug("Targeting Result :: {}", targetingResult);
       if (targetingResult) {
         String scriptData = CacheService.getTagScriptData(tagGuid);
-        if (Strings.isNullOrEmpty(scriptData)) {
+        AkkaSystem.getInstance().publishEventRecord(adContext);
+        // set Cookie
+        setCookie(cookie);
+        if (!Strings.isNullOrEmpty(scriptData)) {
           ScriptMacros scriptMacros = new ScriptMacros(scriptData, adContext);
           // record event
-          AkkaSystem.getInstance().publishEventRecord(adContext);
-          // set Cookie
-          setCookie(cookie);
           this.routingContext.response().setStatusCode(200).end(scriptMacros.addMacros());
         } else {
           sendError(204, this.routingContext.response());

@@ -46,8 +46,14 @@ public class AkkaSystem {
   }
 
   private void init() {
-    this.actorSystem = ActorSystem.create(akkaSystemName,
-        ConfigFactory.load());
+    try {
+      this.actorSystem = ActorSystem.create(akkaSystemName,
+          ConfigFactory.load());
+    } catch (Exception e) {
+
+      log.error("Error in initializing akka system :: {}", e);
+
+    }
   }
 
   private void createEventRecordActors() {
@@ -94,5 +100,9 @@ public class AkkaSystem {
   public void publishEventRecord(final AdContext adContext) {
     getEventRecordActor().tell(adContext, ActorRef.noSender());
 
+  }
+
+  public static void main(String[] args) {
+    AkkaSystem.getInstance();
   }
 }
