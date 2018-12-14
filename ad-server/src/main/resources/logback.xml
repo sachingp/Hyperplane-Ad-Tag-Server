@@ -4,7 +4,33 @@
       <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level - %msg%n</pattern>
     </encoder>
   </appender>
-  <root level="info">
+  
+  <appender class="ch.qos.logback.core.rolling.RollingFileAppender" name="HOURLY_ROLLING">
+    <file>logs/hourly_rolling.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- hourly rollover -->
+      <fileNamePattern>logs/hourly_rolling.log.%d{yyyy-MM-dd-HH}.log</fileNamePattern>
+      <maxHistory>30</maxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender class="ch.qos.logback.classic.AsyncAppender" name="ASYNC_HOURLY">
+    <discardingThreshold>0
+    </discardingThreshold> <!-- default 20, means drop lower event when has 20% capacity remaining -->
+    <appender-ref ref="HOURLY_ROLLING"/>
+    <queueSize>256</queueSize> <!-- default 256 -->
+    <includeCallerData>false</includeCallerData><!-- default false -->
+    <neverBlock>true</neverBlock>
+  </appender>
+
+  <logger level="INFO" name="HOUR_LOGGER">
+    <appender-ref ref="ASYNC_HOURLY"/>
+  </logger>
+
+  <root level="debug">
     <appender-ref ref="STDOUT"/>
   </root>
 </configuration>

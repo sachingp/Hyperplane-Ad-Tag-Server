@@ -68,7 +68,7 @@ public abstract class AbstractCacheBuilder<T> implements CacheBuilder<Key, Value
             if (results == null) {
               final String message = "Invalid results: " + method;
               stats.fail(message);
-              throw new AdServicesException(message);
+              continue;
             }
             if (methodName.isEmpty()) {
               log.info("Building standard cache for type {} with cache {} of size {}",
@@ -170,6 +170,7 @@ public abstract class AbstractCacheBuilder<T> implements CacheBuilder<Key, Value
     final Method customMethod = cache.getType().getMethod(methodName, List.class);
     final Map customCache = (Map) customMethod.invoke(cache, results);
     if (customCache == null) {
+      write(cacheName, new Key(cacheName), new Value(new HashMap<>()));
       return;
     }
     if (cacheable.whole()) {
