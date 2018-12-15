@@ -29,6 +29,7 @@ public interface CreativeRepo extends JpaRepository<Creative, Integer>, Cache {
   String EXCLUSION_LOWERCASE = "/exclusion";
   String CAMPAIGN_CREATIVE = "campaign-creative";
   String ACCOUNT_CREATIVE = "guid-creative";
+  String ACTIVE_CREATIVE = "active-creative";
   String CREATIVE_COUNTRY = "creative-country";
 
   default Class getType() {
@@ -63,6 +64,13 @@ public interface CreativeRepo extends JpaRepository<Creative, Integer>, Cache {
       + " INNER JOIN cr.campaign c INNER JOIN c.advertiser ad INNER JOIN ad.account ac"
       + " WHERE cr.status = 1 AND c.status = 1 AND ad.status = 1 AND ac.status = 1")
   public List<Creative> findActiveAccountCreatives();
+
+  @Cacheable(name = ACTIVE_CREATIVE, whole = true, key = {
+      "creativeId"}, keyType = Integer.class, valueType = Creative.class)
+  @Query("SELECT new Creative(cr.creativeId, c.campaignId, ad.advertiserId, ac.accountId, ac.accountGuid) FROM Creative cr"
+      + " INNER JOIN cr.campaign c INNER JOIN c.advertiser ad INNER JOIN ad.account ac"
+      + " WHERE cr.status = 1 AND c.status = 1 AND ad.status = 1 AND ac.status = 1")
+  public List<Creative> findAllActiveCreatives();
 
   @Cacheable(name = CREATIVE_COUNTRY, whole = true, key = {
       "accountGuid"}, value={"creativeId"}, keyType = String.class, custom = "prepareByGeo")

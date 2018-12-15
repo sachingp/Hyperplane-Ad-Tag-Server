@@ -41,6 +41,7 @@ public class AdServerCache {
   public static Cache advertiserCache;
   public static Cache campaignCache;
   public static Cache creativeCache;
+  public static Cache creativeDetailsCache;
   public static Cache tagCreativeCache;
   public static Cache creativeCountryCache;
   public static Cache tagPartnerCache;
@@ -59,6 +60,7 @@ public class AdServerCache {
     advertiserCache = new AdvertiserCache();
     campaignCache = new CampaignCache();
     creativeCache = new CreativeCache();
+    creativeDetailsCache = new CreativeDetailsCache();
     tagCreativeCache = new TagCreativeCache();
     creativeCountryCache = new CreativeCountryCache();
     tagPartnerCache = new TagPartnerCache();
@@ -120,6 +122,7 @@ public class AdServerCache {
       public void load() throws CacheException {
         final Map<String, Account> accounts = read(ACTIVE_ACCOUNT, Map.class);
         if (accounts != null) {
+          log.trace("Accounts from cache: {}", accounts);
           accountCache.build(accounts);
         }
       }
@@ -128,6 +131,7 @@ public class AdServerCache {
       public void load() throws CacheException {
         final Map<Integer, List<Advertiser>> advertisers = read(ACCOUNT_ADVERTISER, Map.class);
         if (advertisers != null) {
+          log.trace("Advertisers from cache: {}", advertisers);
           advertiserCache.build(advertisers);
         }
       }
@@ -135,6 +139,7 @@ public class AdServerCache {
     ADVERTISER_CAMPAIGN(CampaignRepo.ADVERTISER_CAMPAIGN) {
       public void load() throws CacheException {
         final Map<Integer, List<Campaign>> campaigns = read(ADVERTISER_CAMPAIGN, Map.class);
+        log.trace("Campaigns from cache: {}", campaigns);
         campaignCache.build(campaigns);
       }
     },
@@ -142,7 +147,17 @@ public class AdServerCache {
       public void load() throws CacheException {
         final Map<Integer, List<Creative>> creatives = read(CAMPAIGN_CREATIVE, Map.class);
         if (creatives != null) {
+          log.trace("Creatives from cache: {}", creatives);
           creativeCache.build(creatives);
+        }
+      }
+    },
+    ACTIVE_CREATIVE(CreativeRepo.ACTIVE_CREATIVE) {
+      public void load() throws CacheException {
+        final Map<Integer, Creative> creatives = read(ACTIVE_CREATIVE, Map.class);
+        if (creatives != null) {
+          log.info("All Active Creatives from cache: {}", creatives);
+          creativeDetailsCache.build(creatives);
         }
       }
     },
@@ -150,6 +165,7 @@ public class AdServerCache {
       public void load() throws CacheException {
         final Map<String, Integer> activeTagGuids = read(ACTIVE_TAGS, Map.class);
         if (activeTagGuids != null) {
+          log.trace("Active Tag Guis from cache: {}", activeTagGuids);
           tagCreativeCache.build(activeTagGuids);
         }
       }
@@ -157,6 +173,7 @@ public class AdServerCache {
     TAG_PARTNER(AdPartnerRepo.ACCOUNT_PARTNER) {
       public void load() throws CacheException {
         final Map<String, Integer> tagPartner = read(TAG_PARTNER, Map.class);
+        log.trace("Tag Partner from cache: {}", tagPartner);
         tagPartnerCache.build(tagPartner);
       }
     },
@@ -164,6 +181,7 @@ public class AdServerCache {
       public void load() throws CacheException {
         final Map<Integer, Map<String, String>> tagPartner = read(PARTNER_MACROS, Map.class);
         if (tagPartner != null) {
+          log.trace("Partner Macros from cache: {}", tagPartner);
           partnerMacrosCache.build(tagPartner);
         }
       }
@@ -173,6 +191,7 @@ public class AdServerCache {
         final Map<Integer, Map<String, List<String>>> creativeCountry = read(CREATIVE_COUNTRY,
             Map.class);
         if (creativeCountry != null) {
+          log.trace("Creative Country from cache: {}", creativeCountry);
           creativeCountryCache.build(creativeCountry);
         }
       }

@@ -5,39 +5,36 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import lombok.extern.slf4j.Slf4j;
-
 import com.ad.server.context.AdContext;
 import com.ad.server.mapdb.MapDbSystem;
-import com.ad.server.pojo.Campaign;
+import com.ad.server.pojo.Creative;
 
 /**
  * @author sagupta
  */
 
-@Slf4j
-public class CampaignCache extends AbstractCache {
+public class CreativeDetailsCache extends AbstractCache {
 
   public final AtomicInteger version;
 
-  public static final String CACHE_KEY = "CAMPAIGN_CACHE_KEY";
+  public static final String CACHE_KEY = "CREATIVE_DETAILS_CACHE_KEY";
 
-  public final ConcurrentMap campaignCache;
+  public final ConcurrentMap creativeCache;
 
-  public CampaignCache() {
-    campaignCache = MapDbSystem.getInstance().getDb().hashMap("map").createOrOpen();
-    version = new AtomicInteger(10106);
+  public CreativeDetailsCache() {
+    creativeCache = MapDbSystem.getInstance().getDb().hashMap("map").createOrOpen();
+    version = new AtomicInteger(10109);
   }
 
   @Override
   public <T> void build(final T cache) {
 
     List<String> keys = getKeys(CACHE_KEY, version);
-    Map<Integer, List<Campaign>> data = getCache(cache, Map.class);
+    Map<Integer, Creative> data = getCache(cache, Map.class);
     if (data != null && !data.isEmpty()) {
-      campaignCache.put(keys.get(1), data);
+      creativeCache.put(keys.get(1), data);
       version.incrementAndGet();
-      campaignCache.remove(keys.get(0));
+      creativeCache.remove(keys.get(0));
 
     }
   }
@@ -49,6 +46,6 @@ public class CampaignCache extends AbstractCache {
 
   @Override
   public <T> T getCache(Class<T> type) {
-    return (T) this.campaignCache.get(getKey(CACHE_KEY, version));
+    return (T) this.creativeCache.get(getKey(CACHE_KEY, version));
   }
 }

@@ -30,6 +30,14 @@ public class Creative implements Serializable {
     this.creativeId = id;
   }
 
+  public Creative(final Integer id, final Integer campaignId, final Integer advertiserId, final Integer accountId, final String accountGuid) {
+    this.creativeId = id;
+    this.campaignId = campaignId;
+    this.advertiserId = advertiserId;
+    this.accountId = accountId;
+    this.accountGuid = accountGuid;
+  }
+
   public Creative(final Integer id, final String byGeo) {
     this.creativeId = id;
     this.byGeo = byGeo;
@@ -65,6 +73,15 @@ public class Creative implements Serializable {
 
   @Transient
   private String accountGuid;
+
+  @Transient
+  private Integer campaignId;
+
+  @Transient
+  private Integer advertiserId;
+
+  @Transient
+  private Integer accountId;
 
   @Transient
   private String byGeo;
