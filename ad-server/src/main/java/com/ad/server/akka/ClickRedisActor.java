@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ClickRedisActor extends AbstractActor {
 
-  public static final String ACTOR_NAME = "EVENT_RECORD_ACTOR";
+  public static final String ACTOR_NAME = "CLICK_REDIS_ACTOR";
 
 
   static public Props props() {

@@ -2,6 +2,7 @@ package com.ad.server.cache;
 
 
 import com.ad.server.context.AdContext;
+import com.ad.server.pojo.Creative;
 import com.ad.util.client.AdServerRedisClient;
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,6 +55,12 @@ public class CacheService {
   public static boolean countrySelection(AdContext adContext) {
 
     return AdServerCache.getInstance().creativeCountryCache.evaluate(adContext);
-
   }
+
+  public static Creative getCreative(int creativeId) {
+    Map<Integer, Creative> cache = AdServerCache.getInstance().creativeDetailsCache
+        .getCache(Map.class);
+    return cache.get(creativeId);
+  }
+
 }

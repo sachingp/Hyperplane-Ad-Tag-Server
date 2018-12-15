@@ -2,6 +2,7 @@ package com.ad.server.targeting;
 
 import com.ad.server.cache.CacheService;
 import com.ad.server.context.AdContext;
+import com.ad.server.pojo.Creative;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -28,11 +29,18 @@ public class TagTargeting {
     String tag = this.adContext.getTag();
     log.debug("Tag Request Targeting :: {}", tag);
     if (tag != null && CacheService.isTagActive(this.adContext)) {
-      Integer creative = CacheService.getCreative(adContext);
-      log.debug("Creative Id :: {}", creative);
-      if (creative != null) {
-        adContext.setCreativeId(creative);
-        return CacheService.countrySelection(adContext);
+      Integer creativeId = CacheService.getCreative(adContext);
+      log.debug("Creative Id :: {}", creativeId);
+      if (creativeId != null) {
+        adContext.setCreativeId(creativeId);
+        Creative creative = CacheService.getCreative(creativeId);
+        if (creative != null) {
+          adContext.setCampaignId(creative.getCampaignId());
+          adContext.setAdvertiserId(creative.getAdvertiserId());
+          adContext.setAccountId(creative.getAccountId());
+          return CacheService.countrySelection(adContext);
+        }
+
       }
     }
     return false;
