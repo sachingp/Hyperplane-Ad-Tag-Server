@@ -1,18 +1,16 @@
 package com.ad.server.cache;
 
-import com.ad.server.context.AdContext;
-import com.ad.server.mapdb.MapDbSystem;
-import com.ad.server.pojo.CreativeTag;
-import com.ad.server.template.TemplateService;
-import com.ad.server.template.TemplateType;
-
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+
+import com.ad.server.context.AdContext;
+import com.ad.server.mapdb.MapDbSystem;
+import com.ad.server.pojo.CreativeTag;
 
 /**
  * @author sagupta
@@ -56,10 +54,6 @@ public class TagCreativeCache extends AbstractCache {
         .get(getKey(CACHE_KEY, version));
     log.debug("Tag Creative cache:: {}", cache);
     if (adContext != null && cache != null && cache.containsKey(adContext.getTag())) {
-      final CreativeTag tag = cache.get(adContext.getTag());
-      final TemplateType template = TemplateType.from(tag.getTagTypeId());
-      final String evaluated = new TemplateService().eval(/*TODO - prepare map and pass*/null, template);
-      // TODO evaluate
       return true;
     }
     return false;

@@ -29,7 +29,7 @@ public class AdServerConstants {
     EXTERNAL_AD_SERVER("extAdServer", "{EXTERNAL_AD_SERVER}"),
     CLICK_THROUGH("clickUrl", "{CLICK_URL}"),
     BID_ID("bidId", "{AUCTION_ID}"),
-    DOMAIN("domain", "{DOMAINN}"),
+    DOMAIN("domain", "{DOMAIN}"),
     GUID("guid", "{TAG_GUID}");
 
     private final String name;

@@ -5,7 +5,9 @@ import java.util.Map;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
+import org.springframework.stereotype.Component;
 
+@Component("templateService")
 public class TemplateService {
 
   public String eval(final Map<String, Object> context, final TemplateType type) {

@@ -79,6 +79,12 @@
       <version>${spring.boot.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.apache.velocity</groupId>
+      <artifactId>velocity</artifactId>
+      <version>1.7</version>
+    </dependency>
+
     <!-- Spring test -->
     <dependency>
       <groupId>org.springframework</groupId>

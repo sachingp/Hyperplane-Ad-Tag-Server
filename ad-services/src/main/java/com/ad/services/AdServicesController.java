@@ -1,13 +1,20 @@
 package com.ad.services;
 
-import com.ad.services.cache.builder.RedisCacheBuilder;
-import com.ad.services.exception.AdServicesException;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.ad.server.template.TemplateService;
+import com.ad.server.template.TemplateType;
+import com.ad.services.cache.builder.RedisCacheBuilder;
+import com.ad.services.exception.AdServicesException;
 
 @RestController
 @SuppressWarnings({"unchecked", "rawtypes"})
@@ -15,6 +22,9 @@ public class AdServicesController {
 
   @Autowired
   private RedisCacheBuilder builder;
+
+  @Value("${ads.domain}")
+  private String domain;
 
   @RequestMapping("/ad-services/healthcheck")
   public ResponseEntity healthcheck() {
@@ -34,4 +44,15 @@ public class AdServicesController {
       return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  @RequestMapping("/ad/services/tag/{guid}/type/{name}")
+  public ResponseEntity evaluate(@PathVariable("guid") final String guid, @PathVariable("name") final String name) {
+    final TemplateType template = TemplateType.from(name);
+    final Map<String, Object> context = new HashMap<>();
+    context.put("DOMAIN", domain);
+    context.put("GUID", guid);
+    final String evaluated = new TemplateService().eval(context, template);
+    return new ResponseEntity(evaluated, HttpStatus.OK);
+  }
+
 }
