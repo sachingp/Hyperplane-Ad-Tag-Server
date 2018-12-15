@@ -1,30 +1,20 @@
 <script src="mraid.js"></script>
- <div class="hyperv1.0">
- <script>
- var geoData = (function(){
- var coordinates = "${BID_ATTR.lat_long}".split(",");
- return {
- lat: (coordinates.length == 2) ? coordinates[0] : "",
- lon: (coordinates.length == 2) ? coordinates[1] : ""
- };
- })();
-</script
-    <img src="data:image/png,hyper" style="display: none" onerror="
-        (function(img) {
-            var params = {'iosAdvId':'${MOBILE_DEVICE_ID}','androidAdvId':'${MOBILE_DEVICE_ID}','adServer':'Hyper-Uber','tagVersion':'1.0'};
-            [].slice.apply(img.parentNode.childNodes).forEach(function(n) { var decfs = { urldecode: decodeURIComponent, htmldecode: function(v) { var d = document.createElement('div'); d.innerHTML = v; return d.textContent; }, eval: function(v) { return eval(v); }, raw: function(v) { return v; } }; var m; if (n.nodeType == 8 &amp;&amp; (m = n.textContent.match(/^&#92;s+([&#92;w.]+)(&#92;[.+&#92;])?&#92;s+=&#92;s+(&#92;w+)&#92;s+(.*)$/i))) { try { params[m[1]+(m[2] || '')] = decfs[m[3]](m[4].replace(/^&#92;s+|&#92;s+$/g, '')); } catch (e) {} } });
-            var req = document.createElement('script');
-            req.id = params.scriptId = 'hyper-script-' + (window.ScriptIndex = (window.ScriptIndex||0)+1);
-            params.clientTimestamp = new Date/1000;
-            params.clientTimeZoneOffsetInMinutes = new Date().getTimezoneOffset();
-            params.hostPageLoadId=window.HostPageLoadId=window.HostPageLoadId||(Math.random()+'').slice(2);
-            var qs = 'guid=1245-6789-3838-3893';
-            for (var k in params) {
-                qs += '&amp;' + encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
-            }
-            var src = 'https://ads.hyper.com/ads?' + qs;
-            req.src = src;
-            img.parentNode.insertBefore(req, img.nextSibling);
-        })(this);
-    "/>
-</div>
+    <div class="hyperv1.0">
+        <img src="data:image/png,hyperv1.0" style="display: none" onerror="
+            (function(img) {
+                var params = {'clickUrl':'{CLICK_URL}','bidId':'{AUCTION_ID}','ord':'{CACHE_BUSTER}','extPlId':'{PLACEMENT_ID}','extCrId':'{CREATIVE_ID}','exCpId':'{CAMPAIGN_ID}','extBnId':'{APP_BUNDLE}','extApId':'{APP_ID}','extApNm':'{APP_NAME}','extStId':'{SITE_ID}','gpsLat':'{LAT}','gpsLng':'{LONG}','deviceId':'{MOBILE_ID}','buyId':'{BUYER_ID}','iosId':'{IOS_ID}','androidId':'{ANDROID_ID}','extAdServer':'uber-hyper-ad-server'};
+                var req = document.createElement('script');
+                req.id = params.scriptId = 'hyper-script-' + (window.hyperScriptIndex = (window.hyperScriptIndex||0)+1);
+                params.clientTimestamp = new Date/1000;
+                params.clientTimeZoneOffsetInMinutes = new Date().getTimezoneOffset();
+                params.hostPageLoadId=window.hyperHostPageLoadId=window.hyperHostPageLoadId||(Math.random()+'').slice(2);
+                var qs = 'guid={TAG_GUID}';
+                for (var k in params) {
+                    qs += '&amp;' + encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
+                }
+                var src = '{DOMAIN}' + qs;
+                req.src = src;
+                img.parentNode.insertBefore(req, img.nextSibling);
+            })(this);
+        "/>
+    </div>

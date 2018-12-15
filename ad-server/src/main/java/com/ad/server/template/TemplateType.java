@@ -7,17 +7,24 @@ import org.apache.velocity.runtime.RuntimeConstants;
 
 public enum TemplateType {
 
-  MRAID("mraid.vm"),
-  VAST("vast.vm"),
-  VPAID("vpaid.vm");
+  MRAID(1, "mraid.vm"),
+  VAST(2, "vast.vm"),
+  BANNER(3, "banner.vm"),
+  VPAID(4, "vpaid.vm"),
+  NATIVE(5, "native.vm");
 
   private static VelocityEngine engine;
   private final Template template;
+  private int id;
 
-  private TemplateType(final String template) {
+  private TemplateType(final int id, final String template) {
+    this.id = id;
     initEngine();
     this.template = Velocity.getTemplate(template);
-    ;
+  }
+
+  public int getId() {
+    return id;
   }
 
   public Template getTemplate() {
@@ -33,4 +40,15 @@ public enum TemplateType {
       engine.init();
     }
   }
+
+  public static TemplateType from(final int id) {
+    final TemplateType[] values = TemplateType.values();
+    for (final TemplateType value : values) {
+      if (value.id == id) {
+        return value;
+      }
+    }
+    return null;
+  }
+
 }

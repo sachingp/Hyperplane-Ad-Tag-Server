@@ -16,7 +16,6 @@ public class TemplateService {
     });
     final StringWriter writer = new StringWriter();
     template.merge(velocity, writer);
-    ;
     final String expanded = writer.toString();
     return expanded;
   }

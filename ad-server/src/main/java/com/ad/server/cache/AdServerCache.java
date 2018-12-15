@@ -9,6 +9,7 @@ import com.ad.server.pojo.Account;
 import com.ad.server.pojo.Advertiser;
 import com.ad.server.pojo.Campaign;
 import com.ad.server.pojo.Creative;
+import com.ad.server.pojo.CreativeTag;
 import com.ad.server.repo.AccountRepo;
 import com.ad.server.repo.AdPartnerRepo;
 import com.ad.server.repo.AdvertiserRepo;
@@ -17,6 +18,7 @@ import com.ad.server.repo.CreativeRepo;
 import com.ad.server.repo.CreativeTagRepo;
 import com.ad.server.repo.MacrosRepo;
 import com.ad.util.client.AdServerRedisClient;
+
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -163,7 +165,7 @@ public class AdServerCache {
     },
     ACTIVE_TAGS(CreativeTagRepo.TAG_GUID_CREATIVE) {
       public void load() throws CacheException {
-        final Map<String, Integer> activeTagGuids = read(ACTIVE_TAGS, Map.class);
+        final Map<String, CreativeTag> activeTagGuids = read(ACTIVE_TAGS, Map.class);
         if (activeTagGuids != null) {
           log.trace("Active Tag Guis from cache: {}", activeTagGuids);
           tagCreativeCache.build(activeTagGuids);

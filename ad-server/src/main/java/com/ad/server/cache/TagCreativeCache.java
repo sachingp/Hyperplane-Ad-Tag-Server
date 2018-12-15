@@ -2,6 +2,10 @@ package com.ad.server.cache;
 
 import com.ad.server.context.AdContext;
 import com.ad.server.mapdb.MapDbSystem;
+import com.ad.server.pojo.CreativeTag;
+import com.ad.server.template.TemplateService;
+import com.ad.server.template.TemplateType;
+
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,10 +52,14 @@ public class TagCreativeCache extends AbstractCache {
   @Override
   public boolean evaluate(final AdContext adContext) {
     log.debug("Tag Creative cache version :: {}", getKey(CACHE_KEY, version));
-    Map<String, Integer> cache = (Map<String, Integer>) this.tagCreativeCache
+    Map<String, CreativeTag> cache = (Map<String, CreativeTag>) this.tagCreativeCache
         .get(getKey(CACHE_KEY, version));
     log.debug("Tag Creative cache:: {}", cache);
     if (adContext != null && cache != null && cache.containsKey(adContext.getTag())) {
+      final CreativeTag tag = cache.get(adContext.getTag());
+      final TemplateType template = TemplateType.from(tag.getTagTypeId());
+      final String evaluated = new TemplateService().eval(/*TODO - prepare map and pass*/null, template);
+      // TODO evaluate
       return true;
     }
     return false;
