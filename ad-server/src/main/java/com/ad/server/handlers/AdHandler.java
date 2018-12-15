@@ -3,6 +3,7 @@ package com.ad.server.handlers;
 import com.ad.server.akka.AkkaSystem;
 import com.ad.server.cache.CacheService;
 import com.ad.server.context.AdContext;
+import com.ad.server.context.ClickContext;
 import com.ad.server.macros.ScriptMacros;
 import com.ad.server.targeting.TagTargeting;
 import com.ad.util.constants.AdServerConstants.PARAMS;
@@ -31,6 +32,8 @@ public class AdHandler extends AbstractRequestHandler {
 
   @Override
   public void handleRequest() {
+    long startTime = System.currentTimeMillis();
+    log.debug("Start Time ::{}", startTime);
     String tagGuid = this.routingContext.request().getParam("guid");
     log.debug("Tag Guid :: {}", tagGuid);
     if (!Strings.isNullOrEmpty(tagGuid)) {
@@ -79,6 +82,11 @@ public class AdHandler extends AbstractRequestHandler {
       if (targetingResult) {
         String scriptData = CacheService.getTagScriptData(tagGuid);
         AkkaSystem.getInstance().publishEventRecord(adContext);
+        if (params.containsKey(PARAMS.CLICK_THROUGH.getName())) {
+          ClickContext clickContext = new ClickContext(sessionId,
+              params.get(PARAMS.CLICK_THROUGH.getName()));
+          AkkaSystem.getInstance().insertSessionClick(clickContext);
+        }
         // set Cookie
         setCookie(cookie);
         if (!Strings.isNullOrEmpty(scriptData)) {
@@ -94,5 +102,10 @@ public class AdHandler extends AbstractRequestHandler {
     } else {
       sendError(204, this.routingContext.response());
     }
+
+    long endTime = System.currentTimeMillis();
+    log.debug("End Time :: {} ", endTime);
+    long time = endTime - startTime;
+    log.debug("Time Take :: {} ", time);
   }
 }

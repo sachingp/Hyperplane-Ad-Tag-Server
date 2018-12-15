@@ -51,6 +51,10 @@ public class AdServerConstants {
     final String COOKIE_PREFIX = "huiDAds";
     final String EMPTY_STRING = "";
     final long COOKIE_MAX_AGE = 7776000; // 90 days
+    final String SECOND_DATE_FORMAT = "yyyyMMddHHmmss";
+    final String HOUR_DATE_FORMAT = "yyyyMMddHH";
+
+    final int REDIS_TTL_SESSSION = 21600;
 
 
   }

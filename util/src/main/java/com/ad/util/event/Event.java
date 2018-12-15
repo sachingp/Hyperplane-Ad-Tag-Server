@@ -16,6 +16,9 @@ public class Event {
   String country;
   String tag;
   Integer creativeId;
+  Integer campaignId;
+  Integer advertiserId;
+  Integer accountId;
   String os;
   String deviceId;
   String site;
@@ -24,12 +27,12 @@ public class Event {
   String appName;
   String latitude;
   String longitude;
-  String campaignId;
   String cookie;
   String externalCampaignId;
   String externalPlacementId;
   String externalCreativeId;
   String externalAdServer;
   int cacheBuster = 1;
-
+  long timeStamp;
+  long hourTimeDimension;
 }

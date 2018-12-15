@@ -129,6 +129,7 @@ public abstract class AbstractRequestHandler implements RequestHandler {
     adContext.setUserAgent(userAgent);
     adContext.setEventId(eventType);
     adContext.setCookieId(cookieId);
+    adContext.setIpAddress(ipAddress);
 
     return adContext;
 

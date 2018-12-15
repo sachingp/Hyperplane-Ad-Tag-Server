@@ -3,6 +3,7 @@ package com.ad.server.akka;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import com.ad.server.context.AdContext;
+import com.ad.server.context.ClickContext;
 import com.typesafe.config.ConfigFactory;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,6 +21,7 @@ public class AkkaSystem {
   private static final String akkaSystemName = "AKKA_SYSTEM";
   private static volatile AkkaSystem akkaSystem = null;
   private final List<ActorRef> eventRecordActors = new LinkedList<ActorRef>();
+  private final List<ActorRef> clickRedisActors = new LinkedList<ActorRef>();
   private ActorSystem actorSystem;
   private String akkaConfigFile;
   private int actorCount = 100000;
@@ -28,7 +30,7 @@ public class AkkaSystem {
 
     init();
     createEventRecordActors();
-
+    createClickRedisActors();
   }
 
   /**
@@ -70,6 +72,20 @@ public class AkkaSystem {
 
   }
 
+  private void createClickRedisActors() {
+    log.debug("Create click redis actors. Total actors:{}",
+        actorCount);
+    ActorRef actor;
+    final List<ActorRef> actors = new LinkedList<ActorRef>();
+    for (int i = 0; i < actorCount; i++) {
+      actor = actorSystem.actorOf(EventRecordActor.props(),
+          ClickRedisActor.ACTOR_NAME + i);
+      actors.add(actor);
+    }
+    clickRedisActors.addAll(actors);
+
+  }
+
   /**
    * @return actor system
    */
@@ -92,6 +108,11 @@ public class AkkaSystem {
     return eventRecordActors.get(randomActorId(0, eventRecordActors.size()));
   }
 
+  private ActorRef getClickRedisActor() {
+    log.debug("Getting Click redis actor from Pool");
+    return clickRedisActors.get(randomActorId(0, clickRedisActors.size()));
+  }
+
   /**
    *
    * @param adContext
@@ -99,6 +120,17 @@ public class AkkaSystem {
 
   public void publishEventRecord(final AdContext adContext) {
     getEventRecordActor().tell(adContext, ActorRef.noSender());
+
+  }
+
+
+  /**
+   *
+   * @param clickContext
+   */
+
+  public void insertSessionClick(final ClickContext clickContext) {
+    getClickRedisActor().tell(clickContext, ActorRef.noSender());
 
   }
 

@@ -22,4 +22,7 @@ public class AdContext {
   String cookieId;
   String ipAddress;
   int cacheBuster = 1;
+  int campaignId;
+  int advertiserId;
+  int accountId;
 }

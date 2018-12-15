@@ -4,11 +4,15 @@ package com.ad.server.akka;
 import akka.actor.AbstractActor;
 import akka.actor.Props;
 import com.ad.server.context.AdContext;
+import com.ad.util.constants.AdServerConstants.GENERAL;
 import com.ad.util.constants.AdServerConstants.PARAMS;
 import com.ad.util.event.Event;
 import com.ad.util.json.JsonService;
 import com.ad.util.logging.LoggingService;
 import lombok.extern.slf4j.Slf4j;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author sagupta
@@ -41,8 +45,10 @@ public class EventRecordActor extends AbstractActor {
       event.setCookie(adContext.getCookieId());
       event.setTag(adContext.getTag());
       event.setCreativeId(adContext.getCreativeId());
+      event.setCampaignId(adContext.getCampaignId());
+      event.setAdvertiserId(adContext.getAdvertiserId());
+      event.setAccountId(adContext.getAccountId());
       event.setCacheBuster(adContext.getCacheBuster());
-
       if (adContext.getParams() != null && !adContext.getParams().isEmpty()) {
 
         event.setAppBundle(adContext.getParams().get(PARAMS.EXTERNAL_BUNDLE_ID.getName()));
@@ -56,9 +62,15 @@ public class EventRecordActor extends AbstractActor {
             adContext.getParams().get(PARAMS.EXTERNAL_PLACEMENT_ID.getName()));
         event.setExternalCreativeId(
             adContext.getParams().get(PARAMS.EXTERNAL_CREATIVE_ID.getName()));
-        event.setCampaignId(adContext.getParams().get(PARAMS.EXTERNAL_CAMPAIGN_ID.getName()));
-
+        event.setExternalCampaignId(
+            adContext.getParams().get(PARAMS.EXTERNAL_CAMPAIGN_ID.getName()));
       }
+
+      LocalDateTime time = LocalDateTime.now();
+      event.setTimeStamp(new Long(time.format(
+          DateTimeFormatter.ofPattern(GENERAL.SECOND_DATE_FORMAT))));
+      event.setHourTimeDimension(new Long(time.format(
+          DateTimeFormatter.ofPattern(GENERAL.HOUR_DATE_FORMAT))));
       // get data from AdContext
       LoggingService.logEvent(JsonService.createJson(event));
     }).build();
