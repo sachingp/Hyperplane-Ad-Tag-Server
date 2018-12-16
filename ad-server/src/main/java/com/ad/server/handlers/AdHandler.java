@@ -81,25 +81,29 @@ public class AdHandler extends AbstractRequestHandler {
       log.debug("Targeting Result :: {}", targetingResult);
       if (targetingResult) {
         String scriptData = CacheService.getTagScriptData(tagGuid);
-        AkkaSystem.getInstance().publishEventRecord(adContext);
-        if (params.containsKey(PARAMS.CLICK_THROUGH.getName())) {
-          ClickContext clickContext = new ClickContext(sessionId,
-              params.get(PARAMS.CLICK_THROUGH.getName()));
-          AkkaSystem.getInstance().insertSessionClick(clickContext);
-        }
         // set Cookie
         setCookie(cookie);
         if (!Strings.isNullOrEmpty(scriptData)) {
           ScriptMacros scriptMacros = new ScriptMacros(scriptData, adContext);
           // record event
           this.routingContext.response().setStatusCode(200).end(scriptMacros.addMacros());
+          if (params.containsKey(PARAMS.CLICK_THROUGH.getName())) {
+            ClickContext clickContext = new ClickContext(sessionId,
+                params.get(PARAMS.CLICK_THROUGH.getName()));
+            AkkaSystem.getInstance().insertSessionClick(clickContext);
+          }
         } else {
+          adContext.setTagServed(false);
           sendError(204, this.routingContext.response());
         }
       } else {
+        adContext.setTagServed(false);
         sendError(204, this.routingContext.response());
       }
+
+      AkkaSystem.getInstance().publishEventRecord(adContext);
     } else {
+      log.error("Tag is missing in the ad request !!!");
       sendError(204, this.routingContext.response());
     }
 

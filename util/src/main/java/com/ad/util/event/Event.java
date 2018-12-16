@@ -33,6 +33,7 @@ public class Event {
   String externalCreativeId;
   String externalAdServer;
   int cacheBuster = 1;
+  boolean tagServed = true;
   long timeStamp;
   long hourTimeDimension;
 }
