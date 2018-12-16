@@ -2,6 +2,7 @@ package com.ad.services;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,6 +32,9 @@ public class AdServicesController {
   @Value("${ads.domain}")
   private String domain;
 
+  @Value("#{'${cache.names}'.split(',')}")
+  private Set<String> cacheNames;
+
   @RequestMapping("/ad-services/healthcheck")
   public ResponseEntity healthcheck() {
     return new ResponseEntity("All OK !!", HttpStatus.OK);
@@ -48,6 +52,13 @@ public class AdServicesController {
     } catch (final AdServicesException e) {
       return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
+
+  @RequestMapping(value = "/ad-services/cache/state/list", produces = "text/html")
+  public ResponseEntity list(final HttpServletRequest request) {
+    final String baseURL = request.getRequestURI().replace("/list", "");
+    final String response = AdServicesHtmlWriter.getMarkUp(baseURL, "Index", cacheNames);
+    return new ResponseEntity(response, HttpStatus.OK);
   }
 
   @RequestMapping(value = "/ad-services/cache/state/{cache-name}", produces = "text/html")
