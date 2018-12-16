@@ -34,10 +34,15 @@
     <ad.version>0.0.1-SNAPSHOT</ad.version>
     <jedis.version>2.9.0</jedis.version>
     <javax.version>2.2</javax.version>
+    <velocity.version>1.7</velocity.version>
   </properties>
 
   <dependencies>
-
+    <dependency>
+      <groupId>org.apache.velocity</groupId>
+      <artifactId>velocity</artifactId>
+      <version>${velocity.version}</version>
+    </dependency>
     <dependency>
       <groupId>com.ad</groupId>
       <artifactId>common</artifactId>

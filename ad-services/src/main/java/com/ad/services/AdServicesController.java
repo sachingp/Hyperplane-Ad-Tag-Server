@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,7 @@ import com.ad.server.template.TemplateType;
 import com.ad.services.cache.builder.RedisCacheBuilder;
 import com.ad.services.exception.AdServicesException;
 
+@Slf4j
 @RestController
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class AdServicesController {
@@ -69,9 +72,13 @@ public class AdServicesController {
     }
   }
 
-  @RequestMapping("/ad-services/tag/{guid}/type/{name}")
+  @RequestMapping(value = "/ad-services/tag/{guid}/type/{name}/get", produces = "text/html")
   public ResponseEntity evaluate(@PathVariable("guid") final String guid, @PathVariable("name") final String name) {
     final TemplateType template = TemplateType.from(name);
+    if (template == null) {
+      log.info("Invalid template: {}", name);
+      return new ResponseEntity("Invalid Template name: " + name, HttpStatus.NOT_FOUND);
+    }
     final Map<String, Object> context = new HashMap<>();
     context.put("DOMAIN", domain);
     context.put("GUID", guid);

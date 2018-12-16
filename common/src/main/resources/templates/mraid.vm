@@ -2,17 +2,17 @@
     <div class="hyperv1.0">
         <img src="data:image/png,hyperv1.0" style="display: none" onerror="
             (function(img) {
-                var params = {'clickUrl':'{CLICK_URL}','bidId':'{AUCTION_ID}','ord':'{CACHE_BUSTER}','extPlId':'{PLACEMENT_ID}','extCrId':'{CREATIVE_ID}','exCpId':'{CAMPAIGN_ID}','extBnId':'{APP_BUNDLE}','extApId':'{APP_ID}','extApNm':'{APP_NAME}','extStId':'{SITE_ID}','gpsLat':'{LAT}','gpsLng':'{LONG}','deviceId':'{MOBILE_ID}','buyId':'{BUYER_ID}','iosId':'{IOS_ID}','androidId':'{ANDROID_ID}','extAdServer':'uber-hyper-ad-server'};
+                var params = {'clickUrl':'${CLICK_URL}','bidId':'${AUCTION_ID}','ord':'${CACHE_BUSTER}','extPlId':'${PLACEMENT_ID}','extCrId':'${CREATIVE_ID}','exCpId':'${CAMPAIGN_ID}','extBnId':'${APP_BUNDLE}','extApId':'${APP_ID}','extApNm':'${APP_NAME}','extStId':'${SITE_ID}','gpsLat':'${LAT}','gpsLng':'${LONG}','deviceId':'${MOBILE_ID}','buyId':'${BUYER_ID}','iosId':'${IOS_ID}','androidId':'${ANDROID_ID}','extAdServer':'uber-hyper-ad-server'};
                 var req = document.createElement('script');
                 req.id = params.scriptId = 'hyper-script-' + (window.hyperScriptIndex = (window.hyperScriptIndex||0)+1);
                 params.clientTimestamp = new Date/1000;
                 params.clientTimeZoneOffsetInMinutes = new Date().getTimezoneOffset();
                 params.hostPageLoadId=window.hyperHostPageLoadId=window.hyperHostPageLoadId||(Math.random()+'').slice(2);
-                var qs = 'guid={TAG_GUID}';
+                var qs = 'guid=${TAG_GUID}';
                 for (var k in params) {
                     qs += '&amp;' + encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
                 }
-                var src = '{DOMAIN}' + qs;
+                var src = '${DOMAIN}' + qs;
                 req.src = src;
                 img.parentNode.insertBefore(req, img.nextSibling);
             })(this);
