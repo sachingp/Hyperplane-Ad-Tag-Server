@@ -33,7 +33,7 @@ public class AdServicesHtmlWriter {
               + "</a></li>");
     });
     builder.append("</ul></p></div></body></html>");
-    log.info("Prepared HTML: {}", builder);
+    log.trace("Prepared HTML: {}", builder);
     return builder.toString();
   }
 

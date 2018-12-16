@@ -66,6 +66,17 @@ public class AdServicesController {
   public ResponseEntity state(@PathVariable("cache-name") final String name, @PathVariable("id") final String id) {
     try {
       final Map cache = (Map) builder.get(name);
+      if (cache == null || cache.isEmpty()) {
+        log.error("Invalid cache state: {}/{}", name, id);
+        return new ResponseEntity("Invalid cache state: " + name + "/" + id, HttpStatus.NOT_FOUND);
+      }
+      final Object key = cache.keySet().iterator().next();
+      if (Integer.class.isAssignableFrom(key.getClass())) {
+        final Integer intId = Integer.parseInt(id);
+        log.trace("Cache state: {}", cache.get(intId));
+        return new ResponseEntity(cache.get(intId), HttpStatus.OK);
+      }
+      log.trace("Cache state: {}", cache.get(id));
       return new ResponseEntity(cache.get(id), HttpStatus.OK);
     } catch (final AdServicesException e) {
       return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
