@@ -3,6 +3,8 @@ package com.ad.services;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -45,7 +47,29 @@ public class AdServicesController {
     }
   }
 
-  @RequestMapping("/ad/services/tag/{guid}/type/{name}")
+  @RequestMapping(value = "/ad-services/cache/state/{cache-name}", produces = "text/html")
+  public ResponseEntity state(@PathVariable("cache-name") final String name, final HttpServletRequest request) {
+    try {
+      final Map cache = (Map) builder.get(name);
+      final String baseURL = request.getRequestURI();
+      final String response = AdServicesHtmlWriter.getMarkUp(baseURL, name, cache.keySet());
+      return new ResponseEntity(response, HttpStatus.OK);
+    } catch (final AdServicesException e) {
+      return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @RequestMapping(value = "/ad-services/cache/state/{cache-name}/{id}", produces = "application/json")
+  public ResponseEntity state(@PathVariable("cache-name") final String name, @PathVariable("id") final String id) {
+    try {
+      final Map cache = (Map) builder.get(name);
+      return new ResponseEntity(cache.get(id), HttpStatus.OK);
+    } catch (final AdServicesException e) {
+      return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @RequestMapping("/ad-services/tag/{guid}/type/{name}")
   public ResponseEntity evaluate(@PathVariable("guid") final String guid, @PathVariable("name") final String name) {
     final TemplateType template = TemplateType.from(name);
     final Map<String, Object> context = new HashMap<>();
