@@ -3,6 +3,7 @@ package com.ad.server.cache;
 
 import com.ad.server.context.AdContext;
 import com.ad.server.pojo.Creative;
+import com.ad.server.pojo.CreativeTag;
 import com.ad.util.client.AdServerRedisClient;
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,9 +42,9 @@ public class CacheService {
    * @return creative Id for the tag.
    */
 
-  public static Integer getCreative(AdContext adContext) {
+  public static CreativeTag getCreative(AdContext adContext) {
 
-    Map<String, Integer> tagCreativeCache = AdServerCache.getInstance().tagCreativeCache
+    Map<String, CreativeTag> tagCreativeCache = AdServerCache.getInstance().tagCreativeCache
         .getCache(Map.class);
     return tagCreativeCache != null ? tagCreativeCache.get(adContext.getTag()) : null;
   }

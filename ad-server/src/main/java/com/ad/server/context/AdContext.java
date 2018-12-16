@@ -25,4 +25,5 @@ public class AdContext {
   int campaignId;
   int advertiserId;
   int accountId;
+  boolean tagServed = true;
 }

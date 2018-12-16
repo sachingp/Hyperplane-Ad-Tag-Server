@@ -71,6 +71,7 @@ public class EventRecordActor extends AbstractActor {
           DateTimeFormatter.ofPattern(GENERAL.SECOND_DATE_FORMAT))));
       event.setHourTimeDimension(new Long(time.format(
           DateTimeFormatter.ofPattern(GENERAL.HOUR_DATE_FORMAT))));
+      event.setTagServed(adContext.isTagServed());
       // get data from AdContext
       LoggingService.logEvent(JsonService.createJson(event));
     }).build();
