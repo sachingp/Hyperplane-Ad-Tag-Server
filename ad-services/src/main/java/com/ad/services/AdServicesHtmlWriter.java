@@ -1,8 +1,8 @@
 package com.ad.services;
 
-import java.util.Set;
-
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Set;
 
 @Slf4j
 public class AdServicesHtmlWriter {
@@ -20,7 +20,7 @@ public class AdServicesHtmlWriter {
     StringBuilder builder = new StringBuilder();
     builder.append(
         "<!DOCTYPE html><html lang=" + "\"" + "en" + "\"" + "><head>   <meta charset=" + "\""
-            + "UTF-8" + "\"" + ">  <title>Uber - Ad Services</title></head><body BGCOLOR=" + "\""
+            + "UTF-8" + "\"" + ">  <title>Ad Services</title></head><body BGCOLOR=" + "\""
             + "FFFFFF" + "\"" + "><div><img src=" + "\""
             + "https://uber.logo/uber.jpg" + "\"" + " style=" + "\""
             + "width:140px;" + "\"" + "><hr style=" + "\"" + "box-shadow: 0 0 10px 1px black;"

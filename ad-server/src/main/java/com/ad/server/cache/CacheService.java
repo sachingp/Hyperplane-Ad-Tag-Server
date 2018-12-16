@@ -61,7 +61,8 @@ public class CacheService {
   public static Creative getCreative(int creativeId) {
     Map<Integer, Creative> cache = AdServerCache.getInstance().creativeDetailsCache
         .getCache(Map.class);
-    return cache.get(creativeId);
+    return cache != null ? cache.get(creativeId) : null;
+
   }
 
 }
