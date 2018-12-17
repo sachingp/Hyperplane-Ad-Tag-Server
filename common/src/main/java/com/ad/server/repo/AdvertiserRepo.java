@@ -29,7 +29,8 @@ public interface AdvertiserRepo extends JpaRepository<Advertiser, Integer>, Cach
 
   @Cacheable(name = ACCOUNT_ADVERTISER, whole = true, key = {
       "accountId"}, keyType = Integer.class, custom = "prepareByAccount")
-  @Query("SELECT ad FROM Advertiser ad WHERE ad.status = 1")
+  @Query("SELECT ad FROM Advertiser ad INNER JOIN ad.account ac"
+      + " WHERE ad.status = 1 AND ac.status = 1")
   public List<Advertiser> findActiveAdvertisers();
 
   default Map<Integer, List<Advertiser>> prepareByAccount(final List<Advertiser> advertisers) {

@@ -25,7 +25,8 @@ public interface CreativeTagRepo extends JpaRepository<CreativeTag, Integer>, Ca
   @Cacheable(name = TAG_GUID_CREATIVE, whole = true, key = {
       "tagGuid"}, keyType = String.class, valueType = CreativeTag.class)
   @Query("SELECT new CreativeTag(ct.tagGuid, cr.creativeId, ct.tagTypeId) FROM CreativeTag ct"
-      + " INNER JOIN ct.creative cr WHERE cr.status = 1")
+      + " INNER JOIN ct.creative cr INNER JOIN cr.campaign c INNER JOIN c.advertiser ad INNER JOIN ad.account ac"
+      + " WHERE cr.status = 1 AND c.status = 1 AND ad.status = 1 AND ac.status = 1")
   public List<CreativeTag> findActiveCreativeGuids();
 
 }

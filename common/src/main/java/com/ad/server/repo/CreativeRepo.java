@@ -55,7 +55,8 @@ public interface CreativeRepo extends JpaRepository<Creative, Integer>, Cache {
 
   @Cacheable(name = CAMPAIGN_CREATIVE, whole = true, key = {
       "campaignId"}, keyType = Integer.class, custom = "prepareByCampaign")
-  @Query("SELECT cr FROM Creative cr INNER JOIN cr.campaign c WHERE cr.status = 1")
+  @Query("SELECT cr FROM Creative cr INNER JOIN cr.campaign c INNER JOIN c.advertiser ad INNER JOIN ad.account ac"
+      + " WHERE cr.status = 1 AND c.status = 1 AND ad.status = 1 AND ac.status = 1")
   public List<Creative> findActiveCreatives();
 
   @Cacheable(name = ACCOUNT_CREATIVE, whole = true, key = {
@@ -74,8 +75,9 @@ public interface CreativeRepo extends JpaRepository<Creative, Integer>, Cache {
 
   @Cacheable(name = CREATIVE_COUNTRY, whole = true, key = {
       "accountGuid"}, value={"creativeId"}, keyType = String.class, custom = "prepareByGeo")
-  @Query("SELECT new Creative(cr.creativeId, t.byGeo) FROM Creative cr"
-      + " INNER JOIN cr.target t WHERE cr.status = 1")
+  @Query("SELECT new Creative(cr.creativeId, t.byGeo) FROM Creative cr INNER JOIN cr.target t"
+      + " INNER JOIN cr.campaign c INNER JOIN c.advertiser ad INNER JOIN ad.account ac"
+      + " WHERE cr.status = 1 AND c.status = 1 AND ad.status = 1 AND ac.status = 1")
   public List<Creative> findActiveCreativesByGeo();
 
   default Map<Integer, List<Creative>> prepareByCampaign(final List<Creative> creatives) {

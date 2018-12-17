@@ -29,7 +29,9 @@ public interface CampaignRepo extends JpaRepository<Campaign, Integer>, Cache {
 
   @Cacheable(name = ADVERTISER_CAMPAIGN, whole = true, key = {
       "advertiserId"}, keyType = Integer.class, custom = "prepareByAdvertiser")
-  @Query("SELECT c FROM Campaign c INNER JOIN c.advertiser ad WHERE c.status = 1")
+  @Query("SELECT c FROM Campaign c"
+      + " INNER JOIN c.advertiser ad INNER JOIN ad.account ac"
+      + " WHERE c.status = 1 AND ad.status = 1 AND ac.status = 1")
   public List<Campaign> findActiveCampaigns();
 
   default Map<Integer, List<Campaign>> prepareByAdvertiser(final List<Campaign> campaigns) {
