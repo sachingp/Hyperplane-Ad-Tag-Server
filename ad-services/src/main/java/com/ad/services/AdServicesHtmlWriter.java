@@ -24,7 +24,7 @@ public class AdServicesHtmlWriter {
         "<!DOCTYPE html><html lang=" + "\"" + "en" + "\"" + "><head>   <meta charset=" + "\""
             + "UTF-8" + "\"" + ">  <title>Ad Services</title></head><body BGCOLOR=" + "\""
             + "FFFFFF" + "\"" + "><div><img src=" + "\""
-            + "https://uber.logo/uber.jpg" + "\"" + " style=" + "\""
+            + "http://s3.us-east-2.amazonaws.com/hyper-media-assets/images/uber.png" + "\"" + " style=" + "\""
             + "width:140px;" + "\"" + "><hr style=" + "\"" + "box-shadow: 0 0 10px 1px black;"
             + "\"" + "></hr><h1 align=" + "\"" + "center" + "\"" + " style=" + "\""
             + "font-size:200%;" + "\"" + " >" + display + "</h1><h3></h3>");
