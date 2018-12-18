@@ -31,7 +31,7 @@ public class AdServicesHtmlWriter {
     builder.append("<p style=" + "\"" + "font-size:90%;" + "\"" + "><ul>");
     params.forEach(param -> {
       builder.append(
-          "<li><a href=\"" + baseURL + "/" + param.getId() + "\">" + param.getDisplay()
+          "<li><a href=\"" + baseURL + param.getId() + "\">" + param.getDisplay()
               + "</a></li>");
     });
     builder.append("</ul></p></div></body></html>");

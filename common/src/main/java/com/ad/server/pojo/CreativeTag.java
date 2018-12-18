@@ -32,6 +32,11 @@ public class CreativeTag implements Serializable {
     this.adPartnerId = adPartnerId;
   }
 
+  public CreativeTag(final String guid, final String url) {
+    this.tagGuid = guid;
+    this.creativeMarkupUrl = url;
+  }
+
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "creative_tag_id")

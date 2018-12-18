@@ -90,7 +90,7 @@ public class AdServicesController {
     final String baseURL = request.getRequestURI().replace("/list", "");
     final List<Param> params = new ArrayList<>();
     displayNames.forEach(displayName -> params.add(new Param(displayName)));
-    final String response = AdServicesHtmlWriter.getMarkUp(baseURL, "Index", params);
+    final String response = AdServicesHtmlWriter.getMarkUp(baseURL + "/", "Index", params);
     return new ResponseEntity(response, HttpStatus.OK);
   }
 
@@ -105,9 +105,22 @@ public class AdServicesController {
       } else {
         displayName = name;
       }
-      final String response = AdServicesHtmlWriter.getMarkUp(baseURL, displayName, getAsParams(cache));
+      final String response = AdServicesHtmlWriter.getMarkUp(baseURL + "/", displayName, getAsParams(cache));
       return new ResponseEntity(response, HttpStatus.OK);
     } catch (final AdServicesException | ReflectionException e) {
+      return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @RequestMapping(value = "/ad-services/cache/state/tag-guid-url", produces = "text/html")
+  public ResponseEntity tagUrl() {
+    try {
+      final Map<String, String> cache = (Map<String, String>) builder.get(CreativeTagRepo.TAG_GUID_URL);
+      final List<Param> params = new ArrayList<>();
+      cache.forEach((k, v) -> params.add(new Param(v, k)));
+      final String response = AdServicesHtmlWriter.getMarkUp("", "Creative Tags", params);
+      return new ResponseEntity(response, HttpStatus.OK);
+    } catch (final AdServicesException e) {
       return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }

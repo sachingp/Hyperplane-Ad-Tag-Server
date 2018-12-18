@@ -30,6 +30,7 @@ public interface CreativeRepo extends JpaRepository<Creative, Integer>, Cache {
   String CAMPAIGN_CREATIVE = "campaign-creative";
   String ACCOUNT_CREATIVE = "guid-creative";
   String ACTIVE_CREATIVE = "active-creative";
+  String ACTIVE_CREATIVE_NAME = "active-creative-name";
   String CREATIVE_COUNTRY = "creative-country";
 
   default Class getType() {
@@ -72,6 +73,13 @@ public interface CreativeRepo extends JpaRepository<Creative, Integer>, Cache {
       + " INNER JOIN cr.campaign c INNER JOIN c.advertiser ad INNER JOIN ad.account ac"
       + " WHERE cr.status = 1 AND c.status = 1 AND ad.status = 1 AND ac.status = 1")
   public List<Creative> findAllActiveCreatives();
+
+  @Cacheable(name = ACTIVE_CREATIVE_NAME, whole = true, key = {
+      "creativeId"}, keyType = Integer.class, valueType = Creative.class)
+  @Query("SELECT cr FROM Creative cr"
+      + " INNER JOIN cr.campaign c INNER JOIN c.advertiser ad INNER JOIN ad.account ac"
+      + " WHERE cr.status = 1 AND c.status = 1 AND ad.status = 1 AND ac.status = 1")
+  public List<Creative> findAllActiveCreativeNames();
 
   @Cacheable(name = CREATIVE_COUNTRY, whole = true, key = {
       "accountGuid"}, value={"creativeId"}, keyType = String.class, custom = "prepareByGeo")
