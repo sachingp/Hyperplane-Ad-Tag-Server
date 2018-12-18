@@ -1,9 +1,5 @@
 package com.ad.server.pojo;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -16,11 +12,18 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import com.ad.server.Name;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "creative")
+@Name("name")
 public class Creative implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -30,12 +33,19 @@ public class Creative implements Serializable {
     this.creativeId = id;
   }
 
-  public Creative(final Integer id, final Integer campaignId, final Integer advertiserId, final Integer accountId, final String accountGuid) {
+  public Creative(
+      final Integer id,
+      final Integer campaignId,
+      final Integer advertiserId,
+      final Integer accountId,
+      final String accountGuid,
+      final String name) {
     this.creativeId = id;
     this.campaignId = campaignId;
     this.advertiserId = advertiserId;
     this.accountId = accountId;
     this.accountGuid = accountGuid;
+    this.name = name;
   }
 
   public Creative(final Integer id, final String byGeo) {

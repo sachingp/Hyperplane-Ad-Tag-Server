@@ -19,20 +19,28 @@ import java.util.Map;
 public interface CampaignRepo extends JpaRepository<Campaign, Integer>, Cache {
 
   String ADVERTISER_CAMPAIGN = "advertiser-campaign";
+  String ACTIVE_CAMPAIGN_NAME = "active-campaign-name";
 
   default Class getType() {
     return CampaignRepo.class;
   }
 
   @Query("SELECT c FROM Campaign c INNER JOIN c.advertiser ad WHERE c.status = 1 AND ad.id = ?1")
-  public List<Campaign> findActiveCampaignsForAdvertiser(Integer advertiserId);
+  List<Campaign> findActiveCampaignsForAdvertiser(Integer advertiserId);
 
   @Cacheable(name = ADVERTISER_CAMPAIGN, whole = true, key = {
       "advertiserId"}, keyType = Integer.class, custom = "prepareByAdvertiser")
   @Query("SELECT c FROM Campaign c"
       + " INNER JOIN c.advertiser ad INNER JOIN ad.account ac"
       + " WHERE c.status = 1 AND ad.status = 1 AND ac.status = 1")
-  public List<Campaign> findActiveCampaigns();
+  List<Campaign> findActiveCampaigns();
+
+  @Cacheable(name = ACTIVE_CAMPAIGN_NAME, whole = true, key = {
+      "campaignId"}, keyType = Integer.class, valueType = Campaign.class)
+  @Query("SELECT c FROM Campaign c"
+      + " INNER JOIN c.advertiser ad INNER JOIN ad.account ac"
+      + " WHERE c.status = 1 AND ad.status = 1 AND ac.status = 1")
+  List<Campaign> findActiveCampaignNames();
 
   default Map<Integer, List<Campaign>> prepareByAdvertiser(final List<Campaign> campaigns) {
     if (campaigns == null || campaigns.isEmpty()) {

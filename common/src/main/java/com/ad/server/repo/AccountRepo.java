@@ -15,6 +15,7 @@ import java.util.List;
 public interface AccountRepo extends JpaRepository<Account, Integer>, Cache {
 
   String ACTIVE_ACCOUNTS = "active-account";
+  String ACTIVE_ACCOUNT_NAME = "active-account-name";
   String ACCOUNT_GUID_ID = "guid-id";
 
   default Class getType() {
@@ -25,6 +26,11 @@ public interface AccountRepo extends JpaRepository<Account, Integer>, Cache {
       "accountGuid"}, keyType = String.class, valueType = Account.class)
   @Query("SELECT a FROM Account a WHERE a.status = 1 ")
   public List<Account> findActiveAccounts();
+
+  @Cacheable(name = ACTIVE_ACCOUNT_NAME, whole = true, key = {
+      "accountGuid"}, keyType = String.class, valueType = Account.class)
+  @Query("SELECT a FROM Account a WHERE a.status = 1 ")
+  public List<Account> findActiveAccountNames();
 
   @Cacheable(name = ACCOUNT_GUID_ID, whole = true, key = {
       "accountGuid"}, value = {"accountId"}, keyType = String.class, valueType = Integer.class)

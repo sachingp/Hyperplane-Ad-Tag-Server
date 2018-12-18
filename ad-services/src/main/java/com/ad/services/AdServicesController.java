@@ -1,9 +1,13 @@
 package com.ad.services;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 import lombok.extern.slf4j.Slf4j;
@@ -16,13 +20,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ad.server.Name;
 import com.ad.server.pojo.CreativeTag;
 import com.ad.server.repo.CreativeTagRepo;
 import com.ad.server.repo.MacrosRepo;
 import com.ad.server.template.TemplateService;
 import com.ad.server.template.TemplateType;
 import com.ad.services.cache.builder.RedisCacheBuilder;
+import com.ad.services.cache.type.Param;
 import com.ad.services.exception.AdServicesException;
+import com.ad.util.reflect.ReflectionException;
+import com.ad.util.reflect.ReflectionUtil;
 
 @Slf4j
 @RestController
@@ -37,6 +45,26 @@ public class AdServicesController {
 
   @Value("#{'${cache.names}'.split(',')}")
   private Set<String> cacheNames;
+
+  @Value("#{'${display.cache.names}'.split(',')}")
+  private Set<String> displayNames;
+
+  private final Map<String, String> cacheToDisplay;
+  private final Map<String, String> displayToCache;
+
+  public AdServicesController() {
+    cacheToDisplay = new HashMap<>();
+    displayToCache = new HashMap<>();
+  }
+
+  @PostConstruct
+  public void init() {
+    displayNames.forEach(displayName -> {
+      final String[] tokens = displayName.split(":");
+      cacheToDisplay.put(tokens[0], tokens[1]);
+      displayToCache.put(tokens[1], tokens[0]);
+    });
+  }
 
   @RequestMapping("/ad-services/healthcheck")
   public ResponseEntity healthcheck() {
@@ -60,7 +88,9 @@ public class AdServicesController {
   @RequestMapping(value = "/ad-services/cache/state/list", produces = "text/html")
   public ResponseEntity list(final HttpServletRequest request) {
     final String baseURL = request.getRequestURI().replace("/list", "");
-    final String response = AdServicesHtmlWriter.getMarkUp(baseURL, "Index", cacheNames);
+    final List<Param> params = new ArrayList<>();
+    displayNames.forEach(displayName -> params.add(new Param(displayName)));
+    final String response = AdServicesHtmlWriter.getMarkUp(baseURL, "Index", params);
     return new ResponseEntity(response, HttpStatus.OK);
   }
 
@@ -69,9 +99,15 @@ public class AdServicesController {
     try {
       final Map cache = (Map) builder.get(name);
       final String baseURL = request.getRequestURI();
-      final String response = AdServicesHtmlWriter.getMarkUp(baseURL, name, cache.keySet());
+      final String displayName;
+      if (cacheToDisplay.containsKey(name)) {
+        displayName = cacheToDisplay.get(name);
+      } else {
+        displayName = name;
+      }
+      final String response = AdServicesHtmlWriter.getMarkUp(baseURL, displayName, getAsParams(cache));
       return new ResponseEntity(response, HttpStatus.OK);
-    } catch (final AdServicesException e) {
+    } catch (final AdServicesException | ReflectionException e) {
       return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
@@ -132,6 +168,34 @@ public class AdServicesController {
     } catch (final AdServicesException e) {
       return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
+
+  private List<Param> getAsParams(final Map map) throws ReflectionException {
+    final List<Param> params = new ArrayList<>();
+    if (map == null || map.isEmpty()) {
+      return params;
+    }
+    final Set<Entry> entries = map.entrySet();
+    for (final Entry entry : entries) {
+      final String id = String.valueOf(entry.getKey());
+      final Object mapValue = entry.getValue();
+      if (mapValue == null) {
+        continue;
+      }
+      final String name;
+      final Class valueType = mapValue.getClass();
+      if (ReflectionUtil.isPrimitive(valueType)) {
+        name = String.valueOf(mapValue);
+      } else if (valueType.isAnnotationPresent(Name.class)) {
+        final Name nameValue = (Name) valueType.getAnnotation(Name.class);
+        final Object fieldValue = ReflectionUtil.getFieldValue(valueType, mapValue, nameValue.value());
+        name = String.valueOf(fieldValue);
+      } else {
+        name = id;
+      }
+      params.add(new Param(id, name));
+    }
+    return params;
   }
 
 }

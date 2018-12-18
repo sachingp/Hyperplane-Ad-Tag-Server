@@ -68,7 +68,7 @@ public interface CreativeRepo extends JpaRepository<Creative, Integer>, Cache {
 
   @Cacheable(name = ACTIVE_CREATIVE, whole = true, key = {
       "creativeId"}, keyType = Integer.class, valueType = Creative.class)
-  @Query("SELECT new Creative(cr.creativeId, c.campaignId, ad.advertiserId, ac.accountId, ac.accountGuid) FROM Creative cr"
+  @Query("SELECT new Creative(cr.creativeId, c.campaignId, ad.advertiserId, ac.accountId, ac.accountGuid, cr.name) FROM Creative cr"
       + " INNER JOIN cr.campaign c INNER JOIN c.advertiser ad INNER JOIN ad.account ac"
       + " WHERE cr.status = 1 AND c.status = 1 AND ad.status = 1 AND ac.status = 1")
   public List<Creative> findAllActiveCreatives();

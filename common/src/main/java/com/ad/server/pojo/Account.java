@@ -1,12 +1,7 @@
 package com.ad.server.pojo;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.data.rest.core.annotation.RestResource;
-
 import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,12 +11,22 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.core.annotation.RestResource;
+
+import com.ad.server.Name;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "account")
 @RepositoryRestResource(collectionResourceRel = "account", path = "accounts")
+@Name("accountName")
 public class Account implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -29,6 +34,11 @@ public class Account implements Serializable {
   public Account(final String guid, final Integer id) {
     accountGuid = guid;
     accountId = id;
+  }
+
+  public Account(final String guid, final String name) {
+    accountGuid = guid;
+    accountName = name;
   }
 
   @Id

@@ -19,6 +19,7 @@ import java.util.Map;
 public interface AdvertiserRepo extends JpaRepository<Advertiser, Integer>, Cache {
 
   String ACCOUNT_ADVERTISER = "account-advertiser";
+  String ACTIVE_ADVERTISER_NAME = "active-advertiser-name";
 
   default Class getType() {
     return AdvertiserRepo.class;
@@ -32,6 +33,12 @@ public interface AdvertiserRepo extends JpaRepository<Advertiser, Integer>, Cach
   @Query("SELECT ad FROM Advertiser ad INNER JOIN ad.account ac"
       + " WHERE ad.status = 1 AND ac.status = 1")
   public List<Advertiser> findActiveAdvertisers();
+
+  @Cacheable(name = ACTIVE_ADVERTISER_NAME, whole = true, key = {
+      "advertiserId"}, keyType = Integer.class, valueType = Advertiser.class)
+  @Query("SELECT ad FROM Advertiser ad INNER JOIN ad.account ac"
+      + " WHERE ad.status = 1 AND ac.status = 1")
+  public List<Advertiser> findActiveAdvertiserName();
 
   default Map<Integer, List<Advertiser>> prepareByAccount(final List<Advertiser> advertisers) {
     if (advertisers == null || advertisers.isEmpty()) {

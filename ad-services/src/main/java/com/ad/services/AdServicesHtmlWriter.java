@@ -1,8 +1,10 @@
 package com.ad.services;
 
+import java.util.List;
+
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Set;
+import com.ad.services.cache.type.Param;
 
 @Slf4j
 public class AdServicesHtmlWriter {
@@ -15,7 +17,7 @@ public class AdServicesHtmlWriter {
   /**
    * @return HTML data.
    */
-  public static <T> String getMarkUp(String baseURL, final String display, final Set<T> params) {
+  public static <T extends Param> String getMarkUp(String baseURL, final String display, final List<T> params) {
     log.info("Preparing HTML for {} -- {}", baseURL, display);
     StringBuilder builder = new StringBuilder();
     builder.append(
@@ -29,7 +31,7 @@ public class AdServicesHtmlWriter {
     builder.append("<p style=" + "\"" + "font-size:90%;" + "\"" + "><ul>");
     params.forEach(param -> {
       builder.append(
-          "<li><a href=\"" + baseURL + "/" + param + "\">" + param
+          "<li><a href=\"" + baseURL + "/" + param.getId() + "\">" + param.getDisplay()
               + "</a></li>");
     });
     builder.append("</ul></p></div></body></html>");

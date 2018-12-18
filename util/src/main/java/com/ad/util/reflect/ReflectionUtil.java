@@ -1,14 +1,17 @@
 package com.ad.util.reflect;
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SuppressWarnings({"rawtypes", "unchecked"})
@@ -224,6 +227,23 @@ public class ReflectionUtil {
     final String getterName =
         "get" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1);
     return getterName;
+  }
+
+  public static boolean isPrimitive(final Class type) {
+    return type.isPrimitive()
+        || String.class.equals(type)
+        || Integer.class.equals(type)
+        || Boolean.class.equals(type)
+        || Long.class.equals(type)
+        || Date.class.equals(type)
+        || Short.class.equals(type)
+        || Double.class.equals(type)
+        || Float.class.equals(type)
+        || java.sql.Date.class.equals(type)
+        || Byte.class.equals(type)
+        || Character.class.equals(type)
+        || BigDecimal.class.equals(type)
+        || BigInteger.class.equals(type);
   }
 
 }

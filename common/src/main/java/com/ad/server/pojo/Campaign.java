@@ -1,11 +1,8 @@
 package com.ad.server.pojo;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,14 +12,26 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import com.ad.server.Name;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "campaign")
+@Name("campaignName")
 public class Campaign implements Serializable {
 
   private static final long serialVersionUID = 1L;
+
+  public Campaign(final Integer campaignId, final String campaignName) {
+    this.campaignId = campaignId;
+    this.campaignName = campaignName;
+  }
 
   @Id
   @Column(name = "campaign_id")
