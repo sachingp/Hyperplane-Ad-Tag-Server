@@ -1,9 +1,7 @@
 package com.ad.services.cache.type;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@AllArgsConstructor
 @Data
 public class Param {
 
@@ -14,6 +12,11 @@ public class Param {
     final String[] tokens = combination.split(":");
     this.id = tokens[0];
     this.display = tokens[1];
+  }
+
+  public Param(final String id, final String display) {
+    this.id = id;
+    this.display = display;
   }
 
 }
