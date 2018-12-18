@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ad.server.pojo.CreativeTag;
+import com.ad.server.repo.CreativeTagRepo;
+import com.ad.server.repo.MacrosRepo;
 import com.ad.server.template.TemplateService;
 import com.ad.server.template.TemplateType;
 import com.ad.services.cache.builder.RedisCacheBuilder;
@@ -101,11 +104,34 @@ public class AdServicesController {
       log.info("Invalid template: {}", name);
       return new ResponseEntity("Invalid Template name: " + name, HttpStatus.NOT_FOUND);
     }
-    final Map<String, Object> context = new HashMap<>();
-    context.put("DOMAIN", domain);
-    context.put("GUID", guid);
-    final String evaluated = new TemplateService().eval(context, template);
-    return new ResponseEntity(evaluated, HttpStatus.OK);
+    try {
+      final Map<String, Object> context = new HashMap<>();
+      context.put("DOMAIN", domain);
+      context.put("GUID", guid);
+      final Map<Integer, Map<String, String>> macros = (Map<Integer, Map<String, String>>) builder.get(MacrosRepo.PARTNER_MACRO);
+      final Map<String, CreativeTag> tags = (Map<String, CreativeTag>) builder.get(CreativeTagRepo.TAG_GUID_CREATIVE);
+      final CreativeTag creativeTag = tags.get(guid);
+      final String expanded;
+      if (creativeTag == null) {
+        expanded = "";
+      } else {
+        final Map<String, String> partnerMacros = macros.get(creativeTag.getAdPartnerId());
+        final StringBuilder builder = new StringBuilder();
+        partnerMacros.forEach((k, v) -> {
+          builder.append("'").append(k).append("'='").append(v).append("',");
+        });
+        if (builder.length() > 1) {
+          expanded = builder.substring(0, builder.length() - 1);
+        } else {
+          expanded = builder.toString();
+        }
+      }
+      context.put("PARTNER_MACROS", expanded);
+      final String evaluated = new TemplateService().eval(context, template);
+      return new ResponseEntity(evaluated, HttpStatus.OK);
+    } catch (final AdServicesException e) {
+      return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
 }

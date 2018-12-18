@@ -25,10 +25,11 @@ public class CreativeTag implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  public CreativeTag(final String guid, final Integer creativeId, final Integer tagTypeId) {
+  public CreativeTag(final String guid, final Integer creativeId, final Integer tagTypeId, final Integer adPartnerId) {
     this.tagGuid = guid;
     this.creativeId = creativeId;
     this.tagTypeId = tagTypeId;
+    this.adPartnerId = adPartnerId;
   }
 
   @Id
