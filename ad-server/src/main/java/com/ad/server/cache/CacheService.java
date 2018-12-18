@@ -35,6 +35,7 @@ public class CacheService {
    */
 
   public static String getTagScriptData(String tag) {
+    log.debug("Request for Ad Tag :: {} ", tag);
     return AdServerRedisClient.getInstance().get(tag);
   }
 

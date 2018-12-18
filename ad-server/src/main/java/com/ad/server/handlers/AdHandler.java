@@ -35,6 +35,7 @@ public class AdHandler extends AbstractRequestHandler {
     long startTime = System.currentTimeMillis();
     log.debug("Start Time ::{}", startTime);
     String tagGuid = this.routingContext.request().getParam("guid");
+    boolean clickSession = false;
     log.debug("Tag Guid :: {}", tagGuid);
     if (!Strings.isNullOrEmpty(tagGuid)) {
       log.debug("Tag Guid : {}", tagGuid);
@@ -73,8 +74,6 @@ public class AdHandler extends AbstractRequestHandler {
         if (!params.containsKey(PARAMS.ORD.getName())) {
           adContext.setCacheBuster(0);
         }
-      } else {
-        log.debug("Params empty");
       }
       TagTargeting tagTargeting = new TagTargeting(adContext);
       boolean targetingResult = tagTargeting.selection();
@@ -85,13 +84,12 @@ public class AdHandler extends AbstractRequestHandler {
         setCookie(cookie);
         if (!Strings.isNullOrEmpty(scriptData)) {
           ScriptMacros scriptMacros = new ScriptMacros(scriptData, adContext);
-          // record event
-          this.routingContext.response().setStatusCode(200).end(scriptMacros.addMacros());
           if (params.containsKey(PARAMS.CLICK_THROUGH.getName())) {
-            ClickContext clickContext = new ClickContext(sessionId,
-                params.get(PARAMS.CLICK_THROUGH.getName()));
-            AkkaSystem.getInstance().insertSessionClick(clickContext);
+            clickSession = true;
           }
+          // return response and tag data
+          this.routingContext.response().setStatusCode(200).end(scriptMacros.addMacros());
+
         } else {
           adContext.setTagServed(false);
           sendError(204, this.routingContext.response());
@@ -99,6 +97,12 @@ public class AdHandler extends AbstractRequestHandler {
       } else {
         adContext.setTagServed(false);
         sendError(204, this.routingContext.response());
+      }
+
+      if (clickSession) {
+        ClickContext clickContext = new ClickContext(sessionId,
+            params.get(PARAMS.CLICK_THROUGH.getName()));
+        AkkaSystem.getInstance().insertSessionClick(clickContext);
       }
 
       AkkaSystem.getInstance().publishEventRecord(adContext);

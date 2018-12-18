@@ -77,6 +77,8 @@ public class AdServerConstants {
 
     final String INCLUSION = "Inclusion";
 
+    final long TAG_CACHE_TTL = 1800000;
+
   }
 
   public interface DEVICE_ID_TYPE {
