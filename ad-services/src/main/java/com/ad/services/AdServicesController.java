@@ -112,7 +112,7 @@ public class AdServicesController {
     }
   }
 
-  @RequestMapping(value = "/ad-services/cache/state/tag-guid-url", produces = "text/html")
+  @RequestMapping(value = "/ad-services/cache/state/active-tag-url", produces = "text/html")
   public ResponseEntity tagUrl() {
     try {
       final Map<String, String> cache = (Map<String, String>) builder.get(CreativeTagRepo.TAG_GUID_URL);
