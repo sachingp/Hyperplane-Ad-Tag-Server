@@ -42,6 +42,22 @@ public class AdServerConstants {
 
   }
 
+  @Getter
+  public enum MACROS {
+    GUID("guid", "\\{TAG_GUID\\}"),
+    EVENT_ID("eventId", "\\{EVENT_ID\\}"),
+    SESSION_ID("sessionId", "\\{SESSION_ID\\}");
+
+    private final String name;
+    private final String macro;
+
+    MACROS(String name, String macro) {
+      this.name = name;
+      this.macro = macro;
+    }
+
+  }
+
   public interface GENERAL {
 
     final String NAMESPACE = "ad-server";

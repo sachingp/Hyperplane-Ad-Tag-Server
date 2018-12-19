@@ -6,10 +6,12 @@ import com.ad.server.context.AdContext;
 import com.ad.server.context.ClickContext;
 import com.ad.server.macros.ScriptMacros;
 import com.ad.server.targeting.TagTargeting;
+import com.ad.util.client.AdServerRedisClient;
 import com.ad.util.constants.AdServerConstants.PARAMS;
 import com.ad.util.event.EventEnum;
 import com.ad.util.geo.CountryCode;
 import com.ad.util.geo.GeoLocationService;
+import com.ad.util.tag.SampleTagMraid;
 import com.ad.util.uuid.ServerUtil;
 import com.google.common.base.Strings;
 import io.vertx.ext.web.Cookie;
@@ -59,6 +61,9 @@ public class AdHandler extends AbstractRequestHandler {
         log.debug("Country for the ip :: {}, country :: {}", ip, country);
       }
 
+      AdServerRedisClient.getInstance()
+          .put("99016f97-1f41-4092-96c0-af03726e1c5d", SampleTagMraid.getSampleMraid(), 86400);
+
       String sessionId = ServerUtil.getUID();
       Map<String, String> params = getRequestParams();
       log.debug("Request Params : {}", params);
@@ -88,7 +93,7 @@ public class AdHandler extends AbstractRequestHandler {
             clickSession = true;
           }
           // return response and tag data
-          this.routingContext.response().setStatusCode(200).end(scriptMacros.addMacros());
+          this.routingContext.response().setStatusCode(200).end(scriptMacros.replaceMacros());
 
         } else {
           adContext.setTagServed(false);

@@ -1,6 +1,7 @@
 package com.ad.server.handlers;
 
 import com.ad.server.akka.AkkaSystem;
+import com.ad.server.cache.CacheService;
 import com.ad.server.context.AdContext;
 import com.ad.util.event.EventUtil;
 import com.ad.util.geo.GeoLocationService;
@@ -16,9 +17,9 @@ import java.util.Map;
  */
 
 @Slf4j
-public class EventHandler extends AbstractRequestHandler {
+public class TrackHandler extends AbstractRequestHandler {
 
-  public EventHandler(RoutingContext routingContext) {
+  public TrackHandler(RoutingContext routingContext) {
     super(routingContext);
   }
 
@@ -59,10 +60,11 @@ public class EventHandler extends AbstractRequestHandler {
           AdContext adContext = createAdContext(sessionId, ip, tagGuid, country, params, deviceId,
               userAgent, eventId, cookie.getValue());
 
-          AkkaSystem.getInstance().publishEventRecord(adContext);
+          CacheService.setTagDetails(adContext);
           // set Cookie
           setCookie(cookie);
           this.routingContext.response().setStatusCode(200).end();
+          AkkaSystem.getInstance().publishEventRecord(adContext);
 
         } else {
           log.error("Unknown Event::");

@@ -96,4 +96,25 @@ public class CacheService {
 
   }
 
+  public static boolean setTagDetails(AdContext adContext) {
+    String tag = adContext.getTag();
+    log.debug("Tag Request Targeting :: {}", tag);
+    if (tag != null && CacheService.isTagActive(adContext)) {
+      CreativeTag creativeTag = CacheService.getCreative(adContext);
+      log.debug("Creative Tag :: {}", creativeTag);
+      if (creativeTag != null) {
+        adContext.setCreativeId(creativeTag.getCreativeId());
+        Creative creative = CacheService.getCreative(creativeTag.getCreativeId());
+        if (creative != null) {
+          adContext.setCampaignId(creative.getCampaignId());
+          adContext.setAdvertiserId(creative.getAdvertiserId());
+          adContext.setAccountId(creative.getAccountId());
+          return true;
+        }
+      }
+
+    }
+    return false;
+  }
+
 }

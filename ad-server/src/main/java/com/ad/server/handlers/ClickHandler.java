@@ -28,6 +28,7 @@ public class ClickHandler extends AbstractRequestHandler {
       Integer eventId = 0;
       try {
         String clickURL = CacheService.getClickThroughURL(sessionId);
+        log.debug("Clickthrough URL :: {}", clickURL);
         eventId = EventEnum.Click.getType();
         log.debug("Event Id :: {}", eventId);
         String ip = getRequestIp();
@@ -40,7 +41,7 @@ public class ClickHandler extends AbstractRequestHandler {
             country = GeoLocationService.getLocationForIp(ip).getCountry().getIsoCode();
           } catch (Exception e) {
             log.error("Error while determining the geo location from ip :: {} , exception", ip,
-                e);
+                e.toString());
           }
           log.debug("Country for the ip :: {}, country :: {}", ip, country);
         }
@@ -53,12 +54,15 @@ public class ClickHandler extends AbstractRequestHandler {
         log.debug("Cookie Value ::{}", cookie.getValue());
         AdContext adContext = createAdContext(sessionId, ip, tagGuid, country, params, deviceId,
             userAgent, eventId, cookie.getValue());
-
-        AkkaSystem.getInstance().publishEventRecord(adContext);
+        CacheService.setTagDetails(adContext);
         // set Cookie
         setCookie(cookie);
         // redirect to click through URL
-        this.routingContext.response().putHeader("/location", clickURL).setStatusCode(302).end();
+        if (Strings.isNullOrEmpty(clickURL)) {
+          clickURL = "https://www.google.com";
+        }
+        this.routingContext.response().putHeader("location", clickURL).setStatusCode(302).end();
+        AkkaSystem.getInstance().publishEventRecord(adContext);
 
 
       } catch (Exception e) {
