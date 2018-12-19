@@ -2,7 +2,7 @@ package com.ad.server.cache;
 
 
 import com.ad.server.context.AdContext;
-import com.ad.server.macros.TagTTLCache;
+import com.ad.server.macros.LocalCache;
 import com.ad.server.pojo.Creative;
 import com.ad.server.pojo.CreativeTag;
 import com.ad.util.client.AdServerRedisClient;
@@ -37,17 +37,37 @@ public class CacheService {
 
   public static String getTagScriptData(String tag) {
     log.debug("Request for Ad Tag :: {} ", tag);
-    String tagData = TagTTLCache.getInstance().get(tag, String.class);
+    String tagData = LocalCache.getInstance().get(tag, String.class);
     if (tagData == null) {
 
       tagData = AdServerRedisClient.getInstance().get(tag);
       if (tagData != null) {
-        TagTTLCache.getInstance().put(tag, tagData);
+        LocalCache.getInstance().put(tag, tagData);
       }
 
     }
     return tagData;
   }
+
+
+  /**
+   * @return get script data for the tag.
+   */
+
+  public static String getClickThroughURL(String sessionId) {
+    log.debug("Request for Ad Click :: {} ", sessionId);
+    String tagData = LocalCache.getInstance().get(sessionId, String.class);
+    if (tagData == null) {
+
+      tagData = AdServerRedisClient.getInstance().get(sessionId);
+      if (tagData != null) {
+        LocalCache.getInstance().put(sessionId, tagData);
+      }
+
+    }
+    return tagData;
+  }
+
 
   /**
    * @return creative Id for the tag.

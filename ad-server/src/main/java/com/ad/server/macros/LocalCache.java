@@ -7,26 +7,26 @@ import org.apache.commons.collections4.map.PassiveExpiringMap;
  * @author sagupta
  */
 
-public class TagTTLCache {
+public class LocalCache {
 
-  private static TagTTLCache tagTTLCache = null;
+  private static LocalCache localCache = null;
 
   private final PassiveExpiringMap tagMarkupCache;
 
-  private TagTTLCache() {
+  private LocalCache() {
     tagMarkupCache = new PassiveExpiringMap(CACHE.TAG_CACHE_TTL);
   }
 
-  public static TagTTLCache getInstance() {
-    if (tagTTLCache == null) {
-      synchronized (TagTTLCache.class) {
-        if (tagTTLCache == null) {
-          tagTTLCache = new TagTTLCache();
+  public static LocalCache getInstance() {
+    if (localCache == null) {
+      synchronized (LocalCache.class) {
+        if (localCache == null) {
+          localCache = new LocalCache();
         }
       }
     }
 
-    return tagTTLCache;
+    return localCache;
   }
 
   public <T> T get(String key, final Class<T> type) {

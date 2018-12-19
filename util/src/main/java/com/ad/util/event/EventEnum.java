@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author sagupta
  *
- * |        1 | download   | media download           | |        2 | impression | media
+ * |        1 | loaded   | media download           | |        2 | impression | media
  * impression/display | |        3 | click      | media click              | |        4 | conversion
  * | media conversion | |        5 | 25%        | video media 25%          | |        6 | 50% |
  * video media 50% | |        7 | 75%        | video media 75%          | |        8 | completion |
@@ -19,8 +19,8 @@ import java.util.List;
 @Getter
 public enum EventEnum {
 
-  Download(1), Imoression(2), Click(3), Conversion(4), Video25(5), Video50(6), Video75(
-      7), VideoCompletion(8), Install(9), AdRequest(10);
+  LOADED(1), Imoression(2), Click(3), Conversion(4), Video25(5), Video50(6), Video75(
+      7), VideoCompletion(8), Install(9), AdRequest(10), ERROR(11);
 
   final int type;
   List<Integer> events = new ArrayList<>();

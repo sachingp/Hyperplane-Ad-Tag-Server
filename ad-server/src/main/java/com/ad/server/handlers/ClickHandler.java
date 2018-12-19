@@ -1,6 +1,7 @@
 package com.ad.server.handlers;
 
 import com.ad.server.akka.AkkaSystem;
+import com.ad.server.cache.CacheService;
 import com.ad.server.context.AdContext;
 import com.ad.util.event.EventEnum;
 import com.ad.util.geo.GeoLocationService;
@@ -22,11 +23,11 @@ public class ClickHandler extends AbstractRequestHandler {
   public void handleRequest() {
     String sessionId = this.routingContext.request().getParam("sessionId");
     String tagGuid = this.routingContext.request().getParam("guid");
-    String clickURL = this.routingContext.request().getParam("clickUrl");
-    if (!Strings.isNullOrEmpty(clickURL) && !Strings.isNullOrEmpty(sessionId) && !Strings
+    if (!Strings.isNullOrEmpty(sessionId) && !Strings
         .isNullOrEmpty(tagGuid)) {
       Integer eventId = 0;
       try {
+        String clickURL = CacheService.getClickThroughURL(sessionId);
         eventId = EventEnum.Click.getType();
         log.debug("Event Id :: {}", eventId);
         String ip = getRequestIp();
