@@ -9,3 +9,18 @@ Additionally, Uber will have to share its first-party data with DCM and Celtra t
  
 Considering this, we evaluated build vs. buy decision (link here) one month ago and ultimately decided to build our own ad server. This document provides use cases and requirements for MVP launch of Uber’s ad server. Please refer to this document (link here: still WIP) for Ad server narrative and complete use cases/feature list.
 
+Technology 
+SpringBoot
+Vertx.x
+Akka
+MySql
+Redis
+Velocity
+MapDb
+
+API 
+
+http://ec2-18-191-183-129.us-east-2.compute.amazonaws.com:8091/ad-services/cache/state/list
+
+Server
+http://ec2-18-191-183-129.us-east-2.compute.amazonaws.com:8080/ads?guid=99016f97-1f41-4092-96c0-af03726e1c5d
