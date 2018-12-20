@@ -5,6 +5,7 @@ import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -12,6 +13,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import javax.sql.DataSource;
 
 @Configuration
+@PropertySource({"classpath:ad-services.properties", "classpath:ad-services-dev.properties", "classpath:ad-services-prod.properties"})
 @EnableJpaRepositories(entityManagerFactoryRef = "adserverEntityManager", transactionManagerRef = "adserverTransactionManager", basePackages = {
     "com.ad.server"})
 public class AdServerConfiguration {
