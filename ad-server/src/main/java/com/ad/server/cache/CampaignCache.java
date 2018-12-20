@@ -34,12 +34,12 @@ public class CampaignCache extends AbstractCache {
 
     List<String> keys = getKeys(CACHE_KEY, version);
     Map<Integer, List<Campaign>> data = getCache(cache, Map.class);
-    if (data != null && !data.isEmpty()) {
+//    if (data != null && !data.isEmpty()) {
       campaignCache.put(keys.get(1), data);
       version.incrementAndGet();
       campaignCache.remove(keys.get(0));
 
-    }
+//    }
   }
 
   @Override

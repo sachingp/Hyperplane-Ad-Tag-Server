@@ -35,12 +35,12 @@ public class AccountCache extends AbstractCache {
   public <T> void build(final T cache) {
     List<String> keys = getKeys(CACHE_KEY, version);
     Map<String, Account> data = getCache(cache, Map.class);
-    if (data != null && !data.isEmpty()) {
+//    if (data != null && !data.isEmpty()) {
       accountCache.put(keys.get(1), data);
       version.incrementAndGet();
       accountCache.remove(keys.get(0));
 
-    }
+//    }
   }
 
   @Override

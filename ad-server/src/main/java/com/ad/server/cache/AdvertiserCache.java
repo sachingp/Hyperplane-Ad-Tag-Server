@@ -33,12 +33,12 @@ public class AdvertiserCache extends AbstractCache {
 
     List<String> keys = getKeys(CACHE_KEY, version);
     Map<Integer, List<Advertiser>> data = getCache(cache, Map.class);
-    if (data != null && !data.isEmpty()) {
+//    if (data != null && !data.isEmpty()) {
       advertiserCache.put(keys.get(1), data);
       version.incrementAndGet();
       advertiserCache.remove(keys.get(0));
 
-    }
+//    }
   }
 
   @Override

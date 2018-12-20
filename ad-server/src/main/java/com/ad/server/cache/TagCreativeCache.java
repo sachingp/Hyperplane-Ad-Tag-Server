@@ -39,12 +39,12 @@ public class TagCreativeCache extends AbstractCache {
     log.debug("Tag Creative Cache Load Keys  :: {}", keys);
     Map<String, Integer> data = getCache(cache, Map.class);
     log.debug("Tag Creative Cache Load Process :: data {}", data);
-    if (data != null && !data.isEmpty()) {
+//    if (data != null && !data.isEmpty()) {
       tagCreativeCache.put(keys.get(1), data);
       version.incrementAndGet();
       tagCreativeCache.remove(keys.get(0));
 
-    }
+//    }
   }
 
   @Override
