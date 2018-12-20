@@ -46,7 +46,7 @@ public class TrackHandler extends AbstractRequestHandler {
               country = GeoLocationService.getLocationForIp(ip).getCountry().getIsoCode();
             } catch (Exception e) {
               log.error("Error while determining the geo location from ip :: {} , exception", ip,
-                  e);
+                  e.toString());
             }
             log.debug("Country for the ip :: {}, country :: {}", ip, country);
           }
@@ -70,6 +70,7 @@ public class TrackHandler extends AbstractRequestHandler {
           log.error("Unknown Event::");
           sendError(204, routingContext.response());
         }
+
 
       } catch (Exception e) {
         log.error("Error while converting the event id to integer");

@@ -58,10 +58,14 @@ public class ClickHandler extends AbstractRequestHandler {
         // set Cookie
         setCookie(cookie);
         // redirect to click through URL
-        if (Strings.isNullOrEmpty(clickURL)) {
-          clickURL = "https://www.google.com";
+        if (!Strings.isNullOrEmpty(clickURL)) {
+          this.routingContext.response().putHeader("location", clickURL).setStatusCode(302).end();
+        } else {
+          adContext.setTagServed(false);
+          log.error("Empty click URL");
+          sendError(204, routingContext.response());
         }
-        this.routingContext.response().putHeader("location", clickURL).setStatusCode(302).end();
+
         AkkaSystem.getInstance().publishEventRecord(adContext);
 
 
