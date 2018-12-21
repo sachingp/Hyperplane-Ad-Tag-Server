@@ -13,7 +13,7 @@ Technology
 
 SpringBoot
 
-Vertx.x
+Vertx.x (Port 8080)
 
 Akka
 
@@ -25,10 +25,12 @@ Velocity
 
 MapDb
 
+Nginx (Port 80)
+
 API 
 
 http://ec2-18-191-183-129.us-east-2.compute.amazonaws.com:8091/ad-services/cache/state/list
 
 Server
 
-http://ec2-18-191-183-129.us-east-2.compute.amazonaws.com:8080/ads?guid=99016f97-1f41-4092-96c0-af03726e1c5d
+http://ec2-18-191-183-129.us-east-2.compute.amazonaws.com/ads?guid=99016f97-1f41-4092-96c0-af03726e1c5d
