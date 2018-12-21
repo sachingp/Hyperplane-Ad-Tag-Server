@@ -76,7 +76,7 @@ public abstract class AbstractRequestHandler implements RequestHandler {
   public String getRequestIp() {
 
     String ip = Optional.ofNullable(this.routingContext.request().getParam("ip"))
-        .orElse(this.routingContext.request().getHeader("X-FORWARDED-FOR"));
+        .orElse(this.routingContext.request().getHeader("X-Forwarded-For"));
 
     if (ip == null) {
       ip = routingContext.request().remoteAddress().host();
@@ -91,7 +91,7 @@ public abstract class AbstractRequestHandler implements RequestHandler {
 
   @Override
   public String getUserAgent() {
-    String userAgent = Optional.ofNullable(this.routingContext.request().getHeader("USER-AGENT"))
+    String userAgent = Optional.ofNullable(this.routingContext.request().getHeader("User-Agent"))
         .orElse(this.routingContext.request().getParam("user_agent"));
 
     return userAgent;

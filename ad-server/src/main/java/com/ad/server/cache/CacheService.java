@@ -39,7 +39,7 @@ public class CacheService {
     log.debug("Request for Ad Tag :: {} ", tag);
     String tagData = LocalCache.getInstance().get(tag, String.class);
     if (tagData == null) {
-
+      log.debug("Log Data not in Local Cache :: {}", tagData);
       tagData = AdServerRedisClient.getInstance().get(tag);
       if (tagData != null) {
         LocalCache.getInstance().put(tag, tagData);

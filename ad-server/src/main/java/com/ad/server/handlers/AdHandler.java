@@ -58,6 +58,7 @@ public class AdHandler extends AbstractRequestHandler {
         }
         log.debug("Country for the ip :: {}, country :: {}", ip, country);
       }
+
       String sessionId = ServerUtil.getUID();
       Map<String, String> params = getRequestParams();
       log.debug("Request Params : {}", params);
