@@ -1,10 +1,7 @@
 package com.ad.server.pojo;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
@@ -22,6 +24,19 @@ import javax.persistence.Table;
 public class CreativeAssets implements Serializable {
 
   private static final long serialVersionUID = 1L;
+
+  public CreativeAssets(
+      final Integer creativeId,
+      final String assetUrl,
+      final String clickUrl,
+      final Integer assetTypeId,
+      final Integer assetSizeId) {
+    this.creativeId = creativeId;
+    this.assetUrl = assetUrl;
+    this.clickUrl = clickUrl;
+    this.assetTypeId = assetTypeId;
+    this.assetSizeId = assetSizeId;
+  }
 
   @Id
   @Column(name = "creative_asset_id")
@@ -38,13 +53,25 @@ public class CreativeAssets implements Serializable {
 
   @ManyToOne
   @JoinColumn(name = "asset_type_id")
-  private AssetType assetTypeId;
+  private AssetType assetType;
 
   @Column(name = "asset_url")
   private String assetUrl;
 
+  @Column(name = "click_url")
+  private String clickUrl;
+
   @ManyToOne
   @JoinColumn(name = "status_id")
   private Status status;
+
+  @Transient
+  private Integer creativeId;
+
+  @Transient
+  private Integer assetTypeId;
+
+  @Transient
+  private Integer assetSizeId;
 
 }
