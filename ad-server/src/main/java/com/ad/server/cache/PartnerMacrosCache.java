@@ -35,12 +35,12 @@ public class PartnerMacrosCache extends AbstractCache {
 
     List<String> keys = getKeys(CACHE_KEY, version);
     Map<Integer, Map<String, String>> data = getCache(cache, Map.class);
-//    if (data != null && !data.isEmpty()) {
+    if (data != null) {
       partnerMacrosCache.put(keys.get(1), data);
       version.incrementAndGet();
       partnerMacrosCache.remove(keys.get(0));
 
-//    }
+    }
   }
 
   @Override

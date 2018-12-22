@@ -1,13 +1,13 @@
 package com.ad.server.cache;
 
+import com.ad.server.context.AdContext;
+import com.ad.server.mapdb.MapDbSystem;
+import com.ad.server.pojo.Creative;
+
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import com.ad.server.context.AdContext;
-import com.ad.server.mapdb.MapDbSystem;
-import com.ad.server.pojo.Creative;
 
 /**
  * @author sagupta
@@ -31,12 +31,12 @@ public class CreativeCache extends AbstractCache {
 
     List<String> keys = getKeys(CACHE_KEY, version);
     Map<Integer, List<Creative>> data = getCache(cache, Map.class);
-//    if (data != null && !data.isEmpty()) {
+    if (data != null) {
       creativeCache.put(keys.get(1), data);
       version.incrementAndGet();
       creativeCache.remove(keys.get(0));
 
-//    }
+    }
   }
 
   @Override

@@ -1,16 +1,15 @@
 package com.ad.server.cache;
 
+import com.ad.server.context.AdContext;
+import com.ad.server.mapdb.MapDbSystem;
+import com.ad.server.pojo.CreativeTag;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-
-import com.ad.server.context.AdContext;
-import com.ad.server.mapdb.MapDbSystem;
-import com.ad.server.pojo.CreativeTag;
 
 /**
  * @author sagupta
@@ -39,12 +38,12 @@ public class TagCreativeCache extends AbstractCache {
     log.debug("Tag Creative Cache Load Keys  :: {}", keys);
     Map<String, Integer> data = getCache(cache, Map.class);
     log.debug("Tag Creative Cache Load Process :: data {}", data);
-//    if (data != null && !data.isEmpty()) {
+    if (data != null) {
       tagCreativeCache.put(keys.get(1), data);
       version.incrementAndGet();
       tagCreativeCache.remove(keys.get(0));
 
-//    }
+    }
   }
 
   @Override

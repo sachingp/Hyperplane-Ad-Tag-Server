@@ -34,12 +34,12 @@ public class TagPartnerCache extends AbstractCache {
 
     List<String> keys = getKeys(CACHE_KEY, version);
     Map<String, Integer> data = getCache(cache, Map.class);
-//    if (data != null && !data.isEmpty()) {
+    if (data != null) {
       tagPartnerCache.put(keys.get(1), data);
       version.incrementAndGet();
       tagPartnerCache.remove(keys.get(0));
 
-//    }
+    }
   }
 
   @Override

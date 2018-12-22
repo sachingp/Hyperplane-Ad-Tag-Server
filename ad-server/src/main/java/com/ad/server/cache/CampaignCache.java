@@ -1,15 +1,14 @@
 package com.ad.server.cache;
 
+import com.ad.server.context.AdContext;
+import com.ad.server.mapdb.MapDbSystem;
+import com.ad.server.pojo.Campaign;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import lombok.extern.slf4j.Slf4j;
-
-import com.ad.server.context.AdContext;
-import com.ad.server.mapdb.MapDbSystem;
-import com.ad.server.pojo.Campaign;
 
 /**
  * @author sagupta
@@ -34,12 +33,12 @@ public class CampaignCache extends AbstractCache {
 
     List<String> keys = getKeys(CACHE_KEY, version);
     Map<Integer, List<Campaign>> data = getCache(cache, Map.class);
-//    if (data != null && !data.isEmpty()) {
+    if (data != null) {
       campaignCache.put(keys.get(1), data);
       version.incrementAndGet();
       campaignCache.remove(keys.get(0));
 
-//    }
+    }
   }
 
   @Override

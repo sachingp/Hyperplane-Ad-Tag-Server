@@ -39,12 +39,12 @@ public class CreativeCountryCache extends AbstractCache {
     List<String> keys = getKeys(CACHE_KEY, version);
     Map<Integer, Map<String, List<String>>> data = getCache(cache, Map.class);
     log.debug("Country Cache :: {}", data);
-//    if (data != null && !data.isEmpty()) {
+    if (data != null) {
       creativeCountryCache.put(keys.get(1), data);
       version.incrementAndGet();
       creativeCountryCache.remove(keys.get(0));
 
-//    }
+    }
   }
 
   @Override
