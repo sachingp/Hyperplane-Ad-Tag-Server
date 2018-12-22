@@ -8,6 +8,11 @@ import com.ad.util.client.AdServerRedisClient;
 import com.ad.util.constants.AdServerConstants.GENERAL;
 import lombok.extern.slf4j.Slf4j;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+
+
 /**
  * @author sagupta
  */
@@ -28,9 +33,33 @@ public class ClickRedisActor extends AbstractActor {
     return receiveBuilder().match(ClickContext.class, clickContext -> {
       log.debug("Adding ClickThrough URL for session Id :: {}, click URL :: {} ",
           clickContext.getSessionId(), clickContext.getClickURL());
-      LocalCache.getInstance().put(clickContext.getSessionId(), clickContext.getClickURL());
-      AdServerRedisClient.getInstance()
-          .put(clickContext.getSessionId(), clickContext.getClickURL(), GENERAL.REDIS_TTL_SESSSION);
+      if (isValidURL(clickContext.getClickURL())) {
+        LocalCache.getInstance().put(clickContext.getSessionId(), clickContext.getClickURL());
+        AdServerRedisClient.getInstance()
+            .put(clickContext.getSessionId(), clickContext.getClickURL(),
+                GENERAL.REDIS_TTL_SESSSION);
+      }
     }).build();
   }
+
+  /**
+   * @return if the URL is valid
+   */
+
+  private boolean isValidURL(String url) {
+    URL u = null;
+    try {
+      u = new URL(url);
+    } catch (MalformedURLException e) {
+      return false;
+    }
+
+    try {
+      u.toURI();
+    } catch (URISyntaxException e) {
+      return false;
+    }
+    return true;
+  }
+
 }

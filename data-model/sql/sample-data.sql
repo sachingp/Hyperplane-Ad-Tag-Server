@@ -48,6 +48,8 @@ insert into creative_assets values (1,1,6,3,'https://s3.us-east-2.amazonaws.com/
 	
 	
 insert into creative_tag values (1,1,1,1,'99016f97-1f41-4092-96c0-af03726e1c5d','');
+	
+update creative_assets set click_url='http://www.google.com' where creative_asset_id=1;
 		
 		
 			

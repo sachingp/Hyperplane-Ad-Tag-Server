@@ -902,3 +902,5 @@ DROP INDEX `FKbcmk2ikitbg4ly9kppa3dthib` ;
 
 ALTER TABLE `ad_server`.`creative_assets` 
 CHANGE COLUMN `asset_type` `asset_type_id` INT(11) NOT NULL ;
+
+alter table creative_assets ADD column click_url VARCHAR(250) AFTER asset_url;

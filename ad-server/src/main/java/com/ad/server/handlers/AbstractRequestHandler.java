@@ -7,6 +7,7 @@ import com.ad.util.constants.AdServerConstants.GENERAL;
 import com.ad.util.constants.AdServerConstants.PARAMS;
 import com.ad.util.logging.LoggingService;
 import com.ad.util.uuid.ServerUtil;
+import com.google.common.base.Strings;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.Cookie;
 import io.vertx.ext.web.RoutingContext;
@@ -64,7 +65,7 @@ public abstract class AbstractRequestHandler implements RequestHandler {
 
       log.info("Param Name : {}  :: Value : {}", e.getName(), value);
 
-      if (value != null && !value.equals(e.getMacro())) {
+      if (!Strings.isNullOrEmpty(value) && !value.equals("null") && !value.equals(e.getMacro())) {
         params.put(e.getName(), value);
       }
     });
