@@ -27,8 +27,6 @@ public class ClickHandler extends AbstractRequestHandler {
         .isNullOrEmpty(tagGuid)) {
       Integer eventId = 0;
       try {
-        String clickURL = CacheService.getClickThroughURL(sessionId);
-        log.debug("Clickthrough URL :: {}", clickURL);
         eventId = EventEnum.Click.getType();
         log.debug("Event Id :: {}", eventId);
         String ip = getRequestIp();
@@ -57,6 +55,9 @@ public class ClickHandler extends AbstractRequestHandler {
         CacheService.setTagDetails(adContext);
         // set Cookie
         setCookie(cookie);
+        String clickURL = CacheService.getClickThroughURL(sessionId, adContext);
+        log.debug("Clickthrough URL :: {}", clickURL);
+
         // redirect to click through URL
         if (!Strings.isNullOrEmpty(clickURL)) {
           this.routingContext.response().putHeader("location", clickURL).setStatusCode(302).end();

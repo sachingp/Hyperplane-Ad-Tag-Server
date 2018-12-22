@@ -56,12 +56,15 @@ public class CacheService {
    * @return get script data for the tag.
    */
 
-  public static String getClickThroughURL(String sessionId) {
+  public static String getClickThroughURL(String sessionId, AdContext adContext) {
     log.debug("Request for Ad Click :: {} ", sessionId);
     String tagData = LocalCache.getInstance().get(sessionId, String.class);
     if (tagData == null) {
-
       tagData = AdServerRedisClient.getInstance().get(sessionId);
+      if (tagData == null) {
+        // TODO for ASSET ID
+        tagData = adContext.getCreativeAssets().get(0).getClickUrl();
+      }
       if (tagData != null) {
         LocalCache.getInstance().put(sessionId, tagData);
       }
