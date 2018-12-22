@@ -4,30 +4,32 @@ import static com.ad.util.ObjectUtil.combine;
 import static com.ad.util.ObjectUtil.getBytes;
 import static com.ad.util.ObjectUtil.readObject;
 
-import com.ad.server.cache.exception.CacheException;
-import com.ad.server.pojo.Account;
-import com.ad.server.pojo.Advertiser;
-import com.ad.server.pojo.Campaign;
-import com.ad.server.pojo.Creative;
-import com.ad.server.pojo.CreativeTag;
-import com.ad.server.repo.AccountRepo;
-import com.ad.server.repo.AdPartnerRepo;
-import com.ad.server.repo.AdvertiserRepo;
-import com.ad.server.repo.CampaignRepo;
-import com.ad.server.repo.CreativeRepo;
-import com.ad.server.repo.CreativeTagRepo;
-import com.ad.server.repo.MacrosRepo;
-import com.ad.util.client.AdServerRedisClient;
-
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+
+import com.ad.server.cache.exception.CacheException;
+import com.ad.server.pojo.Account;
+import com.ad.server.pojo.Advertiser;
+import com.ad.server.pojo.Campaign;
+import com.ad.server.pojo.Creative;
+import com.ad.server.pojo.CreativeAssets;
+import com.ad.server.pojo.CreativeTag;
+import com.ad.server.repo.AccountRepo;
+import com.ad.server.repo.AdPartnerRepo;
+import com.ad.server.repo.AdvertiserRepo;
+import com.ad.server.repo.CampaignRepo;
+import com.ad.server.repo.CreativeAssetsRepo;
+import com.ad.server.repo.CreativeRepo;
+import com.ad.server.repo.CreativeTagRepo;
+import com.ad.server.repo.MacrosRepo;
+import com.ad.util.client.AdServerRedisClient;
 
 /**
  * @author sagupta
@@ -44,13 +46,14 @@ public class AdServerCache {
   public static Cache campaignCache;
   public static Cache creativeCache;
   public static Cache creativeDetailsCache;
+  public static Cache creativeAssetsCache;
   public static Cache tagCreativeCache;
   public static Cache creativeCountryCache;
   public static Cache tagPartnerCache;
   public static Cache partnerMacrosCache;
   private final ScheduledExecutorService executorService;
-  private final int INITIAL_DELAY = 300;
-  private final int SCHEDULE_TIME_PERIOD = 1800; // 15T Min
+  private final int INITIAL_DELAY = 120;
+  private final int SCHEDULE_TIME_PERIOD = 60; // 15T Min
 
   private static final byte[] partKeyBytes = "-parts".getBytes();
   private static final byte[] partIndexKeyBytes = "-part-".getBytes();
@@ -63,6 +66,7 @@ public class AdServerCache {
     campaignCache = new CampaignCache();
     creativeCache = new CreativeCache();
     creativeDetailsCache = new CreativeDetailsCache();
+    creativeAssetsCache = new CreativeAssetsCache();
     tagCreativeCache = new TagCreativeCache();
     creativeCountryCache = new CreativeCountryCache();
     tagPartnerCache = new TagPartnerCache();
@@ -160,6 +164,15 @@ public class AdServerCache {
         if (creatives != null) {
           log.info("All Active Creatives from cache: {}", creatives);
           creativeDetailsCache.build(creatives);
+        }
+      }
+    },
+    ACTIVE_CREATIVE_ASSETS(CreativeAssetsRepo.CREATIVE_ASSETS) {
+      public void load() throws CacheException {
+        final Map<Integer, List<CreativeAssets>> assets = read(ACTIVE_CREATIVE_ASSETS, Map.class);
+        if (assets != null) {
+          log.info("All Active CreativeAssets from cache: {}", assets);
+          creativeAssetsCache.build(assets);
         }
       }
     },

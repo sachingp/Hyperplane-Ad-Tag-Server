@@ -14,7 +14,7 @@ import com.ad.server.Cacheable;
 import com.ad.server.pojo.CreativeAssets;
 
 @SuppressWarnings({ "rawtypes" })
-@Repository
+@Repository("creativeAssetsRepo")
 public interface CreativeAssetsRepo extends JpaRepository<CreativeAssets, Integer>, Cache {
 
   String CREATIVE_ASSETS = "creative-assets";
@@ -23,7 +23,7 @@ public interface CreativeAssetsRepo extends JpaRepository<CreativeAssets, Intege
     return CreativeAssetsRepo.class;
   }
 
-  @Cacheable(name = CREATIVE_ASSETS, key = {"creativeId"}, keyType = Integer.class, valueType = List.class, custom = "prepareByCreative")
+  @Cacheable(name = CREATIVE_ASSETS, whole = true, key = {"creativeId"}, keyType = Integer.class, valueType = List.class, custom = "prepareByCreative")
   @Query("SELECT new CreativeAssets(cr.creativeId, ca.assetUrl, ca.clickUrl, at.assetTypeId, ass.assetSizeId) FROM CreativeAssets ca"
       + " INNER JOIN ca.creative cr INNER JOIN cr.campaign c INNER JOIN c.advertiser ad INNER JOIN ad.account ac INNER JOIN ca.assetType at INNER JOIN ca.assetSize ass"
       + " WHERE ca.status=1 AND cr.status = 1 AND c.status = 1 AND ad.status = 1 AND ac.status = 1")
