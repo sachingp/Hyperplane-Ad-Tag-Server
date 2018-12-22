@@ -1,24 +1,28 @@
 package com.ad.server.cache;
 
+import com.ad.server.context.AdContext;
+import com.ad.server.mapdb.MapDbSystem;
+import com.ad.server.pojo.CreativeAssets;
+
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.ad.server.context.AdContext;
-import com.ad.server.mapdb.MapDbSystem;
-import com.ad.server.pojo.CreativeAssets;
 
+/**
+ * @author sagupta
+ */
 public class CreativeAssetsCache extends AbstractCache {
 
   public final AtomicInteger version;
 
   public static final String CACHE_KEY = "CREATIVE_ASSETS_CACHE_KEY";
 
-  public final ConcurrentMap creativeCache;
+  public final ConcurrentMap createAssetCache;
 
   public CreativeAssetsCache() {
-    creativeCache = MapDbSystem.getInstance().getDb().hashMap("map").createOrOpen();
+    createAssetCache = MapDbSystem.getInstance().getDb().hashMap("map").createOrOpen();
     version = new AtomicInteger(101023);
   }
 
@@ -27,12 +31,12 @@ public class CreativeAssetsCache extends AbstractCache {
 
     List<String> keys = getKeys(CACHE_KEY, version);
     Map<Integer, List<CreativeAssets>> data = getCache(cache, Map.class);
-//    if (data != null && !data.isEmpty()) {
-      creativeCache.put(keys.get(1), data);
+    if (data != null) {
+      createAssetCache.put(keys.get(1), data);
       version.incrementAndGet();
-      creativeCache.remove(keys.get(0));
+      createAssetCache.remove(keys.get(0));
 
-//    }
+    }
   }
 
   @Override
@@ -42,6 +46,6 @@ public class CreativeAssetsCache extends AbstractCache {
 
   @Override
   public <T> T getCache(Class<T> type) {
-    return (T) this.creativeCache.get(getKey(CACHE_KEY, version));
+    return (T) this.createAssetCache.get(getKey(CACHE_KEY, version));
   }
 }
