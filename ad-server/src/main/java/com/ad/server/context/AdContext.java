@@ -1,6 +1,7 @@
 package com.ad.server.context;
 
 
+import com.ad.server.pojo.CreativeAssets;
 import lombok.Data;
 
 import java.util.List;
@@ -26,4 +27,5 @@ public class AdContext {
   int advertiserId;
   int accountId;
   boolean tagServed = true;
+  List<CreativeAssets> creativeAssets;
 }

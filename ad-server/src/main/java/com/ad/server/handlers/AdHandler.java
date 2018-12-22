@@ -71,7 +71,7 @@ public class AdHandler extends AbstractRequestHandler {
       AdContext adContext = createAdContext(sessionId, ip, tagGuid, country, params, deviceId,
           userAgent, EventEnum.AdRequest.getType(), cookie.getValue());
       int time = 180 * 86400;
-      AdServerRedisClient.getInstance().put(tagGuid, SampleTagMraid.getSampleMraid(), time);
+    //  AdServerRedisClient.getInstance().put(tagGuid, SampleTagMraid.getSampleMraid(), time);
       // check the cache buster, if not replaced set the context
       if (params != null && !params.isEmpty()) {
         log.debug("Check Cache Buster ::");

@@ -46,7 +46,8 @@ public class AdServerConstants {
   public enum MACROS {
     GUID("guid", "\\{TAG_GUID\\}"),
     EVENT_ID("eventId", "\\{EVENT_ID\\}"),
-    SESSION_ID("sessionId", "\\{SESSION_ID\\}");
+    SESSION_ID("sessionId", "\\{SESSION_ID\\}"),
+    IMAGE_URL_1("sessionId", "\\{IMAGE_URL_1\\}");
 
     private final String name;
     private final String macro;

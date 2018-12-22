@@ -4,10 +4,12 @@ package com.ad.server.cache;
 import com.ad.server.context.AdContext;
 import com.ad.server.macros.LocalCache;
 import com.ad.server.pojo.Creative;
+import com.ad.server.pojo.CreativeAssets;
 import com.ad.server.pojo.CreativeTag;
 import com.ad.util.client.AdServerRedisClient;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -96,6 +98,13 @@ public class CacheService {
 
   }
 
+  public static List<CreativeAssets> getCreativeAssets(int creativeId) {
+    Map<Integer, List<CreativeAssets>> cache = AdServerCache.getInstance().creativeAssetsCache
+        .getCache(Map.class);
+    return cache != null ? cache.get(creativeId) : null;
+
+  }
+
   public static boolean setTagDetails(AdContext adContext) {
     String tag = adContext.getTag();
     log.debug("Tag Request Targeting :: {}", tag);
@@ -106,6 +115,9 @@ public class CacheService {
         adContext.setCreativeId(creativeTag.getCreativeId());
         Creative creative = CacheService.getCreative(creativeTag.getCreativeId());
         if (creative != null) {
+          List<CreativeAssets> creativeAssets = CacheService
+              .getCreativeAssets(creative.getCreativeId());
+          adContext.setCreativeAssets(creativeAssets);
           adContext.setCampaignId(creative.getCampaignId());
           adContext.setAdvertiserId(creative.getAdvertiserId());
           adContext.setAccountId(creative.getAccountId());

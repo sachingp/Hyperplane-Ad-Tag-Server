@@ -26,8 +26,15 @@ public class ScriptMacros {
     String macrosGuid = script.replaceAll(MACROS.GUID.getMacro(), adContext.getTag());
     String macrosSession = macrosGuid
         .replaceAll(MACROS.SESSION_ID.getMacro(), adContext.getSessionId());
-    log.debug("Script data :: {} ", macrosSession);
-    return macrosSession;
+    if (adContext.getCreativeAssets() != null && !adContext.getCreativeAssets().isEmpty()) {
+      // TODO - DOING ONLY 1 now
+      String imageUrl = macrosSession.replaceAll(MACROS.IMAGE_URL_1.getMacro(),
+          adContext.getCreativeAssets().get(0).getAssetUrl());
+      log.debug("Script data :: {} ", imageUrl);
+      return imageUrl;
+    } else {
+      return null;
+    }
   }
 
 }
