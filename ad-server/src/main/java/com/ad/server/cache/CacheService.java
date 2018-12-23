@@ -1,12 +1,17 @@
 package com.ad.server.cache;
 
 
+import static com.ad.util.ObjectUtil.getBytes;
+import static com.ad.util.ObjectUtil.readObject;
+
 import com.ad.server.context.AdContext;
 import com.ad.server.macros.LocalCache;
 import com.ad.server.pojo.Creative;
 import com.ad.server.pojo.CreativeAssets;
 import com.ad.server.pojo.CreativeTag;
 import com.ad.util.client.AdServerRedisClient;
+import com.ad.util.exception.AdServicesSerializationException;
+
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -40,14 +45,19 @@ public class CacheService {
   public static String getTagScriptData(String tag) {
     log.debug("Request for Ad Tag :: {} ", tag);
     String tagData = LocalCache.getInstance().get(tag, String.class);
-    if (tagData == null) {
-      log.debug("Log Data not in Local Cache :: {}", tagData);
-      tagData = AdServerRedisClient.getInstance().get(tag);
-      if (tagData != null) {
-        LocalCache.getInstance().put(tag, tagData);
+    try {
+      if (tagData == null) {
+        log.debug("Log Data not in Local Cache :: {}", tagData);
+        final byte[] tagByteData = AdServerRedisClient.getInstance().get(getBytes(tag));
+        if (tagByteData != null) {
+          tagData = readObject(String.class, tagByteData);
+          LocalCache.getInstance().put(tag, tagData);
+        }
       }
-
+    } catch (AdServicesSerializationException e) {
+      log.error(e.getMessage(), e);
     }
+
     return tagData;
   }
 
