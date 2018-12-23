@@ -27,11 +27,12 @@ MapDb
 
 Nginx (Port 80)
 
-API 
-
 Athena
 
 Graphana
+
+API 
+
 
 http://ec2-18-191-183-129.us-east-2.compute.amazonaws.com:8091/ad-services/cache/state/list
 
