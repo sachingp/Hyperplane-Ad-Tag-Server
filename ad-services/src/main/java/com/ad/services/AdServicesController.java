@@ -97,16 +97,20 @@ public class AdServicesController {
   @RequestMapping(value = "/ad-services/cache/state/{cache-name}", produces = "text/html")
   public ResponseEntity state(@PathVariable("cache-name") final String name, final HttpServletRequest request) {
     try {
-      final Map cache = (Map) builder.get(name);
-      final String baseURL = request.getRequestURI();
-      final String displayName;
-      if (cacheToDisplay.containsKey(name)) {
-        displayName = cacheToDisplay.get(name);
-      } else {
-        displayName = name;
+      final Object object = builder.get(name);
+      if (Map.class.isAssignableFrom(object.getClass())) {
+        final Map cache = (Map) object;
+        final String baseURL = request.getRequestURI();
+        final String displayName;
+        if (cacheToDisplay.containsKey(name)) {
+          displayName = cacheToDisplay.get(name);
+        } else {
+          displayName = name;
+        }
+        final String response = AdServicesHtmlWriter.getMarkUp(baseURL + "/", displayName, getAsParams(cache));
+        return new ResponseEntity(response, HttpStatus.OK);
       }
-      final String response = AdServicesHtmlWriter.getMarkUp(baseURL + "/", displayName, getAsParams(cache));
-      return new ResponseEntity(response, HttpStatus.OK);
+      return new ResponseEntity(object, HttpStatus.OK);
     } catch (final AdServicesException | ReflectionException e) {
       return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
