@@ -1,7 +1,9 @@
 package com.ad.services.cache;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Date;
@@ -10,12 +12,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
+
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Component;
 
 import com.ad.server.Cache;
 import com.ad.server.Cacheable;
+import com.ad.server.beans.PropertyReferrer;
 import com.ad.services.cache.type.AbstractCacheType;
 import com.ad.services.cache.type.Key;
 import com.ad.services.cache.type.Value;
@@ -31,6 +36,14 @@ public abstract class AbstractCacheBuilder<T> implements CacheBuilder<Key, Value
   private static final Map<String, CacheStats> statistics = new HashMap<>();
   @org.springframework.beans.factory.annotation.Value("#{'${cache.names}'.split(',')}")
   private Set<String> cacheNames;
+
+  @org.springframework.beans.factory.annotation.Value("${ads.domain}")
+  private String domain;
+
+  @PostConstruct
+  public void init() {
+    System.setProperty("ads.domain", domain);
+  }
 
   public void build(final Cache cache) throws AdServicesException {
     try {
@@ -64,7 +77,13 @@ public abstract class AbstractCacheBuilder<T> implements CacheBuilder<Key, Value
               stats.fail(message);
               throw new AdServicesException(message);
             }
-            final List<T> results = (List<T>) method.invoke(cache); // FIXME - handle args
+            final Object[] argValues = getArgs(method);
+            final List<T> results;
+            if (argValues == null) {
+              results = (List<T>) method.invoke(cache);
+            } else {
+              results = (List<T>) method.invoke(cache, argValues);
+            }
             if (results == null) {
               final String message = "Invalid results: " + method;
               stats.fail(message);
@@ -93,6 +112,31 @@ public abstract class AbstractCacheBuilder<T> implements CacheBuilder<Key, Value
       log.error(e.getMessage(), e);
       throw new AdServicesException(e);
     }
+  }
+
+  private Object[] getArgs(final Method method, final Object... otherValues) {
+    final Parameter[] parameters = method.getParameters();
+    Object[] argValues = null;
+    if (parameters != null && parameters.length > 0) {
+      argValues = new Object[parameters.length];
+      for (int i = 0; i < parameters.length; i++) {
+        final Parameter parameter = parameters[i];
+        final Annotation[] annotations = parameter.getAnnotations();
+        if (annotations != null && annotations.length > 0) {
+          for (final Annotation annotation : annotations) {
+            if (annotation.annotationType().isAssignableFrom(PropertyReferrer.class)) {
+              final PropertyReferrer valueAnnotation = (PropertyReferrer) annotation;
+              final String valueKey = valueAnnotation.value();
+              argValues[i] = System.getProperty(valueKey);
+              break;
+            }
+          }
+        } else {
+          argValues[i] = otherValues[i];
+        }
+      }
+    }
+    return argValues;
   }
 
   private void prepareStandardCache(final Cacheable cacheable, final String cacheName,
@@ -167,8 +211,21 @@ public abstract class AbstractCacheBuilder<T> implements CacheBuilder<Key, Value
       throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, AdServicesException {
     log.info("Invoking custom {} for type {} with results of size {}", methodName, cache.getType(),
         results.size());
-    final Method customMethod = cache.getType().getMethod(methodName, List.class);
-    final Map customCache = (Map) customMethod.invoke(cache, results);
+    final Method[] customMethods = cache.getType().getMethods();//(methodName, List.class);
+    Method customMethod = null;
+    for (Method temp : customMethods) {
+      if (temp.getName().equals(methodName)) {
+        customMethod = temp;
+        break;
+      }
+    }
+    final Object[] argValues = getArgs(customMethod, results);
+    final Map customCache;
+    if (argValues == null) {
+      customCache = (Map) customMethod.invoke(cache, results);
+    } else {
+      customCache = (Map) customMethod.invoke(cache, argValues);
+    }
     if (customCache == null) {
       write(cacheName, new Key(cacheName), new Value(new HashMap<>()));
       return;

@@ -32,6 +32,21 @@ public class CreativeTag implements Serializable {
     this.adPartnerId = adPartnerId;
   }
 
+  public CreativeTag(
+      final String guid,
+      final Integer creativeId,
+      final Integer tagTypeId,
+      final Integer adPartnerId,
+      final String macroName,
+      final String macroValue) {
+    this.tagGuid = guid;
+    this.creativeId = creativeId;
+    this.tagTypeId = tagTypeId;
+    this.adPartnerId = adPartnerId;
+    this.macroName = macroName;
+    this.macroValue = macroValue;
+  }
+
   public CreativeTag(final String guid, final String url) {
     this.tagGuid = guid;
     this.creativeMarkupUrl = url;
@@ -60,5 +75,11 @@ public class CreativeTag implements Serializable {
 
   @Transient
   private Integer creativeId;
+
+  @Transient
+  private String macroName;
+
+  @Transient
+  private String macroValue;
 
 }
