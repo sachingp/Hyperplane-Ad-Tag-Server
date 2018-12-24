@@ -38,11 +38,19 @@ public abstract class AbstractCacheBuilder<T> implements CacheBuilder<Key, Value
   private Set<String> cacheNames;
 
   @org.springframework.beans.factory.annotation.Value("${ads.domain}")
-  private String domain;
+  private String adsDomain;
+
+  @org.springframework.beans.factory.annotation.Value("${trk.domain}")
+  private String trkDomain;
+
+  @org.springframework.beans.factory.annotation.Value("${clk.domain}")
+  private String clkDomain;
 
   @PostConstruct
   public void init() {
-    System.setProperty("ads.domain", domain);
+    System.setProperty("ads.domain", adsDomain);
+    System.setProperty("trk.domain", trkDomain);
+    System.setProperty("clk.domain", clkDomain);
   }
 
   public void build(final Cache cache) throws AdServicesException {

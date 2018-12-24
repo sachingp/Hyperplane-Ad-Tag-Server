@@ -49,7 +49,11 @@ public interface CreativeTagRepo extends JpaRepository<CreativeTag, Integer>, Ca
       + " WHERE cr.status = 1 AND c.status = 1 AND ad.status = 1 AND ac.status = 1 AND m.partner = ct.adPartnerId AND m.status = 1")
   public List<CreativeTag> findActiveCreativeTagMacros();
 
-  default Map<String, String> prepareEvaluatedMacros(final List<CreativeTag> tags, @PropertyReferrer("ads.domain") final String domain) {
+  default Map<String, String> prepareEvaluatedMacros(
+      final List<CreativeTag> tags,
+      @PropertyReferrer("ads.domain") final String adsDomain,
+      @PropertyReferrer("trk.domain") final String trackDomain,
+      @PropertyReferrer("clk.domain") final String clickDomain) {
     if (tags == null || tags.isEmpty()) {
       return null;
     }
@@ -72,8 +76,10 @@ public interface CreativeTagRepo extends JpaRepository<CreativeTag, Integer>, Ca
     creatives.forEach((guid, tag) -> {
       final TemplateType template = TemplateType.from(tag.getTagTypeId());
       final Map<String, Object> context = new HashMap<>();
-      context.put("DOMAIN", domain);
-      context.put("GUID", guid);
+      context.put("ADS_DOMAIN", adsDomain);
+      context.put("TRACK_DOMAIN", trackDomain);
+      context.put("CLICK_DOMAIN", clickDomain);
+      context.put("TAG_GUID", guid);
         final Map<String, String> partnerMacros = macros.get(tag.getAdPartnerId());
         final StringBuilder builder = new StringBuilder();
         partnerMacros.forEach((k, v) -> {
