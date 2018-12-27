@@ -6,12 +6,10 @@ import com.ad.server.context.AdContext;
 import com.ad.server.context.ClickContext;
 import com.ad.server.macros.ScriptMacros;
 import com.ad.server.targeting.TagTargeting;
-import com.ad.util.client.AdServerRedisClient;
 import com.ad.util.constants.AdServerConstants.PARAMS;
 import com.ad.util.event.EventEnum;
 import com.ad.util.geo.CountryCode;
 import com.ad.util.geo.GeoLocationService;
-import com.ad.util.tag.SampleTagMraid;
 import com.ad.util.uuid.ServerUtil;
 import com.google.common.base.Strings;
 import io.vertx.ext.web.Cookie;
@@ -63,6 +61,8 @@ public class AdHandler extends AbstractRequestHandler {
 
       String sessionId = ServerUtil.getUID();
       Map<String, String> params = getRequestParams();
+      params.put("sessionId", sessionId);
+
       log.debug("Request Params : {}", params);
       String deviceId = getDeviceId(params);
       log.debug("Device Id :: {} ", deviceId);
@@ -70,8 +70,8 @@ public class AdHandler extends AbstractRequestHandler {
       log.debug("Cookie Value ::{}", cookie.getValue());
       AdContext adContext = createAdContext(sessionId, ip, tagGuid, country, params, deviceId,
           userAgent, EventEnum.AdRequest.getType(), cookie.getValue());
-      int time = 180 * 86400;
-    //  AdServerRedisClient.getInstance().put(tagGuid, SampleTagMraid.getSampleMraid(), time);
+      //int time = 180 * 86400;
+      //  AdServerRedisClient.getInstance().put(tagGuid, SampleTagMraid.getSampleMraid(), time);
       // check the cache buster, if not replaced set the context
       if (params != null && !params.isEmpty()) {
         log.debug("Check Cache Buster ::");

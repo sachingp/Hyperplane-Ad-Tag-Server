@@ -47,6 +47,7 @@ public class AdServerConstants {
     GUID("guid", "\\{TAG_GUID\\}"),
     EVENT_ID("eventId", "\\{EVENT_ID\\}"),
     SESSION_ID("sessionId", "\\{SESSION_ID\\}"),
+    PARAMS("params", "\\{PARAMS\\}"),
     IMAGE_URL_1("sessionId", "\\{IMAGE_URL_1\\}");
 
     private final String name;
