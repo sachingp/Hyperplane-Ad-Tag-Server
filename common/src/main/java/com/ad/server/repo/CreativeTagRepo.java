@@ -13,8 +13,8 @@ import com.ad.server.Cache;
 import com.ad.server.Cacheable;
 import com.ad.server.beans.PropertyReferrer;
 import com.ad.server.pojo.CreativeTag;
+import com.ad.server.template.CreativeTemplateType;
 import com.ad.server.template.TemplateService;
-import com.ad.server.template.TemplateType;
 
 @SuppressWarnings({ "rawtypes" })
 @Repository("creativeTagRepo")
@@ -74,7 +74,7 @@ public interface CreativeTagRepo extends JpaRepository<CreativeTag, Integer>, Ca
       partnerMacros.put(tag.getMacroName(), tag.getMacroValue());
     });
     creatives.forEach((guid, tag) -> {
-      final TemplateType template = TemplateType.from(tag.getTagTypeId());
+      final CreativeTemplateType template = CreativeTemplateType.from(tag.getTagTypeId());
       final Map<String, Object> context = new HashMap<>();
       context.put("ADS_DOMAIN", adsDomain);
       context.put("TRACK_DOMAIN", trackDomain);

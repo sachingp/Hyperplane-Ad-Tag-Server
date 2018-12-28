@@ -25,7 +25,7 @@ import com.ad.server.pojo.CreativeTag;
 import com.ad.server.repo.CreativeTagRepo;
 import com.ad.server.repo.MacrosRepo;
 import com.ad.server.template.TemplateService;
-import com.ad.server.template.TemplateType;
+import com.ad.server.template.TagTemplateType;
 import com.ad.services.cache.builder.RedisCacheBuilder;
 import com.ad.services.cache.type.Param;
 import com.ad.services.exception.AdServicesException;
@@ -152,7 +152,7 @@ public class AdServicesController {
 
   @RequestMapping(value = "/ad-services/tag/{guid}/type/{name}/get", produces = "text/html")
   public ResponseEntity evaluate(@PathVariable("guid") final String guid, @PathVariable("name") final String name) {
-    final TemplateType template = TemplateType.from(name);
+    final TagTemplateType template = TagTemplateType.from(name);
     if (template == null) {
       log.info("Invalid template: {}", name);
       return new ResponseEntity("Invalid Template name: " + name, HttpStatus.NOT_FOUND);

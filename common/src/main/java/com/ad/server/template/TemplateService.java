@@ -10,8 +10,17 @@ import org.springframework.stereotype.Component;
 @Component("templateService")
 public class TemplateService {
 
-  public String eval(final Map<String, Object> context, final TemplateType type) {
+  public String eval(final Map<String, Object> context, final TagTemplateType type) {
     final Template template = type.getTemplate();
+    return eval(context, template);
+  }
+
+  public String eval(final Map<String, Object> context, final CreativeTemplateType type) {
+    final Template template = type.getTemplate();
+    return eval(context, template);
+  }
+
+  private String eval(final Map<String, Object> context, final Template template) {
     final VelocityContext velocity = new VelocityContext();
     context.forEach((k, v) -> {
       velocity.put(k, v);
