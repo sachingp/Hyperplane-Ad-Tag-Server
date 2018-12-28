@@ -86,7 +86,7 @@ function loadAd() {
         eventTrack("${TRACK_DOMAIN}eventId=1&{PARAMS}");
         doReadyCheck();
     };
-    elemImg.src = '${IMAGE_URL_1}';
+    elemImg.src = '{IMAGE_URL_1}';
     elemImg.style.cssText = "display:none;position:absolute;top:0px;left:0px;";
     elemDiv.appendChild(elemImg);
 }
