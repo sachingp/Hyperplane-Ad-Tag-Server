@@ -11,7 +11,6 @@ import com.ad.server.pojo.CreativeAssets;
 import com.ad.server.pojo.CreativeTag;
 import com.ad.util.client.AdServerRedisClient;
 import com.ad.util.exception.AdServicesSerializationException;
-
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -55,6 +54,8 @@ public class CacheService {
         }
       }
     } catch (AdServicesSerializationException e) {
+      log.error(e.getMessage(), e);
+    } catch (Exception e) {
       log.error(e.getMessage(), e);
     }
 

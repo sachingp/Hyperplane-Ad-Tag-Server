@@ -20,6 +20,7 @@ public class AdServerRedisClient {
 
   private static final String REDIS_HOST_PROPERTY = "jedis.connection.host";
   private static final String REDIS_PORT_PROPERTY = "jedis.connection.port";
+  private static final String REDIS_PASSWORD_PROPERTY = "jedis.connection.password";
   public static AdServerRedisClient adServerRedisClient = null;
   private static JedisPool jedisPool = null;
 
@@ -39,9 +40,9 @@ public class AdServerRedisClient {
     poolConfig.setMaxTotal(128);
     poolConfig.setMaxIdle(128);
     poolConfig.setMinIdle(16);
-    poolConfig.setTestOnBorrow(true);
-    poolConfig.setTestOnReturn(true);
-    poolConfig.setTestWhileIdle(true);
+    poolConfig.setTestOnBorrow(false);
+    poolConfig.setTestOnReturn(false);
+    poolConfig.setTestWhileIdle(false);
     poolConfig.setMinEvictableIdleTimeMillis(Duration.ofSeconds(60).toMillis());
     poolConfig.setTimeBetweenEvictionRunsMillis(Duration.ofSeconds(30).toMillis());
     poolConfig.setNumTestsPerEvictionRun(3);
@@ -67,36 +68,67 @@ public class AdServerRedisClient {
    */
 
   public void put(String key, String value, int seconds) {
-    try (Jedis rs = jedisPool.getResource()) {
+    Jedis rs = null;
+    try {
+      rs = getRedisConnection();
       rs.set(key, value);
       if (seconds > 0) {
         rs.expire(key, seconds);
+      }
+    } finally {
+      if (rs != null) {
+        rs.close();
       }
     }
   }
 
   public String get(String key) {
-    try (Jedis rs = jedisPool.getResource()) {
+    Jedis rs = null;
+    try {
+      rs = getRedisConnection();
       String data = rs.get(key);
       return data;
+    } finally {
+      if (rs != null) {
+        rs.close();
+      }
     }
   }
 
   public void put(byte[] key, byte[] value, int seconds) {
-    try (Jedis rs = jedisPool.getResource()) {
+    Jedis rs = null;
+    try {
+      rs = getRedisConnection();
       String result = rs.set(key, value);
       log.info("redis byte inserts :: {}", result);
       if (seconds > 0) {
         rs.expire(key, seconds);
       }
+    } finally {
+      if (rs != null) {
+        rs.close();
+      }
     }
   }
 
   public byte[] get(byte[] key) {
-    try (Jedis rs = jedisPool.getResource()) {
+    Jedis rs = null;
+    try {
+      rs = getRedisConnection();
       byte[] data = rs.get(key);
       return data;
+    } finally {
+      if (rs != null) {
+        rs.close();
+      }
     }
+  }
+
+
+  private Jedis getRedisConnection() {
+    Jedis rs = jedisPool.getResource();
+    rs.auth(PropertiesUtil.getProperty(REDIS_PASSWORD_PROPERTY));
+    return rs;
   }
 
   public void closePool() {
