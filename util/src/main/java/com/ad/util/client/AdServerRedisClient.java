@@ -67,42 +67,36 @@ public class AdServerRedisClient {
    */
 
   public void put(String key, String value, int seconds) {
-    Jedis rs = jedisPool.getResource();
-    rs.set(key, value);
-    if (seconds > 0) {
-      rs.expire(key, seconds);
+    try (Jedis rs = jedisPool.getResource()) {
+      rs.set(key, value);
+      if (seconds > 0) {
+        rs.expire(key, seconds);
+      }
     }
-    closeConnection(rs);
   }
 
   public String get(String key) {
-    Jedis rs = jedisPool.getResource();
-    String data = rs.get(key);
-    closeConnection(rs);
-    return data;
+    try (Jedis rs = jedisPool.getResource()) {
+      String data = rs.get(key);
+      return data;
+    }
   }
 
   public void put(byte[] key, byte[] value, int seconds) {
-    Jedis rs = jedisPool.getResource();
-    String result = rs.set(key, value);
-    log.info("redis byte inserts :: {}", result);
-    if (seconds > 0) {
-      rs.expire(key, seconds);
+    try (Jedis rs = jedisPool.getResource()) {
+      String result = rs.set(key, value);
+      log.info("redis byte inserts :: {}", result);
+      if (seconds > 0) {
+        rs.expire(key, seconds);
+      }
     }
-    closeConnection(rs);
   }
 
   public byte[] get(byte[] key) {
-
-    Jedis rs = jedisPool.getResource();
-    byte[] data = rs.get(key);
-    closeConnection(rs);
-    return data;
-  }
-
-  private void closeConnection(Jedis jedis) {
-    jedis.close();
-
+    try (Jedis rs = jedisPool.getResource()) {
+      byte[] data = rs.get(key);
+      return data;
+    }
   }
 
   public void closePool() {
