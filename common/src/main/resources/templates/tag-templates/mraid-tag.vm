@@ -12,7 +12,7 @@
                 for (var k in params) {
                     qs += '&amp;' + encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
                 }
-                var src = 'http://ec2-user@ec2-18-191-183-129.us-east-2.compute.amazonaws.com/ads?' + qs;
+                var src = 'http://ec2-18-191-183-129.us-east-2.compute.amazonaws.com/ads?' + qs;
                 req.src = src;
                 img.parentNode.insertBefore(req, img.nextSibling);
             })(this);
