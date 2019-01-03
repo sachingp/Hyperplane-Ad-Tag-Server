@@ -12,25 +12,25 @@ public class AdServerConstants {
 
   @Getter
   public enum PARAMS {
-    ORD("ord", "{CACHE_BUSTER}"),
-    EXTERNAL_PLACEMENT_ID("extPlId", "{PLACEMENT_ID}"),
-    EXTERNAL_CREATIVE_ID("extCrId", "{CREATIVE_ID}"),
-    EXTERNAL_CAMPAIGN_ID("exCpId", "{CAMPAIGN_ID}"),
-    EXTERNAL_BUNDLE_ID("extBnId", "{APP_BUNDLE}"),
-    EXTERNAL_APP_ID("extApId", "{APP_ID}"),
-    EXTERNAL_APP_NAME("extApNm", "{APP_NAME}"),
-    EXTERNAL_SITE_ID("extStId", "{SITE_ID}"),
-    GPS_LAT("gpsLat", "{LAT}"),
-    GPS_LNG("gpsLng", "{LONG}"),
-    DEVICE_ID("deviceId", "{MOBILE_ID}"),
-    BUYER_ID("buyId", "{BUYER_ID}"),
-    IOS_ID("iosId", "{IOS_ID}"),
-    ANDROID_ID("androidId", "{ANDROID_ID}"),
-    EXTERNAL_AD_SERVER("extAdServer", "{EXTERNAL_AD_SERVER}"),
-    CLICK_THROUGH("clickUrl", "{CLICK_URL}"),
-    BID_ID("bidId", "{AUCTION_ID}"),
-    DOMAIN("domain", "{DOMAIN}"),
-    GUID("guid", "{TAG_GUID}");
+    ORD("ord", "{{CACHE_BUSTER}}"),
+    EXTERNAL_PLACEMENT_ID("extPlId", "{{PLACEMENT_ID}}"),
+    EXTERNAL_CREATIVE_ID("extCrId", "{{CREATIVE_ID}}"),
+    EXTERNAL_CAMPAIGN_ID("exCpId", "{{CAMPAIGN_ID}}"),
+    EXTERNAL_BUNDLE_ID("extBnId", "{{APP_BUNDLE}}"),
+    EXTERNAL_APP_ID("extApId", "{{APP_ID}}"),
+    EXTERNAL_APP_NAME("extApNm", "{{APP_NAME}}"),
+    EXTERNAL_SITE_ID("extStId", "{{SITE_ID}}"),
+    GPS_LAT("gpsLat", "{{LAT}}"),
+    GPS_LNG("gpsLng", "{{LONG}}"),
+    DEVICE_ID("deviceId", "{{MOBILE_ID}}"),
+    BUYER_ID("buyId", "{{BUYER_ID}}"),
+    IOS_ID("iosId", "{{IOS_ID}}"),
+    ANDROID_ID("androidId", "{{ANDROID_ID}}"),
+    EXTERNAL_AD_SERVER("extAdServer", "{{EXTERNAL_AD_SERVER}}"),
+    CLICK_THROUGH("clickUrl", "{{CLICK_URL}}"),
+    BID_ID("bidId", "{{AUCTION_ID}}"),
+    DOMAIN("domain", "{{DOMAIN}}"),
+    GUID("guid", "{{TAG_GUID}}");
 
     private final String name;
     private final String macro;
