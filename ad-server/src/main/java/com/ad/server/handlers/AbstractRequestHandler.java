@@ -87,7 +87,8 @@ public abstract class AbstractRequestHandler implements RequestHandler {
 
       log.info("Param Name : {}  :: Value : {}", e.getName(), value);
 
-      if (!Strings.isNullOrEmpty(value) && !value.equals("null") && !value.equals(e.getMacro())) {
+      if (!Strings.isNullOrEmpty(value) && !value.equals("null") && !value.equals(e.getMacro())
+          && !value.equals(e.getMacro_non_replace())) {
         params.put(e.getName(), value);
       }
     });
