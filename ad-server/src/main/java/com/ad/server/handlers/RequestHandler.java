@@ -12,6 +12,8 @@ import java.util.Map;
 
 public interface RequestHandler {
 
+  public String getCountry(String ip);
+
   public void handleRequest();
 
   public void logData(final String logEvent);

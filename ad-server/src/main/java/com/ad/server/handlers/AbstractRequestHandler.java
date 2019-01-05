@@ -5,6 +5,8 @@ import com.ad.util.constants.AdServerConstants;
 import com.ad.util.constants.AdServerConstants.DEVICE_MACROS_GROUP;
 import com.ad.util.constants.AdServerConstants.GENERAL;
 import com.ad.util.constants.AdServerConstants.PARAMS;
+import com.ad.util.geo.CountryCode;
+import com.ad.util.geo.GeoLocationService;
 import com.ad.util.logging.LoggingService;
 import com.ad.util.uuid.ServerUtil;
 import com.google.common.base.Strings;
@@ -29,6 +31,26 @@ public abstract class AbstractRequestHandler implements RequestHandler {
 
   public AbstractRequestHandler(final RoutingContext routingContext) {
     this.routingContext = routingContext;
+  }
+
+  @Override
+  public String getCountry(String ip) {
+    String country = null;
+    if (ip != null) {
+      try {
+        String cn = GeoLocationService.getLocationForIp(ip).getCountry().getIsoCode();
+        if (!Strings.isNullOrEmpty(cn)) {
+          country = CountryCode.getISO3CountryCode(cn);
+        }
+      } catch (Exception e) {
+        log.error("Error while determining the geo location from ip :: {} , exception : {}", ip,
+            e.toString());
+      }
+      log.debug("Country for the ip :: {}, country :: {}", ip, country);
+    }
+
+    return country;
+
   }
 
   @Override

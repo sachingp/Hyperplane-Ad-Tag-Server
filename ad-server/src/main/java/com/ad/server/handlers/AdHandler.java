@@ -8,8 +8,6 @@ import com.ad.server.macros.ScriptMacros;
 import com.ad.server.targeting.TagTargeting;
 import com.ad.util.constants.AdServerConstants.PARAMS;
 import com.ad.util.event.EventEnum;
-import com.ad.util.geo.CountryCode;
-import com.ad.util.geo.GeoLocationService;
 import com.ad.util.uuid.ServerUtil;
 import com.google.common.base.Strings;
 import io.vertx.ext.web.Cookie;
@@ -43,22 +41,7 @@ public class AdHandler extends AbstractRequestHandler {
       log.debug("Request Ip Address : {},", ip);
       String userAgent = getUserAgent();
       log.debug("Request User Agent : {},", userAgent);
-      String country = null;
-      if (ip != null) {
-        try {
-          String cn = GeoLocationService.getLocationForIp(ip).getCountry().getIsoCode();
-          if (!Strings.isNullOrEmpty(cn)) {
-            country = CountryCode.getISO3CountryCode(cn);
-            log.debug("Country Code : {}", country);
-
-          }
-        } catch (Exception e) {
-          log.error("Error while determining the geo location from ip :: {} , exception : {}", ip,
-              e.toString());
-        }
-        log.debug("Country for the ip :: {}, country :: {}", ip, country);
-      }
-
+      String country = getCountry(ip);
       String sessionId = ServerUtil.getUID();
       Map<String, String> params = getRequestParams();
       params.put("sessionId", sessionId);

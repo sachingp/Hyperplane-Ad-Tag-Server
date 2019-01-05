@@ -4,7 +4,6 @@ import com.ad.server.akka.AkkaSystem;
 import com.ad.server.cache.CacheService;
 import com.ad.server.context.AdContext;
 import com.ad.util.event.EventUtil;
-import com.ad.util.geo.GeoLocationService;
 import com.google.common.base.Strings;
 import io.vertx.ext.web.Cookie;
 import io.vertx.ext.web.RoutingContext;
@@ -40,17 +39,7 @@ public class TrackHandler extends AbstractRequestHandler {
           log.debug("Request Ip Address : {},", ip);
           String userAgent = getUserAgent();
           log.debug("Request User Agent : {},", userAgent);
-          String country = null;
-          if (ip != null) {
-            try {
-              country = GeoLocationService.getLocationForIp(ip).getCountry().getIsoCode();
-            } catch (Exception e) {
-              log.error("Error while determining the geo location from ip :: {} , exception", ip,
-                  e.toString());
-            }
-            log.debug("Country for the ip :: {}, country :: {}", ip, country);
-          }
-
+          String country = getCountry(ip);
           Map<String, String> params = getRequestParams();
           log.debug("Request Params : {}", params);
           String deviceId = getDeviceId(params);
