@@ -63,7 +63,7 @@ public class AdHandler extends AbstractRequestHandler {
       Map<String, String> params = getRequestParams();
       params.put("sessionId", sessionId);
 
-      log.debug("Request Params : {}", params);
+      log.info("Request Params : {}", params);
       String deviceId = getDeviceId(params);
       log.debug("Device Id :: {} ", deviceId);
       Cookie cookie = getCookie(deviceId);

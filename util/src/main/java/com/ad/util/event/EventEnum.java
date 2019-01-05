@@ -19,7 +19,7 @@ import java.util.List;
 @Getter
 public enum EventEnum {
 
-  LOADED(1), Imoression(2), Click(3), Conversion(4), Video25(5), Video50(6), Video75(
+  LOADED(1), Impression(2), Click(3), Conversion(4), Video25(5), Video50(6), Video75(
       7), VideoCompletion(8), Install(9), AdRequest(10), ERROR(11);
 
   final int type;

@@ -72,7 +72,7 @@ public class CacheService {
     String clickThroughURL = LocalCache.getInstance().get(sessionId, String.class);
     if (clickThroughURL == null) {
       String clickTracker = AdServerRedisClient.getInstance().get(sessionId);
-      // TODO NOT SURE YET
+      // TODO  - may need to initiate server pixel for this URL
       log.info("Click URL from client :: {}", clickTracker);
       if (clickThroughURL == null) {
         // TODO for ASSET ID

@@ -32,6 +32,7 @@ public class Event {
   String externalPlacementId;
   String externalCreativeId;
   String externalAdServer;
+  String bidId;
   int cacheBuster = 1;
   boolean tagServed = true;
   long timeStamp;

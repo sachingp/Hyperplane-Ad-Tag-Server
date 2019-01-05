@@ -64,6 +64,7 @@ public class EventRecordActor extends AbstractActor {
             adContext.getParams().get(PARAMS.EXTERNAL_CREATIVE_ID.getName()));
         event.setExternalCampaignId(
             adContext.getParams().get(PARAMS.EXTERNAL_CAMPAIGN_ID.getName()));
+        event.setBidId(adContext.getParams().get(PARAMS.BID_ID.getName()));
       }
 
       LocalDateTime time = LocalDateTime.now();

@@ -45,7 +45,7 @@ public class ClickHandler extends AbstractRequestHandler {
         }
 
         Map<String, String> params = getRequestParams();
-        log.debug("Request Params : {}", params);
+        log.info("Request Params : {}", params);
         String deviceId = getDeviceId(params);
         log.debug("Device Id :: {} ", deviceId);
         Cookie cookie = getCookie(deviceId);
