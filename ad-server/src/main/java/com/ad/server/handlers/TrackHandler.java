@@ -34,7 +34,6 @@ public class TrackHandler extends AbstractRequestHandler {
         eventId = Integer.parseInt(event);
         log.debug("Event Id :: {}", eventId);
         if (EventUtil.getEvents().contains(eventId)) {
-
           String ip = getRequestIp();
           log.debug("Request Ip Address : {},", ip);
           String userAgent = getUserAgent();
