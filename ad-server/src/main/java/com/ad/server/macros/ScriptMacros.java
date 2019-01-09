@@ -35,8 +35,8 @@ public class ScriptMacros {
     if (adContext.getCreativeAssets() != null && !adContext.getCreativeAssets().isEmpty()) {
       // TODO - DOING ONLY 1 now
       CreativeAssets creativeAssets = adContext.getCreativeAssets().get(0);
-      if (creativeAssets.getAssetSize() != null) {
-        String[] size = creativeAssets.getAssetSize().getSize().split(GENERAL.SIZE_DELIMITER);
+      if (creativeAssets.getSize() != null) {
+        String[] size = creativeAssets.getSize().split(GENERAL.SIZE_DELIMITER);
         width = size[0];
         height = size[1];
       }
