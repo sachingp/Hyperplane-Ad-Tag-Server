@@ -30,12 +30,16 @@ public class CreativeAssets implements Serializable {
       final String assetUrl,
       final String clickUrl,
       final Integer assetTypeId,
-      final Integer assetSizeId) {
+      final String type,
+      final Integer assetSizeId,
+      final String size) {
     this.creativeId = creativeId;
     this.assetUrl = assetUrl;
     this.clickUrl = clickUrl;
     this.assetTypeId = assetTypeId;
+    this.type = type;
     this.assetSizeId = assetSizeId;
+    this.size = size;
   }
 
   @Id
@@ -73,5 +77,11 @@ public class CreativeAssets implements Serializable {
 
   @Transient
   private Integer assetSizeId;
+
+  @Transient
+  private String type;
+
+  @Transient
+  private String size;
 
 }

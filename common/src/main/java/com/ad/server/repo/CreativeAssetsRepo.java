@@ -24,7 +24,7 @@ public interface CreativeAssetsRepo extends JpaRepository<CreativeAssets, Intege
   }
 
   @Cacheable(name = CREATIVE_ASSETS, whole = true, key = {"creativeId"}, keyType = Integer.class, valueType = List.class, custom = "prepareByCreative")
-  @Query("SELECT new CreativeAssets(cr.creativeId, ca.assetUrl, ca.clickUrl, at.assetTypeId, ass.assetSizeId) FROM CreativeAssets ca"
+  @Query("SELECT new CreativeAssets(cr.creativeId, ca.assetUrl, ca.clickUrl, at.assetTypeId, at.type, ass.assetSizeId, ass.size) FROM CreativeAssets ca"
       + " INNER JOIN ca.creative cr INNER JOIN cr.campaign c INNER JOIN c.advertiser ad INNER JOIN ad.account ac INNER JOIN ca.assetType at INNER JOIN ca.assetSize ass"
       + " WHERE ca.status=1 AND cr.status = 1 AND c.status = 1 AND ad.status = 1 AND ac.status = 1")
   List<CreativeAssets> findActiveCreativeAssets();
