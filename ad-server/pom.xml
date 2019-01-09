@@ -51,6 +51,14 @@
       <version>${logback.version}</version>
     </dependency>
 
+    <!-- String Template -->
+    <dependency>
+      <groupId>org.antlr</groupId>
+      <artifactId>ST4</artifactId>
+      <version>4.1</version>
+    </dependency>
+
+
     <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
     <dependency>
       <groupId>org.apache.commons</groupId>

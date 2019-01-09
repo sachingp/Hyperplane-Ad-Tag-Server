@@ -22,16 +22,17 @@ function showMyAd() {
     var img = document.querySelector('#img1');
     img.style.display = "block";
     if (img.complete && img.naturalHeight !== 0) {
-        eventTrack("${TRACK_DOMAIN}eventId=2&{PARAMS}");
+        eventTrack("${TRACK_DOMAIN}eventId=2&<Params>");
     }
     attachEventListener("click", img, function(e) {
         e.preventDefault();
-        mraid.open('${CLICK_DOMAIN}{PARAMS}');
+        eventTrack(<clkTracker>)
+        mraid.open('${CLICK_DOMAIN}<Params>');
         return false;
     });
     attachEventListener("error", img, function(e) {
         e.preventDefault();
-        eventTrack("${TRACK_DOMAIN}eventId=11&{PARAMS}");
+        eventTrack("${TRACK_DOMAIN}eventId=11&<Params>");
         return false;
     });
 }
@@ -79,18 +80,17 @@ function loadAd() {
     var elemDiv = document.createElement('div');
     elemDiv.setAttribute("id", "adContainer");
     document.body.appendChild(elemDiv);
-    var elemImg = new Image(320, 480);
+    var elemImg = new Image(<width>, <height>);
     elemImg.id = 'img1';
     elemImg.onload = function() {
         // image loaded pixel 
-        eventTrack("${TRACK_DOMAIN}eventId=1&{PARAMS}");
+        eventTrack("${TRACK_DOMAIN}eventId=1&<Params>");
         doReadyCheck();
     };
-    elemImg.src = '{IMAGE_URL_1}';
+    elemImg.src = '<imageURL1>';
     elemImg.style.cssText = "display:none;position:absolute;top:0px;left:0px;";
     elemDiv.appendChild(elemImg);
 }
 checkOnce = false;
 setTimeout(doReadyCheck, 1000);
-
 loadAd();

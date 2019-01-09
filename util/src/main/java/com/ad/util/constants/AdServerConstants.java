@@ -49,8 +49,11 @@ public class AdServerConstants {
     GUID("guid", "\\{TAG_GUID\\}"),
     EVENT_ID("eventId", "\\{EVENT_ID\\}"),
     SESSION_ID("sessionId", "\\{SESSION_ID\\}"),
-    PARAMS("params", "\\{PARAMS\\}"),
-    IMAGE_URL_1("sessionId", "\\{IMAGE_URL_1\\}");
+    PARAMS("Params", "<Params>"),
+    IMAGE_URL_1("imageURL1", "<imageURL1>"),
+    WIDTH("width", "<width>"),
+    HEIGHT("height", "<height>"),
+    THIRD_PARTY_CLK_TRACK("clkTracker", "<clkTracker>");
 
     private final String name;
     private final String macro;
@@ -75,8 +78,8 @@ public class AdServerConstants {
     final long COOKIE_MAX_AGE = 7776000; // 90 days
     final String SECOND_DATE_FORMAT = "yyyyMMddHHmmss";
     final String HOUR_DATE_FORMAT = "yyyyMMddHH";
-
     final int REDIS_TTL_SESSSION = 21600;
+    final String SIZE_DELIMITER = "x";
 
 
   }
